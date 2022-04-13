@@ -1,12 +1,6 @@
 import { useState, useEffect } from 'react'
 
-import randomWords from 'random-words'
-
 import { Memorize, Words, Timer, Level } from './elements'
-
-const words = randomWords(10)
-
-console.log(words)
 
 export default function Intro({ onComplete }) {
   const [showMemorize, setShowMemorize] = useState(false)
