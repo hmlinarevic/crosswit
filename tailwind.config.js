@@ -1,22 +1,25 @@
+/** @type {import('tailwindcss').Config} */
 module.exports = {
     content: [
         "./pages/**/*.{js,ts,jsx,tsx}",
         "./components/**/*.{js,ts,jsx,tsx}",
+        "./app/**/*.{js,ts,jsx,tsx}",
     ],
-    darkMode: "class",
+    // darkMode: "class",
     theme: {
-        fontFamily: {
-            caveat: ["Caveat"],
-            righteous: ["Righteous"],
-            merriweather: ["Merriweather"],
-            hand: ["Architects Daughter"],
-            ubuntu: ["Ubuntu"],
-            ubuntuMono: ["Ubuntu Mono"],
-            sourceCodePro: ["Source Code Pro"],
-            titilliumWeb: ["Titillium Web"],
-            roboto: ["Roboto"],
-        },
         extend: {
+            fontFamily: {
+                // caveat: ["Caveat"],
+                // merriweather: ["Merriweather"],
+                // hand: ["Architects Daughter"],
+                // ubuntuMono: ["Ubuntu Mono"],
+                // sourceCodePro: ["Source Code Pro"],
+                ubuntu: ["var(--font-ubuntu)"],
+                caveat: ["var(--font-caveat)"],
+                righteous: ["var(--font-righteous)"],
+                titilliumWeb: ["var(--font-titilliumWeb)"],
+                // roboto: ["Roboto"],
+            },
             colors: {
                 black: "#09080C",
                 rose: "#ebbcba",
@@ -25,10 +28,12 @@ module.exports = {
                 iris: "#c4a7e7",
                 gold: "#f6c177",
                 foam: "#9ccfd8",
-                pine: "#31748f"
+                pine: "#31748f",
             },
         },
+        // extend: {
+        // },
     },
-    variants: {},
-    plugins: [],
+    // variants: {},
+    // plugins: [],
 };
