@@ -32,6 +32,12 @@ export default function Play() {
     }
   }, [game.isRetry])
 
+  useEffect(() => {
+    return () => {
+      game.dispatch({ type: "SET_LEVEL", payload: 1 })
+    }
+  }, [])
+
   const startLevel = async () => {
     const level = await fetchLevel(game.level)
     game.dispatch({ type: "SET_RETRY", payload: false })
@@ -71,7 +77,7 @@ export default function Play() {
       {game.next === "word-search" && (
         <WordSearch
           puzzle={game.puzzle}
-          timeToPlay={3}
+          timeToPlay={10}
           delays={DELAYS_MS}
           onEnd={handleWordSearchEnd}
         />

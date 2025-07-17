@@ -8,6 +8,7 @@ type Stats = {
 
 type Action =
   | { type: "INCREASE_LEVEL" }
+  | { type: "SET_LEVEL"; payload: number }
   | { type: "SET_PUZZLE"; payload: any }
   | { type: "SET_NEXT"; payload: string }
   | { type: "SET_RETRY"; payload: boolean }
@@ -50,6 +51,9 @@ function gameReducer(state: GameState, action: Action) {
     case "INCREASE_LEVEL":
       console.log("level increased!")
       return { ...state, level: state.level + 1 }
+    case "SET_LEVEL":
+      console.log(`level ${action.payload} set!`)
+      return { ...state, level: action.payload }
     case "SET_PUZZLE":
       console.log("setting puzzle", action)
       return { ...state, puzzle: action.payload }
