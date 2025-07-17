@@ -2,7 +2,7 @@
 import { useRouter } from "next/router";
 import Head from "next/head";
 // react
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useContext } from "react";
 // utils
 import { calcGameScore } from "../utils";
 // components
