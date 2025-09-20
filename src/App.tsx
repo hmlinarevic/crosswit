@@ -4,6 +4,7 @@ import ErrorBoundary from "./components/ErrorBoundary"
 import Home from "./pages/Home"
 import Play from "./pages/Play"
 import About from "./pages/About"
+import CreateUserBoard from "./pages/Create"
 
 export default function App() {
   return (
@@ -15,6 +16,7 @@ export default function App() {
               <Route path="/" element={<Home />} />
               <Route path="/play" element={<Play />} />
               <Route path="/about" element={<About />} />
+              <Route path="/create" element={<CreateUserBoard />} />
             </Routes>
           </BrowserRouter>
         </GameProvider>
