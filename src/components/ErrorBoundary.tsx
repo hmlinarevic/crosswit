@@ -21,7 +21,7 @@ class ErrorBoundary extends Component<
     if (this.state.hasError) {
       return (
         <section className="h-screen w-screen grid place-content-center">
-          <h2 className="text-lavender">Ups! Something went wrong.</h2>
+          <h2 className="text-iris">Ups! Something went wrong.</h2>
         </section>
       )
     }

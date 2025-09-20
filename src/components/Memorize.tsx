@@ -109,20 +109,20 @@ function Memorize({ level, puzzle, timeToMemorize, delays, onEnd }) {
       {!isNotifyingDone && (
         <div className="relative row-start-2 row-end-3">
           <Fade toggler={showUi.memorize} duration={delays.fade}>
-            <h2 className="text-center font-caveat text-5xl tracking-wide text-rose">
+            <h2 className="text-center font-caveat text-5xl tracking-wide text-iris">
               Memorize
             </h2>
           </Fade>
           <Fade toggler={showUi.level} duration={delays.fade}>
-            <span className="text block text-center font-ubuntuMono tracking-widest text-love">
+            <span className="text block text-center font-ubuntuMono tracking-widest text-highlight-med">
               {`level ${level}`}
             </span>
           </Fade>
           {level === 1 ? (
             <Fade toggler={showUi.tip} duration={delays.fade}>
               <div className="absolute top-60 w-full text-center text-sm italic text-neutral-600">
-                <span className="font-bold text-iris">tip</span>: exit with{" "}
-                <span className="font-bold text-gold">Esc</span> key
+                <span className="font-bold text-gold">tip</span>: exit with{" "}
+                <span className="font-bold text-iris">Esc</span> key
               </div>
             </Fade>
           ) : null}
@@ -139,7 +139,7 @@ function Memorize({ level, puzzle, timeToMemorize, delays, onEnd }) {
             <ul className="text-center">
               {wordsToMemorize.map((word, i) => {
                 return (
-                  <li key={word + i} className="font-caveat text-4xl text-rose">
+                  <li key={word + i} className="font-caveat text-4xl text-gold">
                     {word}
                   </li>
                 )
@@ -153,9 +153,8 @@ function Memorize({ level, puzzle, timeToMemorize, delays, onEnd }) {
             duration={delays.fade}
           >
             <Timer
-              className="mt-4 block text-center text-lg text-love"
+              className="mt-4 block text-center text-lg text-highlight-med"
               seconds={timeToMemorize}
-              seconds={2} // testing
               delayStart={1000 + delays.fade}
               onTimeEnd={unmountComponent}
             />

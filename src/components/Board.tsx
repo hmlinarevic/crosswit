@@ -112,7 +112,7 @@ function Board({ puzzle, onFoundWord }) {
 
     return (
         <ul
-            className="mx-auto grid h-fit w-fit justify-items-center gap-1.5 font-ubuntu"
+            className="mx-auto grid h-fit w-fit justify-items-center gap-1.5 font-ubuntu text-text"
             style={{
                 gridTemplateColumns: `repeat(${puzzle.size}, minmax(0, 1fr))`,
             }}

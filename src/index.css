@@ -3,8 +3,19 @@
 @theme {
   --font-righteous: Righteous;
   --font-caveat: Caveat;
-  --color-mint: #9CCFD8;
-  --color-lavender: #C4A7E7;
+  --font-ubuntuMono: Ubuntu Mono;
+  --color-base: #191724;
+  --color-pine: #31748f;	
+  --color-foam: #9ccfd8;
+  --color-iris: #c4a7e7;
+  --color-gold: #f6c177;
+  --color-rose: #ebbcba;
+  --color-love: #eb6f92;
+  --color-text: #e0def4;
+  --color-subtle: #908caa;
+  --color-highlight-low: #21202e;
+  --color-highlight-med: #403d52;
+  --color-highlight-high: #524f67;
 }
 
 @media (prefers-color-scheme: dark) {

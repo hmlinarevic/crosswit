@@ -43,6 +43,7 @@ export default function Play() {
     game.dispatch({ type: "SET_RETRY", payload: false })
     game.dispatch({ type: "SET_PUZZLE", payload: level })
     game.dispatch({ type: "SET_NEXT", payload: "memorize" })
+    // game.dispatch({ type: "SET_NEXT", payload: "word-search" })
   }
 
   const handleMemorizeEnd = () => {
@@ -68,7 +69,7 @@ export default function Play() {
         <Memorize
           level={game.level}
           puzzle={game.puzzle}
-          timeToMemorize={10}
+          timeToMemorize={2}
           delays={DELAYS_MS}
           onEnd={handleMemorizeEnd}
         />
@@ -77,7 +78,7 @@ export default function Play() {
       {game.next === "word-search" && (
         <WordSearch
           puzzle={game.puzzle}
-          timeToPlay={10}
+          timeToPlay={1000}
           delays={DELAYS_MS}
           onEnd={handleWordSearchEnd}
         />

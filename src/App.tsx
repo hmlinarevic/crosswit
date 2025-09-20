@@ -1,15 +1,11 @@
 import { BrowserRouter, Routes, Route } from "react-router"
+import GameProvider from "./contexts/GameContext"
+import ErrorBoundary from "./components/ErrorBoundary"
 import Home from "./pages/Home"
 import Play from "./pages/Play"
-import GameProvider from "./contexts/GameContext"
-import { useEffect } from "react"
-import ErrorBoundary from "./components/ErrorBoundary"
+import About from "./pages/About"
 
-function App() {
-  useEffect(() => {
-    console.log("app render")
-  }, [])
-
+export default function App() {
   return (
     <>
       <ErrorBoundary>
@@ -18,6 +14,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/play" element={<Play />} />
+              <Route path="/about" element={<About />} />
             </Routes>
           </BrowserRouter>
         </GameProvider>
@@ -25,5 +22,3 @@ function App() {
     </>
   )
 }
-
-export default App

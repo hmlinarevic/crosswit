@@ -1,18 +1,20 @@
 import { useState, useEffect, useCallback, useContext } from "react"
+import { useNavigate } from "react-router-dom"
 import Fade from "./Fade"
-
 import Board from "./Board"
 import Timer from "./Timer"
-// import Hint, { HintLogo, HintTimer } from "./hint"
 import Logo from "./Logo"
 import clsx from "clsx"
+import { HintLogo, HintTimer } from "./Hint"
 
 const timerIds = []
 
 function WordSearch({ puzzle, delays, timeToPlay, onEnd }) {
+  const navigate = useNavigate()
+
   const findWordsNum = puzzle.insertedWords.length
 
-  console.log('---word search render---')
+  console.log("---word search render---")
   const [showBoard, setShowBoard] = useState()
   const [showOther, setShowOther] = useState()
   const [numOfWordsToFind, setNumOfWordsToFind] = useState(findWordsNum)
@@ -72,7 +74,6 @@ function WordSearch({ puzzle, delays, timeToPlay, onEnd }) {
 
   // when user finds all words
 
-
   const handleAllWordsFound = useCallback(() => {
     hideGameComponents(() =>
       onEnd({
@@ -114,33 +115,39 @@ function WordSearch({ puzzle, delays, timeToPlay, onEnd }) {
   return (
     <section className="grid h-screen place-content-center place-items-center">
       <Fade toggler={showOther} duration={delays.fade} className="relative">
-        <a onClick={() => console.log('navigate to home...')}>
+        <a onClick={() => navigate("/")}>
           <Logo
             className={clsx(
-              isFocus ? "fill-blue-500" : isWarning ? "fill-amber-950" : "fill-neutral-600",
-              "mb-10 w-[32px] transition-colors duration-1000 hover:fill-red-200 hover:duration-200"
+              isFocus
+                ? "fill-highlight-med"
+                : isWarning
+                ? "fill-love"
+                : "fill-highlight-med",
+              "mb-10 w-[32px] transition-colors duration-1000 hover:fill-foam hover:duration-200"
             )}
           />
         </a>
 
-        {/* {state.isHideHintLogo ? null : (
-          <HintLogo className="absolute bottom-20 left-16 w-[320px]" />
-        )} */}
+        <HintLogo className="absolute bottom-20 left-16 w-[320px]" />
       </Fade>
+
       <Fade toggler={showBoard} duration={delays.fade} className="self-center">
         <Board puzzle={puzzle} onFoundWord={handleFoundWord} />
       </Fade>
+
       <Fade
         toggler={showOther}
         duration={delays.fade}
         className="relative mt-10 text-center"
       >
-        {/* {state.isHideHintTimer ? null : (
-          <HintTimer className="absolute top-4 right-24 w-[280px]" />
-        )} */}
+        <HintTimer className="absolute top-4 right-24 w-[280px]" />
         <Timer
           className={clsx(
-            isFocus ? "text-muted" : isWarning ? "text-love" : "text-rose",
+            isFocus
+              ? "text-highlight-med"
+              : isWarning
+              ? "text-love"
+              : "text-highlight-med",
             "transition-colors duration-1000"
           )}
           seconds={timeToPlay}

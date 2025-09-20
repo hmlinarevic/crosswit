@@ -10,17 +10,17 @@ function Home() {
 
   return (
     <>
-      <section className="dark:bg-base grid h-screen place-content-center">
+      <section className="grid h-screen place-content-center">
         <Fade
           toggler={showContent}
           duration={500}
           onEnd={() => console.log("change page...")}
           className=""
         >
-          <div className="flex font-righteous text-mint select-none items-center justify-center text-4xl text-rose mb-[-2px]">
+          <div className="flex font-righteous text-foam select-none items-center justify-center text-4xl text-rose mb-[-2px]">
             <span className="">CR</span>
             <Logo
-              className="fill-lavender hover:fill-love transition-colors"
+              className="fill-love"
               style={{
                 width: "32px",
                 height: "auto",
@@ -31,21 +31,21 @@ function Home() {
             <span>SSWIT</span>
           </div>
 
-          <span className="block text-center font-caveat text-xl text-lavender">
+          <span className="block text-center font-caveat text-xl text-love">
             Word Search & Memory Trainer
           </span>
 
           <div className="mx-auto mt-3 flex h-[30px] w-[200px] justify-between">
             <Button
-              className="mr-2 w-full text-sm text-neutral-600 font-bold hover:text-neutral-400 cursor-pointer border-2 border-neutral-800 hover:border-neutral-700"
-              onClick={() => navigate('/play')}
+              className="mr-2 w-full text-sm font-bold cursor-pointer bg-iris/20 hover:text-black hover:bg-iris/100 text-iris"
+              onClick={() => navigate("/play")}
             >
               play
             </Button>
 
             <Button
-              className="w-full text-sm text-neutral-600 font-bold  hover:text-neutral-400 cursor-pointer border-2 border-neutral-800 hover:border-neutral-700"
-              onClick={() => console.log("go to about page...")}
+              className="w-full text-sm font-bold cursor-pointer bg-iris/20 hover:text-black hover:bg-iris/100 text-iris"
+              onClick={() => navigate("/about")}
             >
               about
             </Button>

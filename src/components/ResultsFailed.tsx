@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { XCircle } from "react-feather";
 
 import Fade from "./Fade";
 import Button from "./Button";
@@ -12,8 +13,6 @@ function ResultsFailed({
     onRetryClick,
 }) {
     const [showResults, setShowResults] = useState();
-
-    const status = `level ${level} ${result}`;
 
     const handleRetryClick = () => {
         setShowResults(false);
@@ -31,12 +30,12 @@ function ResultsFailed({
 
     return (
         <Fade toggler={showResults} duration={500} className="relative">
-            <span
-                className="absolute top-[-2.25rem] w-[26px] h-[26px] bg-amber-400 left-2 right-2 mx-auto mb-1 block text-4xl text-love"
-            />
+            <div className="flex justify-center">
+                <XCircle className="text-love mb-2" size={28} />
+            </div>
 
             {/* status */}
-            <h2 className="mb-6 font-caveat text-4xl text-love">{status}</h2>
+            <h2 className="mb-6 font-caveat text-4xl text-love">level {level} {result}</h2>
 
             {/* buttons */}
             <Button className="mx-auto mb-3" onClick={handleRetryClick}>

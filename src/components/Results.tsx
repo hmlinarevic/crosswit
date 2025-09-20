@@ -10,10 +10,8 @@ type ResultsProps = {
 }
 
 function Results({ onNextClick, onRetryClick }: ResultsProps) {
-  const game = useContext(GameContext)
-  if (!game) throw new Error("missing game context")
-
   const navigate = useNavigate()
+  const game = useContext(GameContext)
 
   const handleQuitClick = () => {
     navigate("/")
