@@ -1,33 +1,38 @@
 {
-    "name": "crossword",
-    "private": true,
-    "scripts": {
-        "dev": "next dev -p 5001",
-        "build": "next build",
-        "start": "next start -p 5000",
-        "lint": "next lint"
-    },
-    "dependencies": {
-        "@fortawesome/fontawesome-svg-core": "^6.2.0",
-        "@fortawesome/free-regular-svg-icons": "^6.2.0",
-        "@fortawesome/free-solid-svg-icons": "^6.2.0",
-        "@fortawesome/react-fontawesome": "^0.2.0",
-        "clsx": "^1.2.1",
-        "framer-motion": "^6.2.8",
-        "next": "^14.2.5",
-        "next-themes": "^0.0.15",
-        "react": "^18.2.0",
-        "react-dom": "^18.2.0",
-        "react-feather": "^2.0.10",
-        "react-transition-group": "^4.4.2",
-        "tailwindcss": "^3.0.7"
-    },
-    "devDependencies": {
-        "autoprefixer": "^10.4.0",
-        "eslint": "8.5.0",
-        "eslint-config-next": "^13.2.3",
-        "postcss": "^8.4.5",
-        "prettier": "^2.7.1",
-        "prettier-plugin-tailwindcss": "^0.1.13"
-    }
+  "name": "crossword",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 5001",
+    "build": "next build",
+    "build:webpack": "next build --webpack",
+    "start": "next start -p 5000",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.2.0",
+    "@fortawesome/free-regular-svg-icons": "^6.2.0",
+    "@fortawesome/free-solid-svg-icons": "^6.2.0",
+    "@fortawesome/react-fontawesome": "^0.2.0",
+    "@prisma/client": "^6.0.0",
+    "bcryptjs": "^3.0.3",
+    "clsx": "^1.2.1",
+    "framer-motion": "^6.2.8",
+    "next": "^16.1.6",
+    "next-auth": "^5.0.0-beta.25",
+    "next-themes": "^0.0.15",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "react-feather": "^2.0.10",
+    "react-transition-group": "^4.4.2",
+    "tailwindcss": "^3.0.7"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.0",
+    "eslint": "^9.0.0",
+    "eslint-config-next": "^16.0.0",
+    "postcss": "^8.4.5",
+    "prettier": "^2.7.1",
+    "prettier-plugin-tailwindcss": "^0.1.13",
+    "prisma": "^6.0.0"
+  }
 }

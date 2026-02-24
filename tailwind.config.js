@@ -1,7 +1,8 @@
 module.exports = {
     content: [
-        "./pages/**/*.{js,ts,jsx,tsx}",
+        "./app/**/*.{js,ts,jsx,tsx}",
         "./components/**/*.{js,ts,jsx,tsx}",
+        "./context/**/*.{js,ts,jsx,tsx}",
     ],
     darkMode: "class",
     theme: {
@@ -18,6 +19,7 @@ module.exports = {
         },
         extend: {
             colors: {
+                base: "#09080C",
                 black: "#09080C",
                 rose: "#ebbcba",
                 love: "#eb6f92",
