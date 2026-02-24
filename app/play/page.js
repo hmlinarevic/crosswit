@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useState, useEffect, useCallback } from "react";
 import { useSession } from "next-auth/react";
-import { calcGameScore } from "../../utils";
+import { calcGameScore, apiBase } from "../../utils";
 import Memorize from "../../components/memorize";
 import Game from "../../components/game";
 import GameEnd from "../../components/game-end/";
@@ -45,7 +45,7 @@ export default function Play() {
   }, [router]);
 
   useEffect(() => {
-    fetch(`/api/wordsearch/level/${gameStats.level}`)
+    fetch(`${apiBase()}/api/wordsearch/level/${gameStats.level}`)
       .then((res) => res.json())
       .then((data) => {
         if (data.message) return;
@@ -55,7 +55,7 @@ export default function Play() {
 
   useEffect(() => {
     if (!gameStats.isRetry) return;
-    fetch(`/api/wordsearch/level/${gameStats.level}`)
+    fetch(`${apiBase()}/api/wordsearch/level/${gameStats.level}`)
       .then((res) => res.json())
       .then((data) => {
         if (data.message) return;
@@ -87,7 +87,7 @@ export default function Play() {
           },
         }));
         if (session?.user?.id) {
-          fetch("/api/scores", {
+          fetch(`${apiBase()}/api/scores`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({

@@ -4,7 +4,7 @@ import { Providers } from "./providers";
 export const metadata = {
   title: "Crosswit",
   description: "Word Search & Memory Trainer",
-  icons: { icon: "/favicon.png" },
+  icons: { icon: "https://millify.dev/favicon.ico" },
 };
 
 export default function RootLayout({ children }) {

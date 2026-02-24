@@ -4,6 +4,7 @@ import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { apiBase } from "../../utils";
 
 export default function SignUp() {
   const router = useRouter();
@@ -18,7 +19,7 @@ export default function SignUp() {
     setError("");
     setLoading(true);
     try {
-      const res = await fetch("/api/auth/register", {
+      const res = await fetch(`${apiBase()}/api/auth/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

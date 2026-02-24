@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import Modal from "./ui/modal";
+import { apiBase } from "../utils";
 
 export default function Leaderboard({ onClose }) {
     const [scores, setScores] = useState([]);
@@ -7,7 +8,7 @@ export default function Leaderboard({ onClose }) {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        fetch("/api/scores?limit=20")
+        fetch(`${apiBase()}/api/scores?limit=20`)
             .then((res) => res.json())
             .then((data) => {
                 if (Array.isArray(data)) setScores(data);
