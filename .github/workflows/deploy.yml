@@ -1,6 +1,6 @@
 # Deploy Crosswit to Hetzner: git pull, build, restart on server (same as manual deploy).
 # Required secrets: SERVER_HOST, SERVER_USER, SSH_PRIVATE_KEY
-# Required for DB/auth: DATABASE_URL (PostgreSQL URL), AUTH_SECRET, AUTH_URL; or DEPLOY_ENV_FILE=true + ENV_FILE (base64 .env)
+# Required for DB/auth: DATABASE_URL (PostgreSQL URL), AUTH_SECRET, AUTH_URL; or DEPLOY_ENV_FILE=true + ENV_FILE variable (base64 .env)
 # Optional secret: PORT (default 5000 for next start)
 # Server needs: Node 20+, npm, PM2 (npm i -g pm2), git repo cloned at /home/hrvoje/apps/crosswit
 name: Deploy
@@ -26,8 +26,8 @@ jobs:
 
       - name: Create .env on server
         run: |
-          if [ "${{ vars.DEPLOY_ENV_FILE }}" = "true" ] && [ -n "${{ secrets.ENV_FILE }}" ]; then
-            echo "${{ secrets.ENV_FILE }}" | base64 -d | ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=accept-new $SSH_USER@$SSH_HOST "cat > /home/hrvoje/apps/crosswit/.env"
+          if [ "${{ vars.DEPLOY_ENV_FILE }}" = "true" ] && [ -n "${{ vars.ENV_FILE }}" ]; then
+            echo "${{ vars.ENV_FILE }}" | base64 -d | ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=accept-new $SSH_USER@$SSH_HOST "cat > /home/hrvoje/apps/crosswit/.env"
           elif [ -n "${{ secrets.DATABASE_URL }}" ]; then
             printf 'DATABASE_URL=%s\nAUTH_SECRET=%s\nAUTH_URL=%s\nPORT=%s\n' \
               "${{ secrets.DATABASE_URL }}" \
@@ -37,7 +37,7 @@ jobs:
             scp -i ~/.ssh/deploy_key -o StrictHostKeyChecking=accept-new /tmp/deploy.env $SSH_USER@$SSH_HOST:/home/hrvoje/apps/crosswit/.env
             rm -f /tmp/deploy.env
           else
-            echo "::error::Add DATABASE_URL secret (and AUTH_SECRET, AUTH_URL), or DEPLOY_ENV_FILE=true + ENV_FILE secret"
+            echo "::error::Add DATABASE_URL secret (and AUTH_SECRET, AUTH_URL), or DEPLOY_ENV_FILE=true + ENV_FILE variable"
             exit 1
           fi
 
