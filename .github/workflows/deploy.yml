@@ -27,13 +27,14 @@ jobs:
       - name: Create .env on server
         run: |
           if [ "${{ vars.DEPLOY_ENV_FILE }}" = "true" ] && [ -n "${{ vars.ENV_FILE }}" ]; then
-            echo "${{ vars.ENV_FILE }}" | base64 -d | ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=accept-new $SSH_USER@$SSH_HOST "cat > /home/hrvoje/apps/crosswit/.env"
+            echo "${{ vars.ENV_FILE }}" | base64 -d | ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=accept-new $SSH_USER@$SSH_HOST "mkdir -p /home/hrvoje/apps/crosswit && cat > /home/hrvoje/apps/crosswit/.env"
           elif [ -n "${{ secrets.DATABASE_URL }}" ]; then
             printf 'DATABASE_URL=%s\nAUTH_SECRET=%s\nAUTH_URL=%s\nPORT=%s\n' \
               "${{ secrets.DATABASE_URL }}" \
               "${{ secrets.AUTH_SECRET }}" \
               "${{ secrets.AUTH_URL }}" \
               "${{ secrets.PORT }}" > /tmp/deploy.env
+            ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=accept-new $SSH_USER@$SSH_HOST "mkdir -p /home/hrvoje/apps/crosswit"
             scp -i ~/.ssh/deploy_key -o StrictHostKeyChecking=accept-new /tmp/deploy.env $SSH_USER@$SSH_HOST:/home/hrvoje/apps/crosswit/.env
             rm -f /tmp/deploy.env
           else
