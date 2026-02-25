@@ -300,7 +300,7 @@ function HomeContent() {
                       value={username}
                       onChange={(e) => setUsername(e.target.value)}
                       placeholder="Your name"
-                      className="h-8 border-overlay/60 bg-overlay/40 text-sm text-text placeholder:text-subtle/70 focus-visible:ring-foam/80 focus-visible:ring-2"
+                      className="h-8 border-overlay/60 bg-overlay/40 text-sm text-text placeholder:text-subtle/70 focus-visible:bg-iris/10 focus-visible:ring-iris/80 focus-visible:ring-2"
                     />
                   </div>
                 )}
@@ -315,7 +315,7 @@ function HomeContent() {
                     onChange={(e) => setEmail(e.target.value)}
                     required
                     placeholder="you@example.com"
-                    className="h-8 border-overlay/60 bg-overlay/40 text-sm text-text placeholder:text-subtle/70 focus-visible:ring-foam/80 focus-visible:ring-2"
+                    className="h-8 border-overlay/60 bg-overlay/40 text-sm text-text placeholder:text-subtle/70 focus-visible:bg-iris/10 focus-visible:ring-iris/80 focus-visible:ring-2"
                   />
                 </div>
                 <div className="space-y-1">
@@ -329,7 +329,7 @@ function HomeContent() {
                     onChange={(e) => setPassword(e.target.value)}
                     required
                     minLength={authMode === "register" ? 8 : undefined}
-                    className="h-8 border-overlay/60 bg-overlay/40 text-sm text-text placeholder:text-subtle/70 focus-visible:ring-foam/80 focus-visible:ring-2"
+                    className="h-8 border-overlay/60 bg-overlay/40 text-sm text-text placeholder:text-subtle/70 focus-visible:bg-iris/10 focus-visible:ring-iris/80 focus-visible:ring-2"
                   />
                 </div>
                 <Button
