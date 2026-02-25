@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 const IRIS = "#c4a7e7";
 const FOAM = "#9ccfd8";
 const DEFAULT_BG = "#000000";
+const BORDER_SUBTLE = "rgba(196, 167, 231, 0.18)"; // iris, very low opacity
 
 export default function Square({
     value,
@@ -17,7 +18,7 @@ export default function Square({
     const [styles, setStyles] = useState({
         borderWidth: "1px",
         borderStyle: "solid",
-        borderColor: "#27272a",
+        borderColor: BORDER_SUBTLE,
         backgroundColor: DEFAULT_BG,
         color: "#ffffff",
     });
@@ -38,7 +39,7 @@ export default function Square({
         if (!isSelectMode) {
             setStyles((prev) => ({
                 ...prev,
-                borderColor: "transparent",
+                borderColor: BORDER_SUBTLE,
                 backgroundColor: searchResult.isOk && searchResult.indexes.includes(index) ? FOAM : DEFAULT_BG,
                 color: searchResult.isOk && searchResult.indexes.includes(index) ? "#000000" : "#ffffff",
             }));
