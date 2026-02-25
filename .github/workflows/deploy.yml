@@ -44,4 +44,4 @@ jobs:
 
       - name: Pull, install, build, restart
         run: |
-          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=accept-new $SSH_USER@$SSH_HOST "cd /home/hrvoje/apps/crosswit && git pull && npm ci && npx prisma generate && (npx prisma migrate deploy 2>/dev/null || true) && npm run build && (pm2 restart crosswit || pm2 start npm --name crosswit -- run start) && pm2 save"
+          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=accept-new $SSH_USER@$SSH_HOST "cd /home/hrvoje/apps/crosswit && git fetch origin && git reset --hard origin/main && npm ci && npx prisma generate && (npx prisma migrate deploy 2>/dev/null || true) && npm run build && (pm2 restart crosswit || pm2 start npm --name crosswit -- run start) && pm2 save"
