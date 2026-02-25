@@ -1,4 +1,4 @@
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 import GameEndCompleted from "./game-end-completed";
 import GameEndFailed from "./game-end-failed";
@@ -12,15 +12,18 @@ export default function GameEnd({
     wordsFoundNum,
     onNextClick,
     onRetryClick,
+    onQuitClick: onQuitClickProp,
+    backgroundClassName = "bg-baseDark",
 }) {
     const router = useRouter();
 
     const handleQuitClick = () => {
-        router.push("/");
+        if (onQuitClickProp) onQuitClickProp();
+        else router.push("/");
     };
 
     return (
-        <div className="relative grid h-screen place-content-center justify-items-center font-ubuntuMono">
+        <div className={`relative grid h-screen place-content-center justify-items-center font-ubuntuMono ${backgroundClassName}`}>
             {result === "completed" && (
                 <GameEndCompleted
                     level={level}

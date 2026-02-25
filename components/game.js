@@ -12,7 +12,7 @@ import clsx from "clsx";
 
 const timerIds = [];
 
-export default function Game({ crossword, delays, timeToPlay, onGameEnd }) {
+export default function Game({ crossword, delays, timeToPlay, onGameEnd, backgroundClassName = "bg-baseDark" }) {
     const findWordsNum = crossword.insertedWords.length;
 
     const [showBoard, setShowBoard] = useState();
@@ -118,7 +118,7 @@ export default function Game({ crossword, delays, timeToPlay, onGameEnd }) {
     }, [numOfWordsToFind, timeLeft, handleAllWordsFound]);
 
     return (
-        <section className="grid h-screen place-content-center place-items-center">
+        <section className={`grid h-screen cursor-grab place-content-center place-items-center ${backgroundClassName}`}>
             <Fade
                 toggler={showOther}
                 duration={delays.fade}
@@ -131,8 +131,8 @@ export default function Game({ crossword, delays, timeToPlay, onGameEnd }) {
                                 ? "fill-muted"
                                 : isWarning
                                 ? "fill-love"
-                                : "fill-rose",
-                            "mb-10 w-[32px] transition-colors duration-1000 hover:fill-rose hover:duration-200"
+                                : "fill-iris",
+                            "mb-10 w-[32px] transition-colors duration-1000 hover:fill-iris hover:duration-200"
                         )}
                     />
                 </Link>
@@ -162,7 +162,7 @@ export default function Game({ crossword, delays, timeToPlay, onGameEnd }) {
                                 ? "text-muted"
                                 : isWarning
                                 ? "text-love"
-                                : "text-rose",
+                                : "text-iris",
                         "transition-colors duration-1000"
                     )}
                     seconds={timeToPlay}

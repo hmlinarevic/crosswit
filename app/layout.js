@@ -7,9 +7,12 @@ export const metadata = {
   icons: { icon: "https://millify.dev/favicon.ico" },
 };
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children, params, searchParams }) {
+  // Next.js 15+: params and searchParams are Promises; await so they are not enumerated as Promises
+  await params;
+  await searchParams;
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className="dark">
       <head>
         <link
           href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Righteous&family=Caveat&family=Roboto&family=Merriweather&family=Ubuntu:wght@400;700&family=Ubuntu+Mono&family=Source+Code+Pro&family=Titillium+Web&display=swap"

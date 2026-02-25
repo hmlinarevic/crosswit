@@ -9,6 +9,7 @@ export default function Memorize({
     timeToMemorize,
     delays,
     onEnd,
+    backgroundClassName = "bg-baseDark",
 }) {
     // TODO --> change ui to togglers
     // const [togglers, setTogglers] = {}
@@ -108,23 +109,23 @@ export default function Memorize({
     };
 
     return (
-        <section className="grid h-screen place-content-center">
+        <section className={`grid h-screen place-content-center ${backgroundClassName}`}>
             {!isNotifyingDone && (
-                <div className="relative row-start-2 row-end-3">
+                <div className="relative row-start-2 row-end-3 min-w-[20rem] sm:min-w-[24rem]">
                     <Fade toggler={showUi.memorize} duration={delays.fade}>
-                        <h2 className="text-center font-caveat text-5xl tracking-wide text-rose">
+                        <h2 className="text-center font-hand text-4xl font-medium tracking-wide text-foam">
                             Memorize
                         </h2>
                     </Fade>
                     <Fade toggler={showUi.level} duration={delays.fade}>
-                        <span className="text block text-center font-ubuntuMono tracking-widest text-love">
-                            {`level ${level}`}
+                        <span className="-mt-1 block text-center font-hand text-lg text-iris sm:text-xl">
+                            level <span className="font-bold">{level}</span>
                         </span>
                     </Fade>
                     {level === 1 ? (
                         <Fade toggler={showUi.tip} duration={delays.fade}>
-                            <div className="absolute top-60 w-full text-center text-sm italic text-neutral-600">
-                                <span className="font-bold text-iris">tip</span>
+                            <div className="absolute top-60 w-full text-center text-sm italic text-white">
+                                <span className="font-bold">tip</span>
                                 : exit with{" "}
                                 <span className="font-bold text-gold">Esc</span>{" "}
                                 key
@@ -146,7 +147,7 @@ export default function Memorize({
                                 return (
                                     <li
                                         key={word + i}
-                                        className="font-caveat text-4xl text-rose"
+                                        className="font-hand text-4xl text-foam"
                                     >
                                         {word}
                                     </li>
@@ -161,7 +162,7 @@ export default function Memorize({
                         duration={delays.fade}
                     >
                         <Timer
-                            className="mt-4 block text-center text-lg text-love"
+                            className="mt-4 block text-center text-lg text-iris"
                             seconds={timeToMemorize}
                             // seconds={1000} // testing
                             delayStart={1000 + delays.fade}

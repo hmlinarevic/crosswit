@@ -33,12 +33,10 @@ export default function Fade({
 
     // fade out when toggler is false while component is on the dom
     useEffect(() => {
-        if (entered) {
+        if (!toggler && entered) {
             setEntering(false);
-
             onEnd && setTimeout(() => onEnd(), duration);
         }
-
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [toggler]);
 

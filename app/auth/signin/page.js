@@ -1,13 +1,15 @@
 "use client";
 
-import { Suspense, useState } from "react";
+import { Suspense, useState, use } from "react";
 import { signIn } from "next-auth/react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { BrandLogoWithTagline } from "../../../components/brand-header";
+import { Button } from "@/components/ui/button";
 
-function SignInForm() {
+function SignInForm({ searchParams }) {
   const router = useRouter();
-  const searchParams = useSearchParams();
+  const params = use(searchParams);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -27,12 +29,15 @@ function SignInForm() {
       setError("Invalid email or password");
       return;
     }
-    router.push(searchParams.get("callbackUrl") || "/");
+    const raw = params?.callbackUrl;
+    const callbackUrl = Array.isArray(raw) ? raw[0] : raw;
+    router.push(typeof callbackUrl === "string" ? callbackUrl : "/");
     router.refresh();
   };
 
   return (
-    <section className="dark:bg-base flex min-h-screen items-center justify-center">
+    <section className="dark:bg-baseDark flex min-h-screen flex-col items-center justify-center gap-8 px-6 py-8">
+      <BrandLogoWithTagline />
       <div className="w-full max-w-sm rounded-lg border border-neutral-600 bg-neutral-800/50 p-6 shadow-lg">
         <h1 className="mb-4 text-center font-titilliumWeb text-xl text-rose">
           Sign in
@@ -76,13 +81,14 @@ function SignInForm() {
               className="w-full rounded border border-neutral-600 bg-neutral-700 px-3 py-2 text-white placeholder-neutral-500 focus:border-rose focus:outline-none"
             />
           </div>
-          <button
+          <Button
             type="submit"
+            variant="muted"
             disabled={loading}
-            className="w-full rounded bg-rose py-2 font-medium text-white transition hover:bg-rose/90 disabled:opacity-50"
+            className="w-full disabled:opacity-50"
           >
             {loading ? "Signing in…" : "Sign in"}
-          </button>
+          </Button>
         </form>
         <p className="mt-4 text-center text-sm text-neutral-400">
           No account?{" "}
@@ -103,10 +109,10 @@ function SignInForm() {
   );
 }
 
-export default function SignInPage() {
+export default function SignInPage({ searchParams }) {
   return (
     <Suspense fallback={<div className="flex min-h-screen items-center justify-center">Loading…</div>}>
-      <SignInForm />
+      <SignInForm searchParams={searchParams} />
     </Suspense>
   );
 }

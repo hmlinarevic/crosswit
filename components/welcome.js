@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 import Logo from "./logo";
-import Button from "./button";
+import { Button } from "./ui/button";
 
 export default function Welcome() {
     return (
@@ -12,8 +12,12 @@ export default function Welcome() {
                     <span className="mt-[-0.5rem] block text-center font-hand text-lg">
                         The Crossword Puzzle Trainer
                     </span>
-                    <Link href="/play" passHref>
-                        <Button className="m-auto mt-6  block self-center border-[#dadce0] py-3 px-8 dark:border-[#5f6368] dark:text-[#9AA0A6] dark:hover:bg-neutral-900 dark:hover:text-white">
+                    <Link href="/play">
+                        <Button
+                            type="button"
+                            variant="muted"
+                            className="m-auto mt-6 block self-center"
+                        >
                             play
                         </Button>
                     </Link>

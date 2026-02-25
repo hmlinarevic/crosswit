@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import Image from "next/image";
 import { Check } from "react-feather";
-import Button from "./ui/button";
+import { Button } from "./ui/button";
 import arrowShowToLeft from "../public/arrow-show-to-left.png";
 import arrowShowToRight from "../public/arrow-show-to-right.png";
 import { useContext, useState } from "react";
@@ -19,11 +19,13 @@ export function HintLogo({ className }) {
                 alt="tutorial arrow pointing to logo"
             />
             <div className="absolute right-2 top-8 flex flex-col">
-                <span className="mb-1 w-fit font-caveat text-2xl text-love">
+                <span className="mb-1 w-fit font-caveat text-2xl text-gold">
                     go to main menu / indicator
                 </span>
                 <Button
-                    className="min-w-[78px] flex items-center justify-center self-center hover:border-foam hover:bg-foam hover:bg-opacity-10 hover:text-foam"
+                    type="button"
+                    variant="muted"
+                    className="flex min-w-[5rem] items-center justify-center self-center"
                     onClick={() => {
                         setIsHide(true);
                         dispatch({ type: "SET_HIDE_HINT_LOGO" });
@@ -44,11 +46,13 @@ export function HintTimer({ className }) {
     return isHide ? null : (
         <div className={clsx(className, "flex items-center justify-between")}>
             <div className="flex flex-col">
-                <span className="mb-1 w-fit font-caveat text-2xl text-love">
+                <span className="mb-1 w-fit font-caveat text-2xl text-gold">
                     time remaining
                 </span>
                 <Button
-                    className="min-w-[78px] flex items-center justify-center self-center hover:border-foam hover:bg-foam hover:bg-opacity-10 hover:text-foam"
+                    type="button"
+                    variant="muted"
+                    className="flex min-w-[5rem] items-center justify-center self-center"
                     onClick={() => {
                         setIsHide(true);
                         dispatch({ type: "SET_HIDE_HINT_TIMER" });

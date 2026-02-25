@@ -1,111 +1,366 @@
 "use client";
 
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
-import { useSession, signOut } from "next-auth/react";
+import { useSession, signOut, signIn } from "next-auth/react";
 import Fade from "../components/fade";
-import Button from "../components/ui/button";
 import Leaderboard from "../components/leaderboard";
-import brain2Png from "../public/brain2.png";
-import { useTheme } from "next-themes";
+import PlayContent from "../components/play-content";
+import AboutContent from "../components/about-content";
+import ProfileContent from "../components/profile-content";
+import LeaderboardContent from "../components/leaderboard-content";
+import { BrandLogo, TAGLINE } from "../components/brand-header";
 import { UserProfileContext } from "../context/UserContext";
+import { apiBase } from "../utils";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+
+const FADE_DURATION = 500;
 
 export default function Home() {
-  const [showContent, setShowContent] = useState(true);
-  const [showLeaderboard, setShowLeaderboard] = useState(false);
+  const [showHomeUi, setShowHomeUi] = useState(true);
+  const [showPlayContent, setShowPlayContent] = useState(false);
+  const [showAboutContent, setShowAboutContent] = useState(false);
+  const [nextView, setNextView] = useState(null); // "play" | "about" when fading out
+  const [showLeaderboardModal, setShowLeaderboardModal] = useState(false);
+  const [mainView, setMainView] = useState("home"); // "home" | "dashboard" | "leaderboard"
+  const [authMode, setAuthMode] = useState("login");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
+  const [authError, setAuthError] = useState("");
+  const [authLoading, setAuthLoading] = useState(false);
   const [state, dispatch] = useContext(UserProfileContext);
   const { data: session, status } = useSession();
-  const { setTheme } = useTheme();
   const router = useRouter();
 
-  const handlePlayClick = () => setShowContent(false);
-
-  const changePage = () => {
-    if (state.isHideQuickTutorial) router.push("/play");
-    else router.push("/tutorial");
+  const handlePlayClick = () => {
+    if (!state?.isHideQuickTutorial) {
+      router.push("/tutorial");
+      return;
+    }
+    setNextView("play");
+    setShowHomeUi(false);
   };
 
-  const showLeaderboardHandler = () =>
-    setShowLeaderboard((prev) => !prev);
+  const handleAboutClick = () => {
+    setNextView("about");
+    setShowHomeUi(false);
+  };
 
-  useEffect(() => {
-    setTheme("dark");
-  }, [setTheme]);
+  const handleFadeOutEnd = () => {
+    if (nextView === "play") setShowPlayContent(true);
+    if (nextView === "about") setShowAboutContent(true);
+    setNextView(null);
+  };
+
+  const handleExitPlay = () => {
+    setShowPlayContent(false);
+    setShowHomeUi(true);
+  };
+
+  const handleExitAbout = () => {
+    setShowAboutContent(false);
+    setShowHomeUi(true);
+  };
+
+  const showLeaderboardModalHandler = () =>
+    setShowLeaderboardModal((prev) => !prev);
+
+  const handleAuthSubmit = async (e) => {
+    e.preventDefault();
+    setAuthError("");
+    setAuthLoading(true);
+    if (authMode === "login") {
+      const res = await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+      });
+      setAuthLoading(false);
+      if (res?.error) {
+        setAuthError("Invalid email or password");
+        return;
+      }
+      router.refresh();
+      setEmail("");
+      setPassword("");
+      return;
+    }
+    try {
+      const res = await fetch(`${apiBase()}/api/auth/register`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email,
+          password,
+          name: username || undefined,
+        }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        setAuthError(data.message || "Registration failed");
+        setAuthLoading(false);
+        return;
+      }
+      const signInRes = await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+      });
+      setAuthLoading(false);
+      if (signInRes?.error) {
+        setAuthError("Account created. Please sign in.");
+        return;
+      }
+      router.refresh();
+      setUsername("");
+      setEmail("");
+      setPassword("");
+    } catch (err) {
+      setAuthError("Something went wrong");
+      setAuthLoading(false);
+    }
+  };
 
   return (
     <>
-      {showLeaderboard && (
-        <Leaderboard onClose={showLeaderboardHandler} />
+      {showLeaderboardModal && (
+        <Leaderboard onClose={showLeaderboardModalHandler} />
       )}
-      <section className="dark:bg-base grid h-screen place-content-center">
-        <Fade
-          toggler={showContent}
-          duration={500}
-          onEnd={changePage}
-          className=""
-        >
-          <div className="flex select-none items-center justify-center font-titilliumWeb text-4xl text-rose">
-            <span className="font-righteous">CR</span>
-            <Image
-              src={brain2Png}
-              style={{
-                width: "32px",
-                height: "auto",
-                marginLeft: "2.5px",
-                marginRight: "2.5px",
-              }}
-              alt="abstract brain symbol"
-            />
-            <span className="font-righteous">SSWIT</span>
+      <section className="dark:bg-ink mx-auto grid h-screen max-h-screen max-w-3xl grid-rows-[1fr] gap-4 overflow-hidden px-4 pt-4 sm:gap-6 sm:px-6 sm:pt-6">
+        {showPlayContent ? (
+          <div className="col-span-full row-span-full min-h-screen min-w-full -mx-4 -mt-4 sm:-mx-6 sm:-mt-6">
+            <PlayContent onExit={handleExitPlay} backgroundClassName="dark:bg-ink" />
           </div>
-
-          <span className="block text-center font-caveat text-xl text-love">
-            Word Search & Memory Trainer
-          </span>
-
-          <div className="mx-auto mt-3 flex max-w-[280px] flex-wrap justify-center gap-2">
-            <Button
-              className="h-auto flex-1 text-sm hover:border-rose hover:bg-rose hover:bg-opacity-10 hover:text-rose"
-              onClick={handlePlayClick}
-            >
-              play
-            </Button>
-            <Button
-              className="h-auto flex-1 text-sm hover:border-rose hover:bg-rose hover:bg-opacity-10 hover:text-rose"
-              onClick={() => router.push("/about")}
-            >
-              about
-            </Button>
-            <Button
-              className="h-auto flex-1 text-sm hover:border-rose hover:bg-rose hover:bg-opacity-10 hover:text-rose"
-              onClick={showLeaderboardHandler}
-            >
-              leaderboard
-            </Button>
-            {status !== "loading" &&
-              (session ? (
-                <div className="flex w-full items-center justify-center gap-2">
-                  <span className="text-sm text-neutral-400">
-                    {session.user?.name || session.user?.email}
-                  </span>
-                  <Button
-                    className="h-auto text-sm hover:border-rose hover:bg-rose hover:bg-opacity-10 hover:text-rose"
-                    onClick={() => signOut({ callbackUrl: "/" })}
-                  >
-                    sign out
-                  </Button>
-                </div>
-              ) : (
+        ) : showAboutContent ? (
+          <div className="scrollbar-hide col-span-full row-span-full min-h-0 min-w-full overflow-y-auto overflow-x-hidden -mx-4 -mt-4 sm:-mx-6 sm:-mt-6">
+            <AboutContent onExit={handleExitAbout} backgroundClassName="dark:bg-ink" />
+          </div>
+        ) : (
+          <Fade
+            toggler={showHomeUi}
+            duration={FADE_DURATION}
+            onEnd={handleFadeOutEnd}
+            className="col-span-full row-span-full grid min-h-0 min-w-0 grid-rows-[auto_1fr_auto] gap-4 sm:gap-6"
+          >
+            {/* 1. Header with nav - fades with the rest */}
+            <header className="min-w-0">
+              <div className="flex flex-col gap-0">
+                <BrandLogo />
+                <span className="-mt-1 block font-hand text-sm text-iris sm:text-base !text-iris">
+                  {TAGLINE}
+                </span>
+              </div>
+              <nav className="mt-4 flex w-full flex-wrap items-center justify-start gap-2 border-b border-overlay/60 pb-4 font-titilliumWeb sm:gap-3 sm:pb-6" aria-label="Main">
                 <Button
-                  className="h-auto w-full text-sm hover:border-rose hover:bg-rose hover:bg-opacity-10 hover:text-rose"
-                  onClick={() => router.push("/auth/signin")}
+                  type="button"
+                  variant="muted"
+                  onClick={() => setMainView("home")}
+                  className={`min-w-[6.5rem] ${mainView === "home" ? "border-subtle/70 text-foam hover:text-foam" : ""}`}
                 >
-                  sign in
+                  home
                 </Button>
-              ))}
-          </div>
-        </Fade>
+                <Button
+                  type="button"
+                  variant="muted"
+                  onClick={handlePlayClick}
+                  className="min-w-[6.5rem]"
+                >
+                  play
+                </Button>
+                <Button
+                  type="button"
+                  variant="muted"
+                  onClick={() => setMainView("dashboard")}
+                  className={`min-w-[6.5rem] ${mainView === "dashboard" ? "border-subtle/70 text-foam hover:text-foam" : ""}`}
+                >
+                  dashboard
+                </Button>
+                <Button
+                  type="button"
+                  variant="muted"
+                  onClick={() => setMainView("leaderboard")}
+                  className={`min-w-[6.5rem] ${mainView === "leaderboard" ? "border-subtle/70 text-foam hover:text-foam" : ""}`}
+                >
+                  leaderboards
+                </Button>
+                <Button
+                  type="button"
+                  variant="muted"
+                  onClick={handleAboutClick}
+                  className="ml-auto min-w-[6.5rem]"
+                >
+                  about
+                </Button>
+              </nav>
+            </header>
+
+            {/* 2. Main content - home (login/session), about, dashboard, or leaderboard (fades when switching nav) */}
+            <Fade
+              key={mainView}
+              toggler={true}
+              duration={300}
+              className="min-h-0 min-w-0 flex flex-col"
+            >
+            {mainView === "dashboard" ? (
+              <ProfileContent />
+            ) : mainView === "leaderboard" ? (
+              <LeaderboardContent />
+            ) : (
+              <div className="flex min-h-0 w-full flex-1 items-center justify-center px-2 pt-6 sm:px-0 sm:pt-10">
+          {status === "loading" ? null : session ? (
+            <div className="w-full max-w-sm rounded-2xl border border-overlay/60 bg-gradient-to-br from-baseDark to-surface px-5 py-4 shadow-xl shadow-black/40">
+              <p className="text-sm text-foam">
+                {session.user?.name || session.user?.email}
+              </p>
+              <Button
+                type="button"
+                variant="muted"
+                onClick={() => signOut({ callbackUrl: "/" })}
+                className="mt-2 hover:underline"
+              >
+                sign out
+              </Button>
+            </div>
+          ) : (
+            <div className="w-full max-w-xs flex min-h-[360px] flex-col rounded-xl border border-overlay/60 bg-overlay/40 px-4 py-4">
+              {/* Tabs fixed at top - card height stays constant so cursor stays on tabs when switching */}
+              <div className="shrink-0 grid grid-cols-2 gap-1 rounded-lg bg-overlay/50 p-1 w-fit" role="tablist">
+                <Button
+                  type="button"
+                  role="tab"
+                  aria-selected={authMode === "login"}
+                  variant="muted"
+                  onClick={() => { setAuthMode("login"); setAuthError(""); }}
+                  className={
+                    authMode === "login"
+                      ? "border-pine/60 bg-pine/90 text-text hover:border-pine hover:bg-pine hover:text-text"
+                      : ""
+                  }
+                >
+                  Login
+                </Button>
+                <Button
+                  type="button"
+                  role="tab"
+                  aria-selected={authMode === "register"}
+                  variant="muted"
+                  onClick={() => { setAuthMode("register"); setAuthError(""); }}
+                  className={
+                    authMode === "register"
+                      ? "border-pine/60 bg-pine/90 text-text hover:border-pine hover:bg-pine hover:text-text"
+                      : ""
+                  }
+                >
+                  Register
+                </Button>
+              </div>
+              <form
+                onSubmit={handleAuthSubmit}
+                className="mt-3 flex min-h-0 flex-1 flex-col gap-3"
+              >
+                {authError && (
+                  <p className="text-xs text-love">
+                    {authError}
+                  </p>
+                )}
+                {authMode === "register" && (
+                  <div className="space-y-1">
+                    <Label htmlFor="username" className="text-foam text-xs">
+                      Username
+                    </Label>
+                    <Input
+                      id="username"
+                      type="text"
+                      value={username}
+                      onChange={(e) => setUsername(e.target.value)}
+                      placeholder="Your name"
+                      className="h-8 border-overlay/60 bg-overlay/40 text-sm text-text placeholder:text-subtle/70 focus-visible:ring-foam/80 focus-visible:ring-2"
+                    />
+                  </div>
+                )}
+                <div className="space-y-1">
+                  <Label htmlFor="email" className="text-foam text-xs">
+                    Email
+                  </Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    placeholder="you@example.com"
+                    className="h-8 border-overlay/60 bg-overlay/40 text-sm text-text placeholder:text-subtle/70 focus-visible:ring-foam/80 focus-visible:ring-2"
+                  />
+                </div>
+                <div className="space-y-1">
+                  <Label htmlFor="password" className="text-foam text-xs">
+                    Password {authMode === "register" && "(min 8)"}
+                  </Label>
+                  <Input
+                    id="password"
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                    minLength={authMode === "register" ? 8 : undefined}
+                    className="h-8 border-overlay/60 bg-overlay/40 text-sm text-text placeholder:text-subtle/70 focus-visible:ring-foam/80 focus-visible:ring-2"
+                  />
+                </div>
+                <Button
+                  type="submit"
+                  variant="pine"
+                  disabled={authLoading}
+                  className="w-full disabled:opacity-50"
+                >
+                  {authLoading
+                    ? authMode === "login"
+                      ? "Signing in…"
+                      : "Creating account…"
+                    : authMode === "login"
+                      ? "Sign in"
+                      : "Sign up"}
+                </Button>
+              </form>
+            </div>
+          )}
+              </div>
+            )}
+            </Fade>
+
+            {/* 3. Footer - fades with header and main content */}
+            <footer className="border-t border-overlay/60 mt-20">
+              <div className="w-full py-6 sm:py-8">
+                <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-4">
+                  <div className="min-w-0">
+                    <p className="font-titilliumWeb font-medium text-foam/90 text-sm">
+                      Crosswit
+                    </p>
+                    <p className="mt-1 text-subtle text-xs">
+                      {TAGLINE}
+                    </p>
+                  </div>
+                  <div className="flex shrink-0 flex-col items-end gap-1 text-right">
+                    <p className="text-subtle/60 text-[11px] tracking-wide">
+                      © {new Date().getFullYear()} Crosswit · All rights reserved
+                    </p>
+                    <a
+                      href="https://millify.dev"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-muted-foreground hover:text-subtle text-xs font-medium transition-colors"
+                    >
+                      millify.dev
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </footer>
+          </Fade>
+        )}
       </section>
     </>
   );

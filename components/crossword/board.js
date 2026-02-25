@@ -113,7 +113,7 @@ export default function Board({ crossword, onFoundWord }) {
 
     return (
         <ul
-            className="mx-auto grid h-fit w-fit justify-items-center gap-1.5 font-ubuntu"
+            className={`mx-auto grid h-fit w-fit justify-items-center gap-1.5 font-ubuntu ${selectMode.isActive ? "cursor-grabbing" : "cursor-grab"}`}
             style={{
                 gridTemplateColumns: `repeat(${crossword.size}, minmax(0, 1fr))`,
             }}

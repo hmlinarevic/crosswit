@@ -36,26 +36,37 @@ export default function GameEndFailed({
         <Fade toggler={showResults} duration={500} className="relative">
             <XCircle
                 size={26}
-                className="absolute top-[-2.25rem] left-2 right-2 mx-auto mb-1 block text-4xl text-love"
+                className="absolute top-[-2.25rem] left-2 right-2 mx-auto mb-1 block text-love"
             />
 
             {/* status */}
-            <h2 className="mb-6 font-caveat text-4xl text-love">{status}</h2>
+            <h2 className="mb-4 text-center font-caveat text-4xl text-love">{status}</h2>
 
-            {/* buttons */}
-            <Button className="mx-auto mb-3" onClick={handleRetryClick}>
-                retry
-            </Button>
-            <Button className="mx-auto" onClick={onQuitClick}>
-                quit
-            </Button>
             {/* total score */}
-            <div className="mt-12 text-center">
-                <span className="font-bold text-rose">
+            <div className="mx-auto mb-10 w-[210px] border-b border-rose border-opacity-50 px-3 py-4 text-center">
+                <span className="flex justify-between font-bold text-rose">
                     TOTAL SCORE{" "}
-                    <span className="font-bold text-love">{totalScore}</span>
+                    <span className="text-foam opacity-100">{totalScore}</span>
                 </span>
             </div>
+
+            {/* buttons */}
+            <Button
+                type="button"
+                variant="muted"
+                className="mx-auto mb-3 block"
+                onClick={handleRetryClick}
+            >
+                retry
+            </Button>
+            <Button
+                type="button"
+                variant="muted"
+                className="mx-auto block"
+                onClick={onQuitClick}
+            >
+                give up
+            </Button>
         </Fade>
     );
 }

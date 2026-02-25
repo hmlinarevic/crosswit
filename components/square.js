@@ -1,5 +1,9 @@
 import { useEffect, useState } from "react";
 
+const IRIS = "#c4a7e7";
+const FOAM = "#9ccfd8";
+const DEFAULT_BG = "#000000";
+
 export default function Square({
     value,
     isSelectMode,
@@ -13,23 +17,33 @@ export default function Square({
     const [styles, setStyles] = useState({
         borderWidth: "1px",
         borderStyle: "solid",
-        borderColor: "transparent",
-        backgroundColor: "transparent",
+        borderColor: "#27272a",
+        backgroundColor: DEFAULT_BG,
+        color: "#ffffff",
     });
 
     // effects
 
     useEffect(() => {
         if (searchResult.isOk && searchResult.indexes.includes(index)) {
-            changeBgColor(searchColor);
+            setStyles((prev) => ({
+                ...prev,
+                backgroundColor: FOAM,
+                color: "#000000",
+            }));
         }
-    }, [searchResult, index, searchColor]);
+    }, [searchResult, index]);
 
     useEffect(() => {
         if (!isSelectMode) {
-            changeBorder("transparent");
+            setStyles((prev) => ({
+                ...prev,
+                borderColor: "transparent",
+                backgroundColor: searchResult.isOk && searchResult.indexes.includes(index) ? FOAM : DEFAULT_BG,
+                color: searchResult.isOk && searchResult.indexes.includes(index) ? "#000000" : "#ffffff",
+            }));
         }
-    }, [isSelectMode]);
+    }, [isSelectMode, searchResult, index, searchColor]);
 
     // functions
 
@@ -45,16 +59,24 @@ export default function Square({
         });
     };
 
+    const setSelectingStyle = () => {
+        setStyles((prev) => ({
+            ...prev,
+            backgroundColor: IRIS,
+            color: "#000000",
+        }));
+    };
+
     const selectSquareOnMouseEnter = (e) => {
         if (!isSelectMode) return;
 
-        changeBorder(searchColor);
+        setSelectingStyle();
         onSquareEnter(e, index);
     };
 
     // fix isSelectMode being false when mouse down on square
     const selectSquareOnMouseDown = (e) => {
-        changeBorder(searchColor);
+        setSelectingStyle();
         onSquareEnter(e, index);
     };
 

@@ -93,8 +93,10 @@ export default function Tutorial() {
           </ul>
 
           <div className="mx-auto mt-8 flex items-center justify-center text-sm">
-            <button
-              className="mr-10 flex items-center px-2 py-1 text-muted"
+            <Button
+              type="button"
+              variant="muted"
+              className="mr-10 flex items-center"
               onClick={handleDontShowAgainButton}
             >
               <span
@@ -104,10 +106,11 @@ export default function Tutorial() {
                 )}
               />
               <span>don&apos;t show again</span>
-            </button>
+            </Button>
 
             <Button
-              className="h-[30px] w-[100px] hover:border-rose hover:bg-rose hover:bg-opacity-10 hover:text-rose"
+              type="button"
+              variant="muted"
               onClick={handlePlayClick}
             >
               let&apos;s go!

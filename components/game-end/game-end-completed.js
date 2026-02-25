@@ -1,9 +1,5 @@
 import { useState, useEffect } from "react";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheckCircle } from "@fortawesome/free-regular-svg-icons";
-
-import ScoreRow from "./score-row";
 import Button from "../ui/button";
 import Fade from "../fade";
 import { CheckCircle } from "react-feather";
@@ -22,63 +18,88 @@ export default function GameEndCompleted({
 
     const handleNextClick = () => {
         setShowResults(false);
-
-        setTimeout(() => {
-            onNextClick();
-        }, 500);
+        setTimeout(() => onNextClick(), 500);
     };
 
     useEffect(() => {
-        setTimeout(() => {
-            setShowResults(true);
-        }, 500);
+        const t = setTimeout(() => setShowResults(true), 500);
+        return () => clearTimeout(t);
     }, []);
 
-    // e.i. "level 01 completed"
-    const status = `level ${level} ${result}!`;
-
     return (
-        <Fade toggler={showResults} duration={500} className="relative">
-            {/* icon */}
-            <CheckCircle size={26} className="mx-auto mb-3 block text-foam absolute top-[-2.25rem] left-2 right-2" />
-            {/* status */}
-            <h2 className="mb-4 text-center font-caveat text-4xl text-rose">
-                {status}
+        <Fade toggler={showResults} duration={500} className="relative w-full max-w-sm px-4">
+            {/* Success icon with glow */}
+            <div className="relative mx-auto mb-2 flex w-16 h-16 items-center justify-center">
+                <div
+                    className="absolute inset-0 rounded-full opacity-40"
+                    style={{
+                        background: "radial-gradient(circle, rgba(156, 207, 216, 0.4) 0%, transparent 70%)",
+                    }}
+                />
+                <div className="relative flex h-14 w-14 items-center justify-center rounded-full border-2 border-foam/50 bg-foam/10">
+                    <CheckCircle size={28} className="text-foam" strokeWidth={2.5} />
+                </div>
+            </div>
+
+            {/* Headline */}
+            <h2 className="mb-2 text-center font-hand text-4xl font-medium tracking-wide text-foam sm:text-5xl">
+                Level {level} completed!
             </h2>
+            <p className="mb-2 text-center font-titilliumWeb text-sm text-subtle">
+                Nice one. Here’s your score.
+            </p>
 
-            {/* score card */}
-            <div className="mx-auto mt-4 w-[210px] border-t border-b border-rose border-opacity-50 py-4 px-3">
-                <ScoreRow>
-                    <span className="text-rose">words found</span>
-                    <span className="text-right text-foam">
-                        {wordsFoundNum}
-                    </span>
-                </ScoreRow>
-                <ScoreRow>
-                    <span className="text-rose">time left</span>
-                    <span className="text-right text-foam">+ {timeLeft}</span>
-                </ScoreRow>
-                <ScoreRow className="">
-                    <span className="text-rose">score</span>
-                    <span className="text-foam">{levelScore}</span>
-                </ScoreRow>
+            {/* Score card */}
+            <div className="mx-auto mb-8 overflow-hidden rounded-2xl border border-iris/30 bg-surface/60 shadow-lg shadow-black/20 backdrop-blur-sm">
+                <div className="border-b border-iris/20 px-5 py-4">
+                    <div className="flex justify-between font-roboto text-xs font-medium">
+                        <span className="text-subtle">Words found</span>
+                        <span className="text-foam">{wordsFoundNum}</span>
+                    </div>
+                </div>
+                <div className="border-b border-iris/20 px-5 py-4">
+                    <div className="flex justify-between font-roboto text-xs font-medium">
+                        <span className="text-subtle">Time left</span>
+                        <span className="text-foam">+{timeLeft}</span>
+                    </div>
+                </div>
+                <div className="border-b border-iris/20 px-5 py-4">
+                    <div className="flex justify-between font-roboto text-xs font-medium">
+                        <span className="text-subtle">Level score</span>
+                        <span className="font-semibold text-gold">{levelScore}</span>
+                    </div>
+                </div>
+                <div className="px-5 py-5">
+                    <div className="flex items-center justify-between gap-4 font-roboto text-xs font-medium">
+                        <span className="uppercase tracking-wider text-iris">
+                            Total score
+                        </span>
+                        <span className="text-2xl font-bold text-foam tabular-nums">
+                            {totalScore}
+                        </span>
+                    </div>
+                </div>
             </div>
 
-            {/* total score */}
-            <div className="mx-auto mb-10 w-[210px] border-b border-rose border-opacity-50 px-3 py-4 text-center">
-                <span className="flex justify-between font-bold text-rose">
-                    TOTAL SCORE{" "}
-                    <span className="text-foam opacity-100">{totalScore}</span>
-                </span>
+            {/* Actions */}
+            <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center sm:gap-4">
+                <Button
+                    type="button"
+                    variant="muted"
+                    className="w-full min-w-[140px] sm:w-auto"
+                    onClick={handleNextClick}
+                >
+                    keep going
+                </Button>
+                <Button
+                    type="button"
+                    variant="muted"
+                    className="w-full min-w-[140px] sm:w-auto"
+                    onClick={onQuitClick}
+                >
+                    give up
+                </Button>
             </div>
-
-            {/* buttons */}
-            <Button className="mx-auto mb-3" onClick={handleNextClick}>
-                next
-            </Button>
-            <Button className="mx-auto" onClick={onQuitClick}>
-                quit
-            </Button>
         </Fade>
     );
 }

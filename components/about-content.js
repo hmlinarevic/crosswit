@@ -1,7 +1,7 @@
 "use client";
 
 import { Eye, Search, MousePointer, Award, CheckCircle } from "react-feather";
-import { BrandLogo, TAGLINE } from "../../components/brand-header";
+import { BrandLogo, TAGLINE } from "./brand-header";
 import { Card, CardContent } from "@/components/ui/card";
 
 const features = [
@@ -33,11 +33,34 @@ const features = [
   },
 ];
 
-export default function AboutPage() {
+const DEFAULT_BG = "bg-baseDark";
+
+export default function AboutContent({
+  onExit,
+  backgroundClassName = DEFAULT_BG,
+}) {
   return (
-    <div className="min-h-screen bg-baseDark text-text">
+    <div
+      className={`min-h-full min-w-full text-text ${backgroundClassName}`}
+    >
       <div className="max-w-3xl mx-auto px-4 py-10 sm:px-6 sm:py-14">
-        <header className="mb-12">
+        <div
+          className="about-cascade mb-10"
+          style={{ animationDelay: "0ms", animationFillMode: "backwards" }}
+        >
+          <button
+            type="button"
+            onClick={onExit}
+            className="text-subtle/80 hover:text-foam text-sm font-titilliumWeb font-medium transition-colors"
+          >
+            ← go to app
+          </button>
+        </div>
+
+        <header
+          className="about-cascade mb-12"
+          style={{ animationDelay: "80ms", animationFillMode: "backwards" }}
+        >
           <div className="flex items-center gap-4 mb-6">
             <BrandLogo className="text-2xl sm:text-3xl text-foam" />
           </div>
@@ -51,7 +74,10 @@ export default function AboutPage() {
           </p>
         </header>
 
-        <section className="mb-12">
+        <section
+          className="about-cascade mb-12"
+          style={{ animationDelay: "220ms", animationFillMode: "backwards" }}
+        >
           <h2 className="font-titilliumWeb font-semibold text-base tracking-tight text-foam mb-3">
             How to get the most out of Crosswit
           </h2>
@@ -65,7 +91,10 @@ export default function AboutPage() {
           </p>
         </section>
 
-        <section className="mb-12">
+        <section
+          className="about-cascade mb-12"
+          style={{ animationDelay: "360ms", animationFillMode: "backwards" }}
+        >
           <h2 className="font-titilliumWeb font-semibold text-base tracking-tight text-foam mb-4">
             Did you know?
           </h2>
@@ -76,14 +105,25 @@ export default function AboutPage() {
         </section>
 
         <section className="space-y-4">
-          <h2 className="font-titilliumWeb font-semibold text-lg tracking-tight text-subtle uppercase mb-6">
+          <h2
+            className="about-cascade font-titilliumWeb font-semibold text-lg tracking-tight text-subtle uppercase mb-6"
+            style={{ animationDelay: "500ms", animationFillMode: "backwards" }}
+          >
             How to play
           </h2>
           <ul className="grid grid-cols-1 gap-4">
             {features.map((item, i) => {
               const Icon = item.icon;
+              const delayMs = 580 + i * 70;
               return (
-                <li key={i}>
+                <li
+                  key={i}
+                  className="about-cascade"
+                  style={{
+                    animationDelay: `${delayMs}ms`,
+                    animationFillMode: "backwards",
+                  }}
+                >
                   <Card className="border-overlay bg-surface rounded-2xl overflow-hidden transition-all duration-200 hover:border-pine/50">
                     <CardContent className="p-5 sm:p-6">
                       <div className="flex gap-4">

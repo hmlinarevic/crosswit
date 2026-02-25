@@ -5,6 +5,8 @@ import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { apiBase } from "../../../utils";
+import { BrandLogoWithTagline } from "../../../components/brand-header";
+import { Button } from "@/components/ui/button";
 
 export default function SignUp() {
   const router = useRouter();
@@ -53,7 +55,8 @@ export default function SignUp() {
   };
 
   return (
-    <section className="dark:bg-base flex min-h-screen items-center justify-center">
+    <section className="dark:bg-baseDark flex min-h-screen flex-col items-center justify-center gap-8 px-6 py-8">
+      <BrandLogoWithTagline />
       <div className="w-full max-w-sm rounded-lg border border-neutral-600 bg-neutral-800/50 p-6 shadow-lg">
         <h1 className="mb-4 text-center font-titilliumWeb text-xl text-rose">
           Sign up
@@ -114,13 +117,14 @@ export default function SignUp() {
               className="w-full rounded border border-neutral-600 bg-neutral-700 px-3 py-2 text-white placeholder-neutral-500 focus:outline-none"
             />
           </div>
-          <button
+          <Button
             type="submit"
+            variant="muted"
             disabled={loading}
-            className="w-full rounded bg-rose py-2 font-medium text-white transition hover:bg-rose/90 disabled:opacity-50"
+            className="w-full disabled:opacity-50"
           >
             {loading ? "Creating account…" : "Sign up"}
-          </button>
+          </Button>
         </form>
         <p className="mt-4 text-center text-sm text-neutral-400">
           Already have an account?{" "}

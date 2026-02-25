@@ -5,6 +5,7 @@ import ThemeChanger from "../theme-changer";
 
 import Logo from "../logo";
 import ActivityIcon from "../icons/activity-icon";
+import { Button } from "@/components/ui/button";
 
 export default function MainNavigation(props) {
     const [showActivityDropdown, setShowActivityDropdown] = useState(false);
@@ -30,12 +31,15 @@ export default function MainNavigation(props) {
                     <Link href="/about">About</Link>
                 </li>
                 <li className="relative flex h-full w-32 select-none items-center  justify-center transition">
-                    <button
+                    <Button
+                        type="button"
+                        variant="ghost"
+                        size="icon"
                         onClick={toggleActiviyDropdown}
                         className="rounded-full p-4 hover:bg-neutral-900 hover:text-white"
                     >
                         <ActivityIcon size={22} />
-                    </button>
+                    </Button>
                     {showActivityDropdown && (
                         <div className="absolute top-[100%] left-0 w-full bg-neutral-500 text-center">
                             <p>
