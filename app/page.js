@@ -1,6 +1,6 @@
 "use client";
 
-import { useContext, useEffect, useState } from "react";
+import { Suspense, useContext, useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useSession, signOut, signIn } from "next-auth/react";
@@ -20,7 +20,7 @@ import { Button } from "@/components/ui/button";
 
 const FADE_DURATION = 500;
 
-export default function Home() {
+function HomeContent() {
   const [showHomeUi, setShowHomeUi] = useState(true);
   const [showPlayContent, setShowPlayContent] = useState(false);
   const [showAboutContent, setShowAboutContent] = useState(false);
@@ -385,5 +385,19 @@ export default function Home() {
         )}
       </section>
     </>
+  );
+}
+
+export default function Home() {
+  return (
+    <Suspense
+      fallback={
+        <div className="font-outfit dark:bg-ink flex min-h-screen items-center justify-center">
+          <span className="text-subtle">Loading…</span>
+        </div>
+      }
+    >
+      <HomeContent />
+    </Suspense>
   );
 }

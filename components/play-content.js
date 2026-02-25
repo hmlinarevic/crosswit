@@ -146,6 +146,7 @@ export default function PlayContent({ onExit, backgroundClassName = DEFAULT_BG }
           timeToPlay={puzzle.timeAllocation.game}
           delays={DELAYS_MS}
           onGameEnd={handleGameEnd}
+          onExit={handleExit}
           backgroundClassName={backgroundClassName}
         />
       )}

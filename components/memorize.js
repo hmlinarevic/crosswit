@@ -124,7 +124,7 @@ export default function Memorize({
                     </Fade>
                     {level === 1 ? (
                         <Fade toggler={showUi.tip} duration={delays.fade}>
-                            <div className="absolute top-60 w-full text-center text-sm italic text-white">
+                            <div className="absolute top-60 w-full text-center text-sm italic text-subtle">
                                 <span className="font-bold">tip</span>
                                 : exit with{" "}
                                 <span className="font-bold text-gold">Esc</span>{" "}

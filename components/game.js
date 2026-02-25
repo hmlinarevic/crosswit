@@ -12,7 +12,7 @@ import clsx from "clsx";
 
 const timerIds = [];
 
-export default function Game({ crossword, delays, timeToPlay, onGameEnd, backgroundClassName = "bg-baseDark" }) {
+export default function Game({ crossword, delays, timeToPlay, onGameEnd, onExit, backgroundClassName = "bg-baseDark" }) {
     const findWordsNum = crossword.insertedWords.length;
 
     const [showBoard, setShowBoard] = useState();
@@ -124,7 +124,16 @@ export default function Game({ crossword, delays, timeToPlay, onGameEnd, backgro
                 duration={delays.fade}
                 className="relative"
             >
-                <Link href="/" passHref>
+                <Link
+                    href="/"
+                    passHref
+                    onClick={(e) => {
+                      if (onExit) {
+                        e.preventDefault();
+                        onExit();
+                      }
+                    }}
+                  >
                     <Logo
                         className={clsx(
                             isFocus
