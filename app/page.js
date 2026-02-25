@@ -150,7 +150,7 @@ function HomeContent() {
       )}
       <section className="font-outfit dark:bg-ink mx-auto grid h-screen max-h-screen max-w-3xl grid-rows-[1fr] gap-4 overflow-hidden px-4 pt-4 sm:gap-6 sm:px-6 sm:pt-6">
         {showPlayContent ? (
-          <div className="col-span-full row-span-full min-h-screen min-w-full -mx-4 -mt-4 sm:-mx-6 sm:-mt-6">
+          <div className="col-span-full row-span-full min-h-screen min-w-full -mx-4 -mt-4 sm:-mx-6 sm:-mt-6 dark:bg-ink">
             <PlayContent onExit={handleExitPlay} backgroundClassName="dark:bg-ink" />
           </div>
         ) : showAboutContent ? (
