@@ -23,6 +23,8 @@ const buttonVariants = cva(
           "min-h-[32px] min-w-[96px] rounded-lg border-2 border-rose/10 bg-rose/10 font-roboto tracking-wide text-rose hover:border-rose hover:font-bold hover:bg-rose/80 hover:text-black hover:border-foam hover:bg-foam/10 hover:text-foam",
         pine:
           "rounded-lg bg-pine/90 py-2 text-text shadow-lg shadow-pine/20 transition-all duration-200 hover:bg-pine hover:shadow-pine/30 disabled:opacity-50",
+        iris:
+          "rounded-lg bg-iris/90 py-2 text-text shadow-lg shadow-iris/20 transition-all duration-200 hover:bg-iris hover:shadow-iris/30 disabled:opacity-50",
         muted:
           "border border-subtle/40 rounded-md px-3 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:border-subtle/70 hover:bg-overlay/30 hover:text-subtle",
       },

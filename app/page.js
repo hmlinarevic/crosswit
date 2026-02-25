@@ -1,8 +1,8 @@
 "use client";
 
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useSession, signOut, signIn } from "next-auth/react";
 import Fade from "../components/fade";
 import Leaderboard from "../components/leaderboard";
@@ -10,7 +10,8 @@ import PlayContent from "../components/play-content";
 import AboutContent from "../components/about-content";
 import ProfileContent from "../components/profile-content";
 import LeaderboardContent from "../components/leaderboard-content";
-import { BrandLogo, TAGLINE } from "../components/brand-header";
+import TutorialContent from "../components/TutorialContent";
+import { BrandLogoFromPreference, TAGLINE } from "../components/brand-header";
 import { UserProfileContext } from "../context/UserContext";
 import { apiBase } from "../utils";
 import { Input } from "@/components/ui/input";
@@ -23,7 +24,8 @@ export default function Home() {
   const [showHomeUi, setShowHomeUi] = useState(true);
   const [showPlayContent, setShowPlayContent] = useState(false);
   const [showAboutContent, setShowAboutContent] = useState(false);
-  const [nextView, setNextView] = useState(null); // "play" | "about" when fading out
+  const [showTutorialContent, setShowTutorialContent] = useState(false);
+  const [nextView, setNextView] = useState(null); // "play" | "about" | "tutorial" when fading out
   const [showLeaderboardModal, setShowLeaderboardModal] = useState(false);
   const [mainView, setMainView] = useState("home"); // "home" | "dashboard" | "leaderboard"
   const [authMode, setAuthMode] = useState("login");
@@ -35,10 +37,20 @@ export default function Home() {
   const [state, dispatch] = useContext(UserProfileContext);
   const { data: session, status } = useSession();
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    if (searchParams?.get("show") === "tutorial") {
+      setShowTutorialContent(true);
+      setShowHomeUi(false);
+      router.replace("/", { scroll: false });
+    }
+  }, [searchParams, router]);
 
   const handlePlayClick = () => {
     if (!state?.isHideQuickTutorial) {
-      router.push("/tutorial");
+      setNextView("tutorial");
+      setShowHomeUi(false);
       return;
     }
     setNextView("play");
@@ -53,7 +65,13 @@ export default function Home() {
   const handleFadeOutEnd = () => {
     if (nextView === "play") setShowPlayContent(true);
     if (nextView === "about") setShowAboutContent(true);
+    if (nextView === "tutorial") setShowTutorialContent(true);
     setNextView(null);
+  };
+
+  const handleTutorialLetsGo = () => {
+    setShowTutorialContent(false);
+    setShowPlayContent(true);
   };
 
   const handleExitPlay = () => {
@@ -130,7 +148,7 @@ export default function Home() {
       {showLeaderboardModal && (
         <Leaderboard onClose={showLeaderboardModalHandler} />
       )}
-      <section className="dark:bg-ink mx-auto grid h-screen max-h-screen max-w-3xl grid-rows-[1fr] gap-4 overflow-hidden px-4 pt-4 sm:gap-6 sm:px-6 sm:pt-6">
+      <section className="font-outfit dark:bg-ink mx-auto grid h-screen max-h-screen max-w-3xl grid-rows-[1fr] gap-4 overflow-hidden px-4 pt-4 sm:gap-6 sm:px-6 sm:pt-6">
         {showPlayContent ? (
           <div className="col-span-full row-span-full min-h-screen min-w-full -mx-4 -mt-4 sm:-mx-6 sm:-mt-6">
             <PlayContent onExit={handleExitPlay} backgroundClassName="dark:bg-ink" />
@@ -138,6 +156,10 @@ export default function Home() {
         ) : showAboutContent ? (
           <div className="scrollbar-hide col-span-full row-span-full min-h-0 min-w-full overflow-y-auto overflow-x-hidden -mx-4 -mt-4 sm:-mx-6 sm:-mt-6">
             <AboutContent onExit={handleExitAbout} backgroundClassName="dark:bg-ink" />
+          </div>
+        ) : showTutorialContent ? (
+          <div className="col-span-full row-span-full min-h-0 min-w-full -mx-4 -mt-4 sm:-mx-6 sm:-mt-6">
+            <TutorialContent onLetsGo={handleTutorialLetsGo} />
           </div>
         ) : (
           <Fade
@@ -149,17 +171,17 @@ export default function Home() {
             {/* 1. Header with nav - fades with the rest */}
             <header className="min-w-0">
               <div className="flex flex-col gap-0">
-                <BrandLogo />
+                <BrandLogoFromPreference />
                 <span className="-mt-1 block font-hand text-sm text-iris sm:text-base !text-iris">
                   {TAGLINE}
                 </span>
               </div>
-              <nav className="mt-4 flex w-full flex-wrap items-center justify-start gap-2 border-b border-overlay/60 pb-4 font-titilliumWeb sm:gap-3 sm:pb-6" aria-label="Main">
+              <nav className="mt-4 flex w-full flex-wrap items-center justify-start gap-2 border-b border-overlay/60 pb-4 sm:gap-3 sm:pb-6" aria-label="Main">
                 <Button
                   type="button"
                   variant="muted"
                   onClick={() => setMainView("home")}
-                  className={`min-w-[6.5rem] ${mainView === "home" ? "border-subtle/70 text-foam hover:text-foam" : ""}`}
+                  className={`min-w-[6.5rem] border-white/10 bg-overlay/20 backdrop-blur-md hover:border-iris hover:text-iris ${mainView === "home" ? "border-iris text-iris hover:text-iris" : ""}`}
                 >
                   home
                 </Button>
@@ -167,7 +189,7 @@ export default function Home() {
                   type="button"
                   variant="muted"
                   onClick={handlePlayClick}
-                  className="min-w-[6.5rem]"
+                  className="min-w-[6.5rem] border-white/10 bg-overlay/20 backdrop-blur-md hover:border-iris hover:text-iris"
                 >
                   play
                 </Button>
@@ -175,7 +197,7 @@ export default function Home() {
                   type="button"
                   variant="muted"
                   onClick={() => setMainView("dashboard")}
-                  className={`min-w-[6.5rem] ${mainView === "dashboard" ? "border-subtle/70 text-foam hover:text-foam" : ""}`}
+                  className={`min-w-[6.5rem] border-white/10 bg-overlay/20 backdrop-blur-md hover:border-iris hover:text-iris ${mainView === "dashboard" ? "border-iris text-iris hover:text-iris" : ""}`}
                 >
                   dashboard
                 </Button>
@@ -183,7 +205,7 @@ export default function Home() {
                   type="button"
                   variant="muted"
                   onClick={() => setMainView("leaderboard")}
-                  className={`min-w-[6.5rem] ${mainView === "leaderboard" ? "border-subtle/70 text-foam hover:text-foam" : ""}`}
+                  className={`min-w-[6.5rem] border-white/10 bg-overlay/20 backdrop-blur-md hover:border-iris hover:text-iris ${mainView === "leaderboard" ? "border-iris text-iris hover:text-iris" : ""}`}
                 >
                   leaderboards
                 </Button>
@@ -191,7 +213,7 @@ export default function Home() {
                   type="button"
                   variant="muted"
                   onClick={handleAboutClick}
-                  className="ml-auto min-w-[6.5rem]"
+                  className="ml-auto min-w-[6.5rem] border-white/10 bg-overlay/20 backdrop-blur-md hover:border-iris hover:text-iris"
                 >
                   about
                 </Button>
@@ -220,13 +242,13 @@ export default function Home() {
                 type="button"
                 variant="muted"
                 onClick={() => signOut({ callbackUrl: "/" })}
-                className="mt-2 hover:underline"
+                className="mt-2 text-ink hover:underline"
               >
                 sign out
               </Button>
             </div>
           ) : (
-            <div className="w-full max-w-xs flex min-h-[360px] flex-col rounded-xl border border-overlay/60 bg-overlay/40 px-4 py-4">
+            <div className="w-full max-w-xs flex min-h-[360px] flex-col rounded-xl border border-white/10 bg-overlay/20 px-4 py-4 shadow-xl shadow-black/20 backdrop-blur-md">
               {/* Tabs fixed at top - card height stays constant so cursor stays on tabs when switching */}
               <div className="shrink-0 grid grid-cols-2 gap-1 rounded-lg bg-overlay/50 p-1 w-fit" role="tablist">
                 <Button
@@ -237,7 +259,7 @@ export default function Home() {
                   onClick={() => { setAuthMode("login"); setAuthError(""); }}
                   className={
                     authMode === "login"
-                      ? "border-pine/60 bg-pine/90 text-text hover:border-pine hover:bg-pine hover:text-text"
+                      ? "border-iris/60 bg-iris/90 text-ink hover:border-iris hover:bg-iris hover:text-ink"
                       : ""
                   }
                 >
@@ -251,7 +273,7 @@ export default function Home() {
                   onClick={() => { setAuthMode("register"); setAuthError(""); }}
                   className={
                     authMode === "register"
-                      ? "border-pine/60 bg-pine/90 text-text hover:border-pine hover:bg-pine hover:text-text"
+                      ? "border-iris/60 bg-iris/90 text-ink hover:border-iris hover:bg-iris hover:text-ink"
                       : ""
                   }
                 >
@@ -269,7 +291,7 @@ export default function Home() {
                 )}
                 {authMode === "register" && (
                   <div className="space-y-1">
-                    <Label htmlFor="username" className="text-foam text-xs">
+                    <Label htmlFor="username" className="text-iris text-xs">
                       Username
                     </Label>
                     <Input
@@ -283,7 +305,7 @@ export default function Home() {
                   </div>
                 )}
                 <div className="space-y-1">
-                  <Label htmlFor="email" className="text-foam text-xs">
+                  <Label htmlFor="email" className="text-iris text-xs">
                     Email
                   </Label>
                   <Input
@@ -297,7 +319,7 @@ export default function Home() {
                   />
                 </div>
                 <div className="space-y-1">
-                  <Label htmlFor="password" className="text-foam text-xs">
+                  <Label htmlFor="password" className="text-iris text-xs">
                     Password {authMode === "register" && "(min 8)"}
                   </Label>
                   <Input
@@ -312,9 +334,9 @@ export default function Home() {
                 </div>
                 <Button
                   type="submit"
-                  variant="pine"
+                  variant="iris"
                   disabled={authLoading}
-                  className="w-full disabled:opacity-50"
+                  className="w-full text-ink disabled:opacity-50"
                 >
                   {authLoading
                     ? authMode === "login"
@@ -336,10 +358,10 @@ export default function Home() {
               <div className="w-full py-6 sm:py-8">
                 <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-4">
                   <div className="min-w-0">
-                    <p className="font-titilliumWeb font-medium text-foam/90 text-sm">
+                    <p className="font-medium text-foam/90 text-sm">
                       Crosswit
                     </p>
-                    <p className="mt-1 text-subtle text-xs">
+                    <p className="mt-1 text-subtle/60 text-xs">
                       {TAGLINE}
                     </p>
                   </div>
@@ -351,7 +373,7 @@ export default function Home() {
                       href="https://millify.dev"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-muted-foreground hover:text-subtle text-xs font-medium transition-colors"
+                      className="text-iris hover:text-iris/90 text-xs font-medium transition-colors"
                     >
                       millify.dev
                     </a>

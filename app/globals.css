@@ -8,8 +8,6 @@ body {
   margin: 0;
   font-family: Roboto, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
     Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-  /* Use palette background (base/black in dark mode) */
-  background: hsl(var(--background));
 }
 
 a {
@@ -48,6 +46,15 @@ a {
 }
 .about-cascade {
   animation: about-fade-in-up 0.45s ease-out forwards;
+}
+
+@keyframes wobble {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-3deg); }
+  75% { transform: rotate(3deg); }
+}
+.animate-wobble {
+  animation: wobble 0.4s ease-in-out 1;
 }
 
 /* Hide scrollbar but keep scroll behavior */

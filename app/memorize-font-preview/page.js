@@ -10,6 +10,7 @@ const FONTS = [
   { name: "Ubuntu Mono", class: "font-ubuntuMono" },
   { name: "Source Code Pro", class: "font-sourceCodePro" },
   { name: "Titillium Web", class: "font-titilliumWeb" },
+  { name: "Audiowide", class: "font-audiowide" },
 ];
 
 export default function MemorizeFontPreview() {

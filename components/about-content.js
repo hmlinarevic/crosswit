@@ -1,7 +1,7 @@
 "use client";
 
 import { Eye, Search, MousePointer, Award, CheckCircle } from "react-feather";
-import { BrandLogo, TAGLINE } from "./brand-header";
+import { TAGLINE } from "./brand-header";
 import { Card, CardContent } from "@/components/ui/card";
 
 const features = [
@@ -29,7 +29,8 @@ const features = [
   {
     icon: CheckCircle,
     title: "Complete level 10",
-    description: "Reach and complete level 10 to master the game.",
+    titleHighlight: "Complete",
+    description: "Complete level 10 to master the game.",
   },
 ];
 
@@ -41,7 +42,7 @@ export default function AboutContent({
 }) {
   return (
     <div
-      className={`min-h-full min-w-full text-text ${backgroundClassName}`}
+      className={`font-outfit min-h-full min-w-full text-text ${backgroundClassName}`}
     >
       <div className="max-w-3xl mx-auto px-4 py-10 sm:px-6 sm:py-14">
         <div
@@ -51,7 +52,7 @@ export default function AboutContent({
           <button
             type="button"
             onClick={onExit}
-            className="text-subtle/80 hover:text-foam text-sm font-titilliumWeb font-medium transition-colors"
+            className="text-subtle/80 hover:text-foam text-sm font-medium transition-colors"
           >
             ← go to app
           </button>
@@ -61,12 +62,14 @@ export default function AboutContent({
           className="about-cascade mb-12"
           style={{ animationDelay: "80ms", animationFillMode: "backwards" }}
         >
-          <div className="flex items-center gap-4 mb-6">
-            <BrandLogo className="text-2xl sm:text-3xl text-foam" />
+          <div className="flex items-baseline gap-4 mb-6">
+            <h1 className="font-semibold text-3xl sm:text-4xl md:text-5xl tracking-tight text-white">
+              About
+            </h1>
+            <span className="font-semibold text-3xl sm:text-4xl md:text-5xl tracking-tight text-white shrink-0">
+              Crosswit
+            </span>
           </div>
-          <h1 className="font-titilliumWeb font-semibold text-3xl sm:text-4xl md:text-5xl tracking-tight text-foam">
-            About Crosswit
-          </h1>
           <p className="mt-4 text-subtle text-lg sm:text-xl leading-relaxed max-w-2xl">
             {TAGLINE}. Exercise parts of your brain responsible for short-term
             memory. Playing without writing words down or taking screenshots
@@ -78,7 +81,7 @@ export default function AboutContent({
           className="about-cascade mb-12"
           style={{ animationDelay: "220ms", animationFillMode: "backwards" }}
         >
-          <h2 className="font-titilliumWeb font-semibold text-base tracking-tight text-foam mb-3">
+          <h2 className="font-semibold text-base tracking-tight text-foam mb-3">
             How to get the most out of Crosswit
           </h2>
           <p className="text-subtle text-sm leading-relaxed">
@@ -95,7 +98,7 @@ export default function AboutContent({
           className="about-cascade mb-12"
           style={{ animationDelay: "360ms", animationFillMode: "backwards" }}
         >
-          <h2 className="font-titilliumWeb font-semibold text-base tracking-tight text-foam mb-4">
+          <h2 className="font-semibold text-base tracking-tight text-foam mb-4">
             Did you know?
           </h2>
           <p className="text-subtle text-sm leading-relaxed">
@@ -106,7 +109,7 @@ export default function AboutContent({
 
         <section className="space-y-4">
           <h2
-            className="about-cascade font-titilliumWeb font-semibold text-lg tracking-tight text-subtle uppercase mb-6"
+            className="about-cascade font-semibold text-lg tracking-tight text-subtle uppercase mb-6"
             style={{ animationDelay: "500ms", animationFillMode: "backwards" }}
           >
             How to play
@@ -134,8 +137,17 @@ export default function AboutContent({
                           />
                         </div>
                         <div className="min-w-0 flex-1">
-                          <h3 className="font-titilliumWeb font-semibold text-base tracking-tight text-text">
-                            {item.title}
+                          <h3 className="font-semibold text-base tracking-tight text-text">
+                            {item.titleHighlight ? (
+                              <>
+                                <span className="text-rose">
+                                  {item.titleHighlight}
+                                </span>
+                                {item.title.slice(item.titleHighlight.length)}
+                              </>
+                            ) : (
+                              item.title
+                            )}
                           </h3>
                           <p className="text-subtle text-sm leading-relaxed mt-1.5">
                             {item.description}

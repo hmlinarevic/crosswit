@@ -29,7 +29,8 @@ const features = [
   {
     icon: CheckCircle,
     title: "Complete level 10",
-    description: "Reach and complete level 10 to master the game.",
+    titleHighlight: "Complete",
+    description: "Complete level 10 to master the game.",
   },
 ];
 
@@ -95,7 +96,16 @@ export default function AboutPage() {
                         </div>
                         <div className="min-w-0 flex-1">
                           <h3 className="font-titilliumWeb font-semibold text-base tracking-tight text-text">
-                            {item.title}
+                            {item.titleHighlight ? (
+                              <>
+                                <span className="text-rose">
+                                  {item.titleHighlight}
+                                </span>
+                                {item.title.slice(item.titleHighlight.length)}
+                              </>
+                            ) : (
+                              item.title
+                            )}
                           </h3>
                           <p className="text-subtle text-sm leading-relaxed mt-1.5">
                             {item.description}

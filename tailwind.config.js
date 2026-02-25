@@ -35,6 +35,30 @@ module.exports = {
     		],
     		roboto: [
     			'Roboto'
+    		],
+    		outfit: [
+    			'"Outfit"',
+    			'sans-serif'
+    		],
+    		dmSans: [
+    			'"DM Sans"',
+    			'sans-serif'
+    		],
+    		firaCode: [
+    			'"Fira Code"',
+    			'monospace'
+    		],
+    		rubikDoodleShadow: [
+    			'"Rubik Doodle Shadow"',
+    			'sans-serif'
+    		],
+    		rampartOne: [
+    			'"Rampart One"',
+    			'sans-serif'
+    		],
+    		audiowide: [
+    			'Audiowide',
+    			'sans-serif'
     		]
     	},
     	extend: {
