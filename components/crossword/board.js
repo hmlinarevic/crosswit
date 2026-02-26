@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 
 import Square from "../square";
 
@@ -35,6 +35,12 @@ export default function Board({ crossword, onFoundWord }) {
     const [colorIndex, setColorIndex] = useState(0); // turn of for testing
     // const [searchColor, setSearchColor] = useState(colors[colorIndex]); // turn off for testing
     const [searchColor, setSearchColor] = useState("#403d52"); // testing
+    const [currentSelectionIndexes, setCurrentSelectionIndexes] = useState([]);
+    const selectModeRef = useRef(selectMode);
+
+    useEffect(() => {
+        selectModeRef.current = selectMode;
+    }, [selectMode]);
 
     const toggleSelectMode = () => {
         setSelectMode((selectMode) => {
@@ -45,7 +51,17 @@ export default function Board({ crossword, onFoundWord }) {
     const addToCollectedData = (e, index) => {
         collectedData.squares.push(e.target.innerText);
         collectedData.indexes.push(index);
+        setCurrentSelectionIndexes(collectedData.indexes.slice());
     };
+
+    const addToCollectedDataByIndex = useCallback((index) => {
+        if (collectedData.indexes.includes(index)) return;
+        const letter = crossword.squares[index];
+        if (letter == null) return;
+        collectedData.squares.push(letter);
+        collectedData.indexes.push(index);
+        setCurrentSelectionIndexes(collectedData.indexes.slice());
+    }, [crossword.squares]);
 
     useEffect(() => {
         const handleMouseDown = () => {
@@ -54,23 +70,39 @@ export default function Board({ crossword, onFoundWord }) {
 
         const handleMouseUp = () => {
             toggleSelectMode();
-
+            setCurrentSelectionIndexes([]);
             setSelectedData({
-                indexes: collectedData.indexes,
-                squares: collectedData.squares,
+                indexes: collectedData.indexes.slice(),
+                squares: collectedData.squares.slice(),
             });
+            collectedData.clear();
+        };
 
+        const handleTouchStart = () => {
+            toggleSelectMode();
+        };
+
+        const handleTouchEnd = () => {
+            toggleSelectMode();
+            setCurrentSelectionIndexes([]);
+            setSelectedData({
+                indexes: collectedData.indexes.slice(),
+                squares: collectedData.squares.slice(),
+            });
             collectedData.clear();
         };
 
         document.addEventListener("mousedown", handleMouseDown);
         document.addEventListener("mouseup", handleMouseUp);
+        document.addEventListener("touchstart", handleTouchStart, { capture: true });
+        document.addEventListener("touchend", handleTouchEnd, { capture: true });
 
         return () => {
             document.removeEventListener("mousedown", handleMouseDown);
             document.removeEventListener("mouseup", handleMouseUp);
+            document.removeEventListener("touchstart", handleTouchStart, { capture: true });
+            document.removeEventListener("touchend", handleTouchEnd, { capture: true });
         };
-        //
     }, []);
 
     const search = useCallback(() => {
@@ -111,9 +143,25 @@ export default function Board({ crossword, onFoundWord }) {
         }
     }, [searchResult]);
 
+    useEffect(() => {
+        const handleTouchMove = (e) => {
+            if (!selectModeRef.current.isActive || !e.changedTouches?.length) return;
+            e.preventDefault();
+            const touch = e.changedTouches[0];
+            const el = document.elementFromPoint(touch.clientX, touch.clientY);
+            const square = el?.closest?.("[data-square-index]");
+            if (square) {
+                const index = parseInt(square.getAttribute("data-square-index"), 10);
+                if (!Number.isNaN(index)) addToCollectedDataByIndex(index);
+            }
+        };
+        document.addEventListener("touchmove", handleTouchMove, { passive: false });
+        return () => document.removeEventListener("touchmove", handleTouchMove);
+    }, [addToCollectedDataByIndex]);
+
     return (
         <ul
-            className={`mx-auto grid h-fit w-fit justify-items-center gap-1.5 font-ubuntu ${selectMode.isActive ? "cursor-grabbing" : "cursor-grab"}`}
+            className={`mx-auto grid h-fit w-fit justify-items-center gap-1.5 font-ubuntu touch-none select-none ${selectMode.isActive ? "cursor-grabbing" : "cursor-grab"}`}
             style={{
                 gridTemplateColumns: `repeat(${crossword.size}, minmax(0, 1fr))`,
             }}
@@ -127,6 +175,7 @@ export default function Board({ crossword, onFoundWord }) {
                     onSquareEnter={addToCollectedData}
                     searchResult={searchResult}
                     searchColor={searchColor}
+                    isInCurrentSelection={currentSelectionIndexes.includes(i)}
                 />
             ))}
         </ul>

@@ -12,6 +12,7 @@ export default function Square({
     onSquareEnter,
     searchResult,
     searchColor,
+    isInCurrentSelection,
 }) {
     // state
 
@@ -45,6 +46,17 @@ export default function Square({
             }));
         }
     }, [isSelectMode, searchResult, index, searchColor]);
+
+    // When parent reports this square is in the current drag path (e.g. touch), show selecting style
+    useEffect(() => {
+        if (isSelectMode && isInCurrentSelection) {
+            setStyles((prev) => ({
+                ...prev,
+                backgroundColor: IRIS,
+                color: "#000000",
+            }));
+        }
+    }, [isSelectMode, isInCurrentSelection]);
 
     // functions
 
@@ -81,13 +93,23 @@ export default function Square({
         onSquareEnter(e, index);
     };
 
+    const handleTouchStart = (e) => {
+        e.preventDefault();
+        setSelectingStyle();
+        onSquareEnter(e, index);
+    };
+
     return (
-        <li style={styles} className="rounded flex select-none w-[42px] h-[42px] items-center justify-center">
+        <li
+            style={styles}
+            className="rounded flex select-none w-[42px] h-[42px] items-center justify-center touch-none"
+            data-square-index={index}
+        >
             <span
                 onMouseDown={selectSquareOnMouseDown}
                 onMouseEnter={selectSquareOnMouseEnter}
+                onTouchStart={handleTouchStart}
                 className="rounded transition-colors w-[28px] h-[28px] flex items-center justify-center"
-                
             >
                 {(value && value.toUpperCase()) || "."}
             </span>
