@@ -54,7 +54,7 @@ export default function GameEndFailed({
                         <span className="uppercase tracking-wider text-iris">
                             Total score
                         </span>
-                        <span className="text-2xl font-bold text-foam tabular-nums">
+                        <span className="text-2xl font-bold text-white tabular-nums">
                             {totalScore}
                         </span>
                     </div>

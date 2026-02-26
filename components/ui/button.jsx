@@ -20,7 +20,7 @@ const buttonVariants = cva(
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
         hint:
-          "min-h-[32px] min-w-[96px] rounded-lg border-2 border-rose/10 bg-rose/10 font-roboto tracking-wide text-rose hover:border-rose hover:font-bold hover:bg-rose/80 hover:text-black hover:border-foam hover:bg-foam/10 hover:text-foam",
+          "min-h-[32px] min-w-[96px] rounded-lg border-2 border-rose/10 bg-rose/10 font-roboto tracking-wide text-rose hover:border-rose hover:font-bold hover:bg-rose/80 hover:text-black hover:border-white hover:bg-white/10 hover:text-white",
         pine:
           "rounded-lg bg-pine/90 py-2 text-text shadow-lg shadow-pine/20 transition-all duration-200 hover:bg-pine hover:shadow-pine/30 disabled:opacity-50",
         iris:

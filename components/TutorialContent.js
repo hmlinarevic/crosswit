@@ -106,7 +106,7 @@ export default function TutorialContent({ onLetsGo }) {
       <Fade toggler={showContent} duration={500} onEnd={handleFadeEnd}>
         <header className="text-center font-hand shrink-0">
           <h2
-            className="font-hand text-4xl text-foam about-cascade"
+            className="font-hand text-4xl text-white about-cascade"
             style={{ animationDelay: "0ms", animationFillMode: "backwards" }}
           >
             <span className="font-bold">Quick</span> Tutorial

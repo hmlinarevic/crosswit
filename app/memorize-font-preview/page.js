@@ -24,7 +24,7 @@ export default function MemorizeFontPreview() {
           <li key={name} className="flex flex-col gap-1">
             <span className="font-ubuntuMono text-xs text-subtle">{name}</span>
             <span
-              className={`text-center text-4xl font-medium tracking-wide text-foam ${fontClass}`}
+              className={`text-center text-4xl font-medium tracking-wide text-white ${fontClass}`}
             >
               Memorize
             </span>

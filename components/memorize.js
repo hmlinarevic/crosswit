@@ -109,21 +109,22 @@ export default function Memorize({
     };
 
     return (
-        <section className={`grid h-screen place-content-center ${backgroundClassName}`}>
+        <section className={`min-h-screen w-full ${backgroundClassName}`}>
+            <div className="grid min-h-screen w-full place-content-center">
             {!isNotifyingDone && (
-                <div className="relative row-start-2 row-end-3 min-w-[20rem] sm:min-w-[24rem]">
-                    <Fade toggler={showUi.memorize} duration={delays.fade}>
-                        <h2 className="text-center font-hand text-4xl font-medium tracking-wide text-foam">
+                <div className="relative min-w-[20rem] sm:min-w-[24rem] bg-transparent">
+                    <Fade toggler={showUi.memorize} duration={delays.fade} className="bg-transparent">
+                        <h2 className="text-center font-hand text-4xl font-medium tracking-wide text-white">
                             Memorize
                         </h2>
                     </Fade>
-                    <Fade toggler={showUi.level} duration={delays.fade}>
+                    <Fade toggler={showUi.level} duration={delays.fade} className="bg-transparent">
                         <span className="-mt-1 block text-center font-hand text-lg text-iris sm:text-xl">
                             level <span className="font-bold">{level}</span>
                         </span>
                     </Fade>
                     {level === 1 ? (
-                        <Fade toggler={showUi.tip} duration={delays.fade}>
+                        <Fade toggler={showUi.tip} duration={delays.fade} className="bg-transparent">
                             <div className="absolute top-60 w-full text-center text-sm italic text-subtle">
                                 <span className="font-bold">tip</span>
                                 : exit with{" "}
@@ -138,7 +139,7 @@ export default function Memorize({
             {isNotifyingDone && (
                 <>
                     <Fade
-                        className="row-start-2 row-end-3"
+                        className="bg-transparent"
                         toggler={showUi.words}
                         duration={delays.fade}
                     >
@@ -147,7 +148,7 @@ export default function Memorize({
                                 return (
                                     <li
                                         key={word + i}
-                                        className="font-hand text-4xl text-foam"
+                                        className="font-hand text-4xl text-white"
                                     >
                                         {word}
                                     </li>
@@ -157,7 +158,7 @@ export default function Memorize({
                     </Fade>
 
                     <Fade
-                        className="row-start-3 row-end-4"
+                        className="bg-transparent"
                         toggler={showUi.timer}
                         duration={delays.fade}
                     >
@@ -171,6 +172,7 @@ export default function Memorize({
                     </Fade>
                 </>
             )}
+            </div>
         </section>
     );
 }

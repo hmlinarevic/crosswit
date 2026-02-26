@@ -11,7 +11,7 @@ const LOGO_FONTS = [
   { name: "Fira Code", class: "font-firaCode", rightText: "SSWiT" },
   { name: "Rubik Doodle Shadow", class: "font-rubikDoodleShadow" },
   { name: "Rampart One", class: "font-rampartOne" },
-  { name: "Audiowide", class: "font-audiowide" },
+  { name: "Audiowide", class: "font-audiowide", rightText: "SSWiT" },
   { name: "Outfit", class: "font-outfit" },
   { name: "DM Sans", class: "font-dmSans" },
   { name: "Ubuntu", class: "font-ubuntu" },
@@ -41,7 +41,7 @@ function LogoPreview({
     >
       <span className="font-ubuntuMono text-xs text-subtle">{fontName}</span>
       <div
-        className={`flex select-none items-center text-xl text-foam sm:text-2xl ${fontClass}`}
+        className={`flex select-none items-center text-xl text-white sm:text-2xl ${fontClass}`}
       >
         <span className={fontClass}>CR</span>
         <span
@@ -84,7 +84,7 @@ export default function LogoTestPage() {
   return (
     <main className="min-h-screen bg-ink px-4 py-10 sm:px-6 sm:py-12">
       <div className="mx-auto max-w-3xl">
-        <h1 className="mb-2 font-titilliumWeb text-2xl font-semibold text-foam sm:text-3xl">
+        <h1 className="mb-2 font-titilliumWeb text-2xl font-semibold text-white sm:text-3xl">
           Logo font test
         </h1>
         <p className="mb-6 font-titilliumWeb text-sm text-subtle">
@@ -101,7 +101,7 @@ export default function LogoTestPage() {
             >
               Use default
             </button>
-            <Link href="/" className="rounded border border-foam/50 px-2 py-1 text-foam hover:bg-foam/10">
+            <Link href="/" className="rounded border border-white/50 px-2 py-1 text-white hover:bg-white/10">
               View home
             </Link>
           </p>
@@ -116,7 +116,7 @@ export default function LogoTestPage() {
             <span className="font-ubuntuMono text-xs text-iris">
               Righteous (CR + SSWIT)
             </span>
-            <div className="flex select-none items-center font-titilliumWeb text-xl text-foam sm:text-2xl">
+            <div className="flex select-none items-center font-titilliumWeb text-xl text-white sm:text-2xl">
               <span className="font-righteous">CR</span>
               <span
                 className="ml-px mr-px inline-block h-5 w-5 shrink-0 bg-iris [mask-size:contain] [mask-repeat:no-repeat] [mask-position:center] [-webkit-mask-size:contain] [-webkit-mask-repeat:no-repeat] [-webkit-mask-position:center] sm:h-6 sm:w-6"

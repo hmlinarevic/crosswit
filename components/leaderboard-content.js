@@ -16,7 +16,7 @@ const FAKE_LEADERBOARD = [
 export default function LeaderboardContent() {
   return (
     <div className="min-h-0 min-w-0 flex-1 overflow-auto pt-4 font-titilliumWeb sm:pt-6 text-subtle/90">
-      <h2 className="mb-3 text-base font-semibold text-foam/90 sm:mb-4 sm:text-lg">
+      <h2 className="mb-3 text-base font-semibold text-white/90 sm:mb-4 sm:text-lg">
         Leaderboard
       </h2>
       <p className="mb-4 text-xs text-subtle/70 sm:mb-5 sm:text-sm">
@@ -35,7 +35,7 @@ export default function LeaderboardContent() {
             <span className="w-6 shrink-0 text-xs font-medium text-subtle/80">
               #{entry.rank}
             </span>
-            <span className="min-w-0 flex-1 truncate text-sm font-medium text-foam">
+            <span className="min-w-0 flex-1 truncate text-sm font-medium text-white">
               {entry.name}
             </span>
             <span className="shrink-0 text-xs text-pine/90">

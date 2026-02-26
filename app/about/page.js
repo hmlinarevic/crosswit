@@ -40,9 +40,9 @@ export default function AboutPage() {
       <div className="max-w-3xl mx-auto px-4 py-10 sm:px-6 sm:py-14">
         <header className="mb-12">
           <div className="flex items-center gap-4 mb-6">
-            <BrandLogo className="text-2xl sm:text-3xl text-foam" />
+            <BrandLogo className="text-2xl sm:text-3xl text-white" />
           </div>
-          <h1 className="font-titilliumWeb font-semibold text-3xl sm:text-4xl md:text-5xl tracking-tight text-foam">
+          <h1 className="font-titilliumWeb font-semibold text-3xl sm:text-4xl md:text-5xl tracking-tight text-white">
             About Crosswit
           </h1>
           <p className="mt-4 text-subtle text-lg sm:text-xl leading-relaxed max-w-2xl">
@@ -53,7 +53,7 @@ export default function AboutPage() {
         </header>
 
         <section className="mb-12">
-          <h2 className="font-titilliumWeb font-semibold text-base tracking-tight text-foam mb-3">
+          <h2 className="font-titilliumWeb font-semibold text-base tracking-tight text-white mb-3">
             How to get the most out of Crosswit
           </h2>
           <p className="text-subtle text-sm leading-relaxed">
@@ -67,7 +67,7 @@ export default function AboutPage() {
         </section>
 
         <section className="mb-12">
-          <h2 className="font-titilliumWeb font-semibold text-base tracking-tight text-foam mb-4">
+          <h2 className="font-titilliumWeb font-semibold text-base tracking-tight text-white mb-4">
             Did you know?
           </h2>
           <p className="text-subtle text-sm leading-relaxed">

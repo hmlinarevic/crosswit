@@ -52,7 +52,7 @@ export default function AboutContent({
           <button
             type="button"
             onClick={onExit}
-            className="text-subtle/80 hover:text-foam text-sm font-medium transition-colors"
+            className="text-subtle/80 hover:text-white text-sm font-medium transition-colors"
           >
             ← go to app
           </button>
@@ -81,7 +81,7 @@ export default function AboutContent({
           className="about-cascade mb-12"
           style={{ animationDelay: "220ms", animationFillMode: "backwards" }}
         >
-          <h2 className="font-semibold text-base tracking-tight text-foam mb-3">
+          <h2 className="font-semibold text-base tracking-tight text-white mb-3">
             How to get the most out of Crosswit
           </h2>
           <p className="text-subtle text-sm leading-relaxed">
@@ -98,7 +98,7 @@ export default function AboutContent({
           className="about-cascade mb-12"
           style={{ animationDelay: "360ms", animationFillMode: "backwards" }}
         >
-          <h2 className="font-semibold text-base tracking-tight text-foam mb-4">
+          <h2 className="font-semibold text-base tracking-tight text-white mb-4">
             Did you know?
           </h2>
           <p className="text-subtle text-sm leading-relaxed">

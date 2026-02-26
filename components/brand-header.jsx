@@ -27,12 +27,12 @@ export function BrandLogo({
   }
   return (
     <div
-      className={`flex select-none items-center text-xl text-foam sm:text-2xl ${fontClass} ${className}`}
+      className={`flex select-none items-center text-xl text-white sm:text-2xl ${fontClass} ${className}`}
       data-cursor-element-id="brand-logo"
     >
       <span className={fontClass}>CR</span>
       <span
-        className="ml-px mr-px inline-block h-6 w-6 shrink-0 bg-iris [mask-size:contain] [mask-repeat:no-repeat] [mask-position:center] [-webkit-mask-size:contain] [-webkit-mask-repeat:no-repeat] [-webkit-mask-position:center]"
+        className="ml-px mr-px inline-block h-6 w-6 shrink-0 bg-white [mask-size:contain] [mask-repeat:no-repeat] [mask-position:center] [-webkit-mask-size:contain] [-webkit-mask-repeat:no-repeat] [-webkit-mask-position:center]"
         style={{
           maskImage: `url(${brain2Png.src})`,
           WebkitMaskImage: `url(${brain2Png.src})`,

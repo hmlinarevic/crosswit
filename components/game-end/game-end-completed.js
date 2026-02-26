@@ -36,13 +36,13 @@ export default function GameEndCompleted({
                         background: "radial-gradient(circle, rgba(156, 207, 216, 0.4) 0%, transparent 70%)",
                     }}
                 />
-                <div className="relative flex h-14 w-14 items-center justify-center rounded-full border-2 border-foam/50 bg-foam/10">
-                    <CheckCircle size={28} className="text-foam" strokeWidth={2.5} />
+                <div className="relative flex h-14 w-14 items-center justify-center rounded-full border-2 border-white/50 bg-white/10">
+                    <CheckCircle size={28} className="text-white" strokeWidth={2.5} />
                 </div>
             </div>
 
             {/* Headline */}
-            <h2 className="mb-2 text-center font-hand text-4xl font-medium tracking-wide text-foam sm:text-5xl">
+            <h2 className="mb-2 text-center font-hand text-4xl font-medium tracking-wide text-white sm:text-5xl">
                 Level {level} completed!
             </h2>
             <p className="mb-2 text-center font-titilliumWeb text-sm text-subtle">
@@ -54,13 +54,13 @@ export default function GameEndCompleted({
                 <div className="border-b border-iris/20 px-5 py-4">
                     <div className="flex justify-between font-roboto text-xs font-medium">
                         <span className="text-subtle">Words found</span>
-                        <span className="text-foam">{wordsFoundNum}</span>
+                        <span className="text-white">{wordsFoundNum}</span>
                     </div>
                 </div>
                 <div className="border-b border-iris/20 px-5 py-4">
                     <div className="flex justify-between font-roboto text-xs font-medium">
                         <span className="text-subtle">Time left</span>
-                        <span className="text-foam">+{timeLeft}</span>
+                        <span className="text-white">+{timeLeft}</span>
                     </div>
                 </div>
                 <div className="border-b border-iris/20 px-5 py-4">
@@ -74,7 +74,7 @@ export default function GameEndCompleted({
                         <span className="uppercase tracking-wider text-iris">
                             Total score
                         </span>
-                        <span className="text-2xl font-bold text-foam tabular-nums">
+                        <span className="text-2xl font-bold text-white tabular-nums">
                             {totalScore}
                         </span>
                     </div>

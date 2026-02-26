@@ -11,7 +11,7 @@ import AboutContent from "../components/about-content";
 import ProfileContent from "../components/profile-content";
 import LeaderboardContent from "../components/leaderboard-content";
 import TutorialContent from "../components/TutorialContent";
-import { BrandLogoFromPreference, TAGLINE } from "../components/brand-header";
+import { BrandLogo, TAGLINE } from "../components/brand-header";
 import { UserProfileContext } from "../context/UserContext";
 import { apiBase } from "../utils";
 import { Input } from "@/components/ui/input";
@@ -171,17 +171,17 @@ function HomeContent() {
             {/* 1. Header with nav - fades with the rest */}
             <header className="min-w-0">
               <div className="flex flex-col gap-0">
-                <BrandLogoFromPreference />
+                <BrandLogo fontClass="font-audiowide" rightText="SSWiT" />
                 <span className="-mt-1 block font-hand text-sm text-iris sm:text-base !text-iris">
                   {TAGLINE}
                 </span>
               </div>
-              <nav className="mt-4 flex w-full flex-wrap items-center justify-start gap-2 border-b border-overlay/60 pb-4 sm:gap-3 sm:pb-6" aria-label="Main">
+              <nav className="mt-4 flex w-full flex-wrap items-center justify-start gap-2 pb-6 sm:gap-3" aria-label="Main">
                 <Button
                   type="button"
                   variant="muted"
                   onClick={() => setMainView("home")}
-                  className={`min-w-[6.5rem] border-white/10 bg-overlay/20 backdrop-blur-md hover:border-iris hover:text-iris ${mainView === "home" ? "border-iris text-iris hover:text-iris" : ""}`}
+                  className={`min-w-[6.5rem] border-white/10 bg-overlay/20 backdrop-blur-md hover:border-white/50 hover:bg-white/10 hover:text-white ${mainView === "home" ? "border-white/50 bg-white/10 text-white hover:text-white" : ""}`}
                 >
                   home
                 </Button>
@@ -189,7 +189,7 @@ function HomeContent() {
                   type="button"
                   variant="muted"
                   onClick={handlePlayClick}
-                  className="min-w-[6.5rem] border-white/10 bg-overlay/20 backdrop-blur-md hover:border-iris hover:text-iris"
+                  className="min-w-[6.5rem] border-white/10 bg-overlay/20 backdrop-blur-md hover:border-white/50 hover:bg-white/10 hover:text-white"
                 >
                   play
                 </Button>
@@ -197,7 +197,7 @@ function HomeContent() {
                   type="button"
                   variant="muted"
                   onClick={() => setMainView("dashboard")}
-                  className={`min-w-[6.5rem] border-white/10 bg-overlay/20 backdrop-blur-md hover:border-iris hover:text-iris ${mainView === "dashboard" ? "border-iris text-iris hover:text-iris" : ""}`}
+                  className={`min-w-[6.5rem] border-white/10 bg-overlay/20 backdrop-blur-md hover:border-white/50 hover:bg-white/10 hover:text-white ${mainView === "dashboard" ? "border-white/50 bg-white/10 text-white hover:text-white" : ""}`}
                 >
                   dashboard
                 </Button>
@@ -205,7 +205,7 @@ function HomeContent() {
                   type="button"
                   variant="muted"
                   onClick={() => setMainView("leaderboard")}
-                  className={`min-w-[6.5rem] border-white/10 bg-overlay/20 backdrop-blur-md hover:border-iris hover:text-iris ${mainView === "leaderboard" ? "border-iris text-iris hover:text-iris" : ""}`}
+                  className={`min-w-[6.5rem] border-white/10 bg-overlay/20 backdrop-blur-md hover:border-white/50 hover:bg-white/10 hover:text-white ${mainView === "leaderboard" ? "border-white/50 bg-white/10 text-white hover:text-white" : ""}`}
                 >
                   leaderboards
                 </Button>
@@ -213,7 +213,7 @@ function HomeContent() {
                   type="button"
                   variant="muted"
                   onClick={handleAboutClick}
-                  className="ml-auto min-w-[6.5rem] border-white/10 bg-overlay/20 backdrop-blur-md hover:border-iris hover:text-iris"
+                  className="ml-auto min-w-[6.5rem] border-white/10 bg-overlay/20 backdrop-blur-md hover:border-white/50 hover:bg-white/10 hover:text-white"
                 >
                   about
                 </Button>
@@ -235,7 +235,7 @@ function HomeContent() {
               <div className="flex min-h-0 w-full flex-1 items-center justify-center px-2 pt-6 sm:px-0 sm:pt-10">
           {status === "loading" ? null : session ? (
             <div className="w-full max-w-sm rounded-2xl border border-overlay/60 bg-gradient-to-br from-baseDark to-surface px-5 py-4 shadow-xl shadow-black/40">
-              <p className="text-sm text-foam">
+              <p className="text-sm text-white">
                 {session.user?.name || session.user?.email}
               </p>
               <Button
@@ -354,11 +354,11 @@ function HomeContent() {
             </Fade>
 
             {/* 3. Footer - fades with header and main content */}
-            <footer className="border-t border-overlay/60 mt-20">
-              <div className="w-full py-6 sm:py-8">
+            <footer className="mt-20">
+              <div className="w-full pt-6 pb-6">
                 <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-4">
                   <div className="min-w-0">
-                    <p className="font-medium text-foam/90 text-sm">
+                    <p className="font-bold text-subtle/60 text-sm">
                       Crosswit
                     </p>
                     <p className="mt-1 text-subtle/60 text-xs">
@@ -373,7 +373,7 @@ function HomeContent() {
                       href="https://millify.dev"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-iris hover:text-iris/90 text-xs font-medium transition-colors"
+                      className="text-subtle/60 underline hover:text-white text-xs font-medium transition-colors"
                     >
                       millify.dev
                     </a>
