@@ -159,11 +159,21 @@ export default function Board({ crossword, onFoundWord }) {
         return () => document.removeEventListener("touchmove", handleTouchMove);
     }, [addToCollectedDataByIndex]);
 
+    const size = crossword.size;
+    const gapPx = 6;
+    const maxW = `calc((100dvw - 2rem - ${(size - 1) * gapPx}px) / ${size})`;
+    const maxH = `calc((100dvh - 14rem - ${(size - 1) * gapPx}px) / ${size})`;
+    const squareSize = `min(42px, ${maxW}, ${maxH})`;
+
     return (
+        <div
+            className="mx-auto w-fit max-w-[min(100dvw,100%)] max-h-[min(100dvh,100%)]"
+            style={{ "--board-square-size": squareSize }}
+        >
         <ul
-            className={`mx-auto grid h-fit w-fit justify-items-center gap-1.5 font-ubuntu touch-none select-none ${selectMode.isActive ? "cursor-grabbing" : "cursor-grab"}`}
+            className={`grid h-fit w-fit justify-items-center gap-1.5 font-ubuntu touch-none select-none ${selectMode.isActive ? "cursor-grabbing" : "cursor-grab"}`}
             style={{
-                gridTemplateColumns: `repeat(${crossword.size}, minmax(0, 1fr))`,
+                gridTemplateColumns: `repeat(${size}, minmax(0, 1fr))`,
             }}
         >
             {crossword.squares.map((val, i) => (
@@ -179,5 +189,6 @@ export default function Board({ crossword, onFoundWord }) {
                 />
             ))}
         </ul>
+        </div>
     );
 }

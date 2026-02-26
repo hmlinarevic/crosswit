@@ -102,14 +102,15 @@ export default function Square({
     return (
         <li
             style={styles}
-            className="rounded flex select-none w-[42px] h-[42px] items-center justify-center touch-none"
+            className="square-cell rounded flex select-none w-[var(--board-square-size,42px)] h-[var(--board-square-size,42px)] items-center justify-center touch-none shrink-0"
             data-square-index={index}
         >
             <span
                 onMouseDown={selectSquareOnMouseDown}
                 onMouseEnter={selectSquareOnMouseEnter}
                 onTouchStart={handleTouchStart}
-                className="rounded transition-colors w-[28px] h-[28px] flex items-center justify-center"
+                className="rounded transition-colors w-2/3 h-2/3 min-w-0 min-h-0 flex items-center justify-center"
+            style={{ fontSize: "calc(var(--board-square-size, 42px) * 0.6)" }}
             >
                 {(value && value.toUpperCase()) || "."}
             </span>
