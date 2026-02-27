@@ -57,6 +57,7 @@ model User {
   accounts      Account[]
   sessions      Session[]
   gameScores    GameScore[]
+  gameRuns      GameRun[]
 }
 
 // Game score: one row per completed level (or per game session, your choice)
@@ -73,4 +74,20 @@ model GameScore {
 
   @@index([userId])
   @@index([score])
+}
+
+// One play session: saved when user fails or quits. Used for run leaderboards (highest level, fastest time).
+model GameRun {
+  id                   String   @id @default(cuid())
+  userId               String
+  levelReached         Int      // highest level completed in this run (1-based)
+  totalScore           Int      // sum of level scores for completed levels
+  totalTimeSpentSeconds Int     // time from session start until run ended
+  endedBy              String   // "failed" | "quit"
+  createdAt            DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([levelReached, totalTimeSpentSeconds])
 }

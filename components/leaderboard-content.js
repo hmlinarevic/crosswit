@@ -14,7 +14,7 @@ export default function LeaderboardContent() {
     let cancelled = false;
     setLoading(true);
     setError(null);
-    fetch(`${apiBase()}/api/scores?limit=20`)
+    fetch(`${apiBase()}/api/runs?limit=20`)
       .then((res) => {
         if (!res.ok) throw new Error("Failed to load leaderboard");
         return res.json();
@@ -59,16 +59,20 @@ export default function LeaderboardContent() {
         Leaderboard
       </h2>
       <p className="mb-4 text-xs text-subtle/70 sm:mb-5 sm:text-sm">
-        Top scores. Sign in and play to save yours!
+        Best runs (by level reached, then fastest time). Sign in and play to save yours!
       </p>
       {scores.length === 0 ? (
-        <p className="text-sm text-subtle/70">No scores yet. Be the first!</p>
+        <p className="text-sm text-subtle/70">No runs yet. Be the first!</p>
       ) : (
         <ul className="space-y-2 sm:space-y-2.5">
           {scores.map((entry, index) => {
             const rank = index + 1;
             const name = entry.user?.name || "Anonymous";
             const isCurrentUser = session?.user?.id && entry.user?.id === session.user.id;
+            const timeStr =
+              entry.totalTimeSpentSeconds >= 60
+                ? `${Math.floor(entry.totalTimeSpentSeconds / 60)}m ${entry.totalTimeSpentSeconds % 60}s`
+                : `${entry.totalTimeSpentSeconds}s`;
             return (
               <li
                 key={entry.id}
@@ -85,10 +89,13 @@ export default function LeaderboardContent() {
                   {name}
                 </span>
                 <span className="shrink-0 text-xs text-pine/90">
-                  Lv.{entry.level}
+                  Lv.{entry.levelReached}
+                </span>
+                <span className="shrink-0 text-xs text-subtle/80">
+                  {timeStr}
                 </span>
                 <span className="shrink-0 text-xs font-medium text-rose">
-                  {Number(entry.score).toLocaleString()} pts
+                  {Number(entry.totalScore).toLocaleString()} pts
                 </span>
               </li>
             );

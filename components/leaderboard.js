@@ -8,7 +8,7 @@ export default function Leaderboard({ onClose }) {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        fetch(`${apiBase()}/api/scores?limit=20`)
+        fetch(`${apiBase()}/api/runs?limit=20`)
             .then((res) => res.json())
             .then((data) => {
                 if (Array.isArray(data)) setScores(data);
@@ -23,23 +23,30 @@ export default function Leaderboard({ onClose }) {
             {loading && <p className="text-neutral-400">Loading…</p>}
             {error && <p className="text-red-400">{error}</p>}
             {!loading && !error && scores.length === 0 && (
-                <p className="text-neutral-400">No scores yet. Play and sign in to save yours!</p>
+                <p className="text-neutral-400">No runs yet. Play and sign in to save yours!</p>
             )}
             {!loading && !error && scores.length > 0 && (
                 <ul className="space-y-2">
-                    {scores.map((entry, i) => (
-                        <li
-                            key={entry.id}
-                            className="flex items-center justify-between rounded border border-neutral-600 bg-neutral-800/30 px-3 py-2 text-sm"
-                        >
-                            <span className="text-neutral-400">#{i + 1}</span>
-                            <span className="font-medium text-white">
-                                {entry.user?.name || "Anonymous"}
-                            </span>
-                            <span className="text-rose">Level {entry.level}</span>
-                            <span className="text-love">{entry.score} pts</span>
-                        </li>
-                    ))}
+                    {scores.map((entry, i) => {
+                        const timeStr =
+                            entry.totalTimeSpentSeconds >= 60
+                                ? `${Math.floor(entry.totalTimeSpentSeconds / 60)}m ${entry.totalTimeSpentSeconds % 60}s`
+                                : `${entry.totalTimeSpentSeconds}s`;
+                        return (
+                            <li
+                                key={entry.id}
+                                className="flex items-center justify-between rounded border border-neutral-600 bg-neutral-800/30 px-3 py-2 text-sm"
+                            >
+                                <span className="text-neutral-400">#{i + 1}</span>
+                                <span className="font-medium text-white">
+                                    {entry.user?.name || "Anonymous"}
+                                </span>
+                                <span className="text-rose">Lv.{entry.levelReached}</span>
+                                <span className="text-neutral-400">{timeStr}</span>
+                                <span className="text-love">{entry.totalScore} pts</span>
+                            </li>
+                        );
+                    })}
                 </ul>
             )}
         </Modal>

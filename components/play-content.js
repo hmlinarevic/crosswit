@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { useSession } from "next-auth/react";
 import { calcGameScore, apiBase } from "../utils";
 import Memorize from "./memorize";
@@ -29,6 +29,7 @@ export default function PlayContent({ onExit, backgroundClassName = DEFAULT_BG }
   });
   const [userStats, setUserStats] = useState({
     scores: { level: 0, total: 0 },
+    levelsCompleted: 0,
   });
   const [gameStats, setGameStats] = useState({
     level: 1,
@@ -38,10 +39,50 @@ export default function PlayContent({ onExit, backgroundClassName = DEFAULT_BG }
     isRetry: false,
   });
 
+  const sessionStartRef = useRef(null);
+  const runSnapshotRef = useRef({ levelsCompleted: 0, totalScore: 0 });
+  const savedRunRef = useRef(false);
+
+  useEffect(() => {
+    sessionStartRef.current = Date.now();
+  }, []);
+
+  useEffect(() => {
+    runSnapshotRef.current = {
+      levelsCompleted: userStats.levelsCompleted,
+      totalScore: userStats.scores.total,
+    };
+  }, [userStats.levelsCompleted, userStats.scores.total]);
+
+  const saveRun = useCallback(
+    (endedBy) => {
+      if (!session?.user?.id || savedRunRef.current) return;
+      const { levelsCompleted, totalScore } = runSnapshotRef.current;
+      const startedAt = sessionStartRef.current;
+      if (startedAt == null) return;
+      if (endedBy === "quit" && levelsCompleted < 1) return;
+
+      const totalTimeSpentSeconds = Math.round((Date.now() - startedAt) / 1000);
+      savedRunRef.current = true;
+      fetch(`${apiBase()}/api/runs`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          levelReached: levelsCompleted,
+          totalScore,
+          totalTimeSpentSeconds,
+          endedBy,
+        }),
+      }).catch(() => {});
+    },
+    [session?.user?.id]
+  );
+
   const handleExit = useCallback(() => {
+    saveRun("quit");
     if (onExit) onExit();
     else router.push("/");
-  }, [onExit, router]);
+  }, [onExit, router, saveRun]);
 
   useEffect(() => {
     const handleQuitButton = (e) => {
@@ -92,6 +133,7 @@ export default function PlayContent({ onExit, backgroundClassName = DEFAULT_BG }
             level: score,
             total: userStats.scores.total + score,
           },
+          levelsCompleted: userStats.levelsCompleted + 1,
         }));
         if (session?.user?.id) {
           fetch(`${apiBase()}/api/scores`, {
@@ -107,9 +149,20 @@ export default function PlayContent({ onExit, backgroundClassName = DEFAULT_BG }
         }
       }
 
+      if (data.result === "failed") {
+        setUserStats((prev) => {
+          runSnapshotRef.current = {
+            levelsCompleted: prev.levelsCompleted,
+            totalScore: prev.scores.total,
+          };
+          return prev;
+        });
+        saveRun("failed");
+      }
+
       setShowUi((ui) => ({ ...ui, isGameDone: true, isGameNext: false }));
     },
-    [session?.user?.id, gameStats.level]
+    [session?.user?.id, gameStats.level, saveRun]
   );
 
   const handleNextClick = () => {
