@@ -22,9 +22,9 @@ export async function POST(request) {
   }
 
   const trimmedEmail = String(email).trim().toLowerCase();
-  if (String(password).length < 8) {
+  if (String(password).length < 6) {
     return NextResponse.json(
-      { message: "Password must be at least 8 characters" },
+      { message: "Password must be at least 6 characters" },
       { status: 400 }
     );
   }
