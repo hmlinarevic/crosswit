@@ -3,7 +3,13 @@ import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import { prisma } from "./lib/prisma";
 
+const authBasePath = process.env.NEXT_PUBLIC_BASE_PATH
+  ? `${process.env.NEXT_PUBLIC_BASE_PATH}/api/auth`
+  : undefined;
+
 export const { handlers, signIn, signOut, auth } = NextAuth({
+  basePath: authBasePath,
+  trustHost: true,
   providers: [
     Credentials({
       name: "credentials",
