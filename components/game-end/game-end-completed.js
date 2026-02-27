@@ -27,50 +27,53 @@ export default function GameEndCompleted({
     }, []);
 
     return (
-        <Fade toggler={showResults} duration={500} className="relative w-full max-w-sm px-4">
+        <Fade toggler={showResults} duration={500} className="relative w-full max-w-sm font-outfit px-4">
             {/* Success icon with glow */}
             <div className="relative mx-auto mb-2 flex w-16 h-16 items-center justify-center">
                 <div
                     className="absolute inset-0 rounded-full opacity-40"
                     style={{
-                        background: "radial-gradient(circle, rgba(156, 207, 216, 0.4) 0%, transparent 70%)",
+                        background: "radial-gradient(circle, rgba(156, 207, 216, 0.5) 0%, transparent 70%)",
                     }}
                 />
-                <div className="relative flex h-14 w-14 items-center justify-center rounded-full border-2 border-white/50 bg-white/10">
-                    <CheckCircle size={28} className="text-white" strokeWidth={2.5} />
+                <div className="relative flex h-14 w-14 items-center justify-center rounded-full border-2 border-foam/50 bg-foam/10">
+                    <CheckCircle size={28} className="text-foam" strokeWidth={2.5} />
                 </div>
             </div>
 
             {/* Headline */}
-            <h2 className="mb-2 text-center font-hand text-4xl font-medium tracking-wide text-white sm:text-5xl">
-                Level {level} completed!
+            <p className="mb-1 text-center font-outfit text-xs uppercase tracking-widest text-iris">
+                Level {level}
+            </p>
+            <h2 className="mb-2 text-center font-outfit text-2xl font-semibold tracking-wide text-foam sm:text-3xl">
+                Completed
             </h2>
-            <p className="mb-2 text-center font-titilliumWeb text-sm text-subtle">
+            <p className="mb-2 text-center font-outfit text-sm text-subtle">
                 Nice one. Here’s your score.
             </p>
 
             {/* Score card */}
             <div className="mx-auto mb-8 overflow-hidden rounded-2xl border border-iris/30 bg-surface/60 shadow-lg shadow-black/20 backdrop-blur-sm">
                 <div className="border-b border-iris/20 px-5 py-4">
-                    <div className="flex justify-between font-roboto text-xs font-medium">
+                    <div className="flex justify-between font-outfit text-xs font-medium">
                         <span className="text-subtle">Words found</span>
                         <span className="text-white">{wordsFoundNum}</span>
                     </div>
                 </div>
                 <div className="border-b border-iris/20 px-5 py-4">
-                    <div className="flex justify-between font-roboto text-xs font-medium">
+                    <div className="flex justify-between font-outfit text-xs font-medium">
                         <span className="text-subtle">Time left</span>
                         <span className="text-white">+{timeLeft}</span>
                     </div>
                 </div>
                 <div className="border-b border-iris/20 px-5 py-4">
-                    <div className="flex justify-between font-roboto text-xs font-medium">
+                    <div className="flex justify-between font-outfit text-xs font-medium">
                         <span className="text-subtle">Level score</span>
                         <span className="font-semibold text-gold">{levelScore}</span>
                     </div>
                 </div>
                 <div className="px-5 py-5">
-                    <div className="flex items-center justify-between gap-4 font-roboto text-xs font-medium">
+                    <div className="flex items-center justify-between gap-4 font-outfit text-xs font-medium">
                         <span className="uppercase tracking-wider text-iris">
                             Total score
                         </span>
@@ -87,17 +90,17 @@ export default function GameEndCompleted({
                     type="button"
                     variant="muted"
                     className="w-full min-w-[140px] sm:w-auto"
-                    onClick={handleNextClick}
+                    onClick={onQuitClick}
                 >
-                    keep going
+                    quit
                 </Button>
                 <Button
                     type="button"
                     variant="muted"
                     className="w-full min-w-[140px] sm:w-auto"
-                    onClick={onQuitClick}
+                    onClick={handleNextClick}
                 >
-                    give up
+                    next
                 </Button>
             </div>
         </Fade>
