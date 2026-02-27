@@ -1,12 +1,8 @@
-import { useState, useEffect, useCallback, useContext } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import Fade from "./fade";
 import Board from "./crossword/board";
 import Timer from "./timer";
-import brainPng from "../public/brain-rose.png";
-import Hint, { HintLogo, HintTimer } from "./hint";
-import { UserProfileContext } from "../context/UserContext";
 import Logo from "./icons/logo";
 import clsx from "clsx";
 
@@ -20,8 +16,6 @@ export default function Game({ crossword, delays, timeToPlay, onGameEnd, onExit,
     const [numOfWordsToFind, setNumOfWordsToFind] = useState(findWordsNum);
     const [areWordsFound, setAreWordsFound] = useState();
     const [timeLeft, setTimeLeft] = useState();
-    const [state, dispatch] = useContext(UserProfileContext);
-
     // colors state
 
     const [isFocus, setIsFocus] = useState(false);
@@ -145,10 +139,6 @@ export default function Game({ crossword, delays, timeToPlay, onGameEnd, onExit,
                         )}
                     />
                 </Link>
-
-                {state.isHideHintLogo ? null : (
-                    <HintLogo className="absolute bottom-20 left-16 w-[320px]" />
-                )}
             </Fade>
             <Fade
                 toggler={showBoard}
@@ -162,9 +152,6 @@ export default function Game({ crossword, delays, timeToPlay, onGameEnd, onExit,
                 duration={delays.fade}
                 className="relative mt-10 text-center"
             >
-                {state.isHideHintTimer ? null : (
-                    <HintTimer className="absolute top-4 right-24 w-[280px]" />
-                )}
                 <Timer
                     className={clsx(
                             isFocus
