@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 
 import Fade from "./fade";
 import Timer from "./timer";
@@ -11,59 +11,41 @@ export default function Memorize({
     onEnd,
     backgroundClassName = "bg-baseDark",
 }) {
-    // TODO --> change ui to togglers
-    // const [togglers, setTogglers] = {}
     const [showUi, setShowUi] = useState({
         memorize: null,
         level: null,
         words: null,
         timer: null,
-        tip: null,
     });
     const [isNotifyingDone, setIsNotifyingDone] = useState();
+    const part1TimeoutsRef = useRef([]);
+    const skipToPart2Ref = useRef(false);
 
     // show/hide ui - memorize, level
     useEffect(() => {
         const ids = [];
 
-        // delay everything
         ids[0] = setTimeout(() => {
-            // show notification - memorize
             ids[1] = setTimeout(() => {
-                setShowUi((ui) => {
-                    return { ...ui, memorize: true };
-                });
+                setShowUi((ui) => ({ ...ui, memorize: true }));
             });
-            // show notification - level
             ids[2] = setTimeout(() => {
-                setShowUi((ui) => {
-                    return { ...ui, level: true };
-                });
+                setShowUi((ui) => ({ ...ui, level: true }));
             }, delays.short);
-
-            // new - show tip
-            // TODO: correct id number
-            ids[5] = setTimeout(() => {
-                setShowUi((ui) => {
-                    return { ...ui, tip: true };
-                });
-            }, delays.short + 1000);
-
-            // hide notifications - memorize, level
             ids[3] = setTimeout(() => {
-                setShowUi((ui) => {
-                    return { ...ui, memorize: false, level: false, tip: false };
-                });
+                setShowUi((ui) => ({ ...ui, memorize: false, level: false }));
             }, delays.memorize.firstPart);
-
-            // end notifying phase
             ids[4] = setTimeout(() => {
                 setIsNotifyingDone(true);
             }, delays.memorize.firstPart + delays.fade);
+
+            part1TimeoutsRef.current = [...part1TimeoutsRef.current, ids[1], ids[2], ids[3], ids[4]];
         }, 200);
+        part1TimeoutsRef.current = [ids[0]];
 
         return () => {
-            ids.forEach((id) => clearInterval(id));
+            part1TimeoutsRef.current.forEach((id) => clearTimeout(id));
+            part1TimeoutsRef.current = [];
         };
     }, [delays]);
 
@@ -92,21 +74,44 @@ export default function Memorize({
         }, delays.short);
 
         return () => {
-            ids.forEach((id) => clearInterval(id));
+            ids.forEach((id) => clearTimeout(id));
         };
-    }, [delays, isNotifyingDone, onEnd]);
+    }, [delays, isNotifyingDone]);
 
-    const unmountComponent = () => {
-        // hide ui - words, timer
-        setShowUi((ui) => {
-            return { ...ui, words: false, timer: false };
-        });
+    const unmountComponent = useCallback(() => {
+        setShowUi((ui) => ({ ...ui, words: false, timer: false }));
+        setTimeout(() => onEnd(), delays.fade);
+    }, [onEnd, delays.fade]);
 
-        // call parent callback after ui is hidden
-        setTimeout(() => {
-            onEnd();
-        }, delays.fade);
-    };
+    // Right arrow: cycle through steps; skip to Phase 2 from timer
+    useEffect(() => {
+        const handleKeyDown = (e) => {
+            if (e.key !== "ArrowRight") return;
+            e.preventDefault();
+
+            if (!isNotifyingDone) {
+                skipToPart2Ref.current = false;
+                setShowUi((prev) => {
+                    if (!prev.memorize) return { ...prev, memorize: true };
+                    if (!prev.level) return { ...prev, level: true };
+                    skipToPart2Ref.current = true;
+                    part1TimeoutsRef.current.forEach((id) => clearTimeout(id));
+                    part1TimeoutsRef.current = [];
+                    return { ...prev, words: true, timer: true };
+                });
+                if (skipToPart2Ref.current) setIsNotifyingDone(true);
+            } else {
+                setShowUi((prev) => {
+                    if (!prev.words) return { ...prev, words: true };
+                    if (!prev.timer) return { ...prev, timer: true };
+                    unmountComponent();
+                    return prev;
+                });
+            }
+        };
+        document.addEventListener("keydown", handleKeyDown);
+        return () => document.removeEventListener("keydown", handleKeyDown);
+    }, [isNotifyingDone, level, unmountComponent]);
 
     return (
         <section className={`min-h-screen w-full ${backgroundClassName}`}>
@@ -123,16 +128,6 @@ export default function Memorize({
                             level <span className="font-bold">{level}</span>
                         </span>
                     </Fade>
-                    {level === 1 ? (
-                        <Fade toggler={showUi.tip} duration={delays.fade} className="bg-transparent">
-                            <div className="absolute top-60 w-full text-center text-sm italic text-subtle">
-                                <span className="font-bold">tip</span>
-                                : exit with{" "}
-                                <span className="font-bold text-gold">Esc</span>{" "}
-                                key
-                            </div>
-                        </Fade>
-                    ) : null}
                 </div>
             )}
 
