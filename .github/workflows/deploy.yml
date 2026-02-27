@@ -1,7 +1,7 @@
 # Deploy Crosswit to Hetzner: git pull, build, restart on server (same as manual deploy).
 # Required secrets: SERVER_HOST, SERVER_USER, SSH_PRIVATE_KEY
 # Required for DB/auth: DATABASE_URL (PostgreSQL URL), AUTH_SECRET, AUTH_URL; or DEPLOY_ENV_FILE=true + ENV_FILE variable (base64 .env)
-# Optional secret: PORT (default 5000 for next start)
+# Optional secret: PORT (default 3001 for next start)
 # Server needs: Node 20+, npm, PM2 (npm i -g pm2), git repo cloned at /home/hrvoje/apps/crosswit
 name: Deploy
 
@@ -44,4 +44,4 @@ jobs:
 
       - name: Pull, install, build, restart
         run: |
-          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=accept-new $SSH_USER@$SSH_HOST "cd /home/hrvoje/apps/crosswit && git fetch origin && git reset --hard origin/main && npm ci && npx prisma generate && (npx prisma migrate deploy 2>/dev/null || true) && npm run build && (pm2 restart crosswit || pm2 start npm --name crosswit -- run start) && pm2 save"
+          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=accept-new $SSH_USER@$SSH_HOST "cd /home/hrvoje/apps/crosswit && git fetch origin && git reset --hard origin/main && npm ci && npx prisma generate && (npx prisma migrate deploy 2>/dev/null || true) && npm run build && (pm2 restart crosswit || pm2 start ecosystem.config.cjs) && pm2 save"
