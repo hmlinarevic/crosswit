@@ -71,8 +71,8 @@ export default function BoardTestPage() {
       </header>
 
       {puzzle?.insertedWords?.length > 0 && (
-        <div className="border-b border-overlay/40 bg-ink/80 px-4 py-2">
-          <ul className="mx-auto flex max-w-4xl flex-wrap items-center gap-x-4 gap-y-1 text-sm text-subtle">
+        <div className="border-b border-overlay/40 bg-ink/80 py-2">
+          <ul className="mx-auto flex max-w-4xl flex-wrap items-center gap-x-4 gap-y-1 px-4 text-sm text-subtle">
             {puzzle.insertedWords.map((entry, i) => (
               <li
                 key={i}

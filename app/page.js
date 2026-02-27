@@ -369,6 +369,17 @@ function HomeContent() {
                     </a>
                   </div>
                 </div>
+                {process.env.NODE_ENV === "development" && (
+                  <div className="mt-4 border-t border-overlay/40 pt-4 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-subtle/60">
+                    <span className="text-subtle/40">Dev:</span>
+                    <Link
+                      href="/board-test"
+                      className="underline hover:text-white transition-colors"
+                    >
+                      board test
+                    </Link>
+                  </div>
+                )}
               </div>
             </footer>
           </Fade>
