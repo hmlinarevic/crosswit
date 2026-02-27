@@ -34,7 +34,7 @@ const features = [
   },
 ];
 
-const DEFAULT_BG = "bg-baseDark";
+const DEFAULT_BG = "bg-ink";
 
 export default function AboutContent({
   onExit,

@@ -13,7 +13,7 @@ export default function GameEnd({
     onNextClick,
     onRetryClick,
     onQuitClick: onQuitClickProp,
-    backgroundClassName = "bg-baseDark",
+    backgroundClassName = "bg-ink",
 }) {
     const router = useRouter();
 

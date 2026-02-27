@@ -55,7 +55,7 @@ export default function SignUp() {
   };
 
   return (
-    <section className="dark:bg-baseDark flex min-h-screen flex-col items-center justify-center gap-8 px-6 py-8">
+    <section className="bg-ink flex min-h-screen flex-col items-center justify-center gap-8 px-6 py-8">
       <BrandLogoWithTagline />
       <div className="w-full max-w-sm rounded-lg border border-neutral-600 bg-neutral-800/50 p-6 shadow-lg">
         <h1 className="mb-4 text-center font-titilliumWeb text-xl text-rose">

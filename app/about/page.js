@@ -36,7 +36,7 @@ const features = [
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen bg-baseDark text-text">
+    <div className="min-h-screen bg-ink text-text">
       <div className="max-w-3xl mx-auto px-4 py-10 sm:px-6 sm:py-14">
         <header className="mb-12">
           <div className="flex items-center gap-4 mb-6">

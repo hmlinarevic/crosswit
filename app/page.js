@@ -148,17 +148,17 @@ function HomeContent() {
       {showLeaderboardModal && (
         <Leaderboard onClose={showLeaderboardModalHandler} />
       )}
-      <section className="font-outfit dark:bg-ink mx-auto grid h-screen max-h-screen max-w-3xl grid-rows-[1fr] gap-4 overflow-hidden px-4 pt-4 sm:gap-6 sm:px-6 sm:pt-6">
+      <section className="font-outfit bg-ink mx-auto grid h-screen max-h-screen max-w-3xl grid-rows-[1fr] gap-4 overflow-hidden px-4 pt-4 sm:gap-6 sm:px-6 sm:pt-6">
         {showPlayContent ? (
-          <div className="col-span-full row-span-full min-h-screen min-w-full -mx-4 -mt-4 sm:-mx-6 sm:-mt-6 dark:bg-ink">
-            <PlayContent onExit={handleExitPlay} backgroundClassName="dark:bg-ink" />
+          <div className="col-span-full row-span-full min-h-screen min-w-full -mx-4 -mt-4 sm:-mx-6 sm:-mt-6 bg-ink">
+            <PlayContent onExit={handleExitPlay} backgroundClassName="bg-ink" />
           </div>
         ) : showAboutContent ? (
-          <div className="scrollbar-hide col-span-full row-span-full min-h-0 min-w-full overflow-y-auto overflow-x-hidden -mx-4 -mt-4 sm:-mx-6 sm:-mt-6">
-            <AboutContent onExit={handleExitAbout} backgroundClassName="dark:bg-ink" />
+          <div className="scrollbar-hide col-span-full row-span-full min-h-0 min-w-full overflow-y-auto overflow-x-hidden -mx-4 -mt-4 sm:-mx-6 sm:-mt-6 bg-ink">
+            <AboutContent onExit={handleExitAbout} backgroundClassName="bg-ink" />
           </div>
         ) : showTutorialContent ? (
-          <div className="col-span-full row-span-full min-h-0 min-w-full -mx-4 -mt-4 sm:-mx-6 sm:-mt-6">
+          <div className="col-span-full row-span-full min-h-0 min-w-full -mx-4 -mt-4 sm:-mx-6 sm:-mt-6 bg-ink">
             <TutorialContent onLetsGo={handleTutorialLetsGo} onExit={() => { setShowTutorialContent(false); setShowHomeUi(true); }} />
           </div>
         ) : (
@@ -393,7 +393,7 @@ export default function Home() {
   return (
     <Suspense
       fallback={
-        <div className="font-outfit dark:bg-ink flex min-h-screen items-center justify-center">
+        <div className="font-outfit bg-ink flex min-h-screen items-center justify-center">
           <span className="text-subtle">Loading…</span>
         </div>
       }

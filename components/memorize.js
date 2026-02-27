@@ -9,7 +9,7 @@ export default function Memorize({
     timeToMemorize,
     delays,
     onEnd,
-    backgroundClassName = "bg-baseDark",
+    backgroundClassName = "bg-ink",
 }) {
     const [showUi, setShowUi] = useState({
         memorize: null,

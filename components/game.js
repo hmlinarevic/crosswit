@@ -8,7 +8,7 @@ import clsx from "clsx";
 
 const timerIds = [];
 
-export default function Game({ crossword, delays, timeToPlay, onGameEnd, onExit, backgroundClassName = "bg-baseDark" }) {
+export default function Game({ crossword, delays, timeToPlay, onGameEnd, onExit, backgroundClassName = "bg-ink" }) {
     const findWordsNum = crossword.insertedWords.length;
 
     const [showBoard, setShowBoard] = useState();

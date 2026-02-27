@@ -15,7 +15,7 @@ const FONTS = [
 
 export default function MemorizeFontPreview() {
   return (
-    <main className="min-h-screen bg-baseDark px-6 py-12">
+    <main className="min-h-screen bg-ink px-6 py-12">
       <h1 className="mb-10 font-titilliumWeb text-lg text-subtle">
         Memorize — font variations (same size: text-4xl)
       </h1>
