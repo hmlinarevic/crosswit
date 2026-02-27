@@ -5,6 +5,8 @@ const FOAM = "#9ccfd8";
 const DEFAULT_BG = "#000000";
 const BORDER_SUBTLE = "rgba(196, 167, 231, 0.18)"; // iris, very low opacity
 
+const PINE_HIGHLIGHT = "#31748f";
+
 export default function Square({
     value,
     isSelectMode,
@@ -13,6 +15,7 @@ export default function Square({
     searchResult,
     searchColor,
     isInCurrentSelection,
+    isHoverHighlight,
 }) {
     // state
 
@@ -38,14 +41,17 @@ export default function Square({
 
     useEffect(() => {
         if (!isSelectMode) {
+            const found = searchResult.isOk && searchResult.indexes.includes(index);
+            const bg = found ? FOAM : (isHoverHighlight ? PINE_HIGHLIGHT : DEFAULT_BG);
+            const fg = found ? "#000000" : "#ffffff";
             setStyles((prev) => ({
                 ...prev,
                 borderColor: BORDER_SUBTLE,
-                backgroundColor: searchResult.isOk && searchResult.indexes.includes(index) ? FOAM : DEFAULT_BG,
-                color: searchResult.isOk && searchResult.indexes.includes(index) ? "#000000" : "#ffffff",
+                backgroundColor: bg,
+                color: fg,
             }));
         }
-    }, [isSelectMode, searchResult, index, searchColor]);
+    }, [isSelectMode, searchResult, index, searchColor, isHoverHighlight]);
 
     // When parent reports this square is in the current drag path (e.g. touch), show selecting style
     useEffect(() => {
@@ -57,6 +63,26 @@ export default function Square({
             }));
         }
     }, [isSelectMode, isInCurrentSelection]);
+
+    // Hover highlight from word list (e.g. board-test page)
+    useEffect(() => {
+        const alreadyFound = searchResult.isOk && searchResult.indexes.includes(index);
+        const selecting = isSelectMode && isInCurrentSelection;
+        if (isHoverHighlight && !alreadyFound && !selecting) {
+            setStyles((prev) => ({
+                ...prev,
+                backgroundColor: PINE_HIGHLIGHT,
+                color: "#ffffff",
+            }));
+        } else if (!isHoverHighlight && !alreadyFound && !selecting) {
+            setStyles((prev) => ({
+                ...prev,
+                borderColor: BORDER_SUBTLE,
+                backgroundColor: DEFAULT_BG,
+                color: "#ffffff",
+            }));
+        }
+    }, [isHoverHighlight, searchResult, index, isSelectMode, isInCurrentSelection]);
 
     // functions
 

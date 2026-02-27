@@ -25,7 +25,7 @@ const colors = [
     "#524f67",
 ];
 
-export default function Board({ crossword, onFoundWord }) {
+export default function Board({ crossword, onFoundWord, hoverHighlightIndexes }) {
     const [selectMode, setSelectMode] = useState({ isActive: false });
     const [selectedData, setSelectedData] = useState({
         squares: [],
@@ -124,7 +124,6 @@ export default function Board({ crossword, onFoundWord }) {
                 isOk: true,
                 indexes: selectedData.indexes,
             });
-            // setSearchColor(colors[colorIndex]); // turn off for testing
             setSearchColor(prevState => prevState);
             onFoundWord();
         }
@@ -186,6 +185,7 @@ export default function Board({ crossword, onFoundWord }) {
                     searchResult={searchResult}
                     searchColor={searchColor}
                     isInCurrentSelection={currentSelectionIndexes.includes(i)}
+                    isHoverHighlight={hoverHighlightIndexes?.includes(i)}
                 />
             ))}
         </ul>
