@@ -7,6 +7,8 @@ import {
   Search,
   Award,
   CheckCircle,
+  LogOut,
+  ArrowRight,
 } from "react-feather";
 import { Grab } from "lucide-react";
 import Fade from "./fade";
@@ -59,15 +61,41 @@ const TUTORIAL_ITEMS = [
   },
 ];
 
-export default function TutorialContent({ onLetsGo }) {
+const TIPS_ITEMS = [
+  {
+    Icon: LogOut,
+    content: (
+      <>
+        <span className="text-gold">Esc</span> or <span className="text-gold">swipe</span> up to exit
+      </>
+    ),
+  },
+  {
+    Icon: ArrowRight,
+    content: (
+      <>
+        <span className="text-gold">Right arrow</span> or <span className="text-gold">swipe</span> right to advance
+      </>
+    ),
+  },
+];
+
+export default function TutorialContent({ onLetsGo, onExit }) {
   const [showContent, setShowContent] = useState(true);
   const [revealedCount, setRevealedCount] = useState(0);
   const [isHideQuickTutorial, setIsHideQuickTutorial] = useState(false);
   const [wobbleKey, setWobbleKey] = useState(0);
+  const [tipsWobbleKey, setTipsWobbleKey] = useState(0);
+  const [tipsRevealedCount, setTipsRevealedCount] = useState(0);
   const [, dispatch] = useContext(UserProfileContext);
 
   useEffect(() => {
     const t = setTimeout(() => setWobbleKey(1), 1000);
+    return () => clearTimeout(t);
+  }, []);
+
+  useEffect(() => {
+    const t = setTimeout(() => setTipsWobbleKey(1), 3000);
     return () => clearTimeout(t);
   }, []);
 
@@ -82,6 +110,8 @@ export default function TutorialContent({ onLetsGo }) {
   }, [dispatch, isHideQuickTutorial]);
 
   const allRevealed = revealedCount >= TUTORIAL_ITEMS.length;
+  const allTipsRevealed = tipsRevealedCount >= TIPS_ITEMS.length;
+  const showButtons = allRevealed && allTipsRevealed;
 
   const handleRevealNext = () => {
     if (revealedCount < TUTORIAL_ITEMS.length) {
@@ -89,9 +119,17 @@ export default function TutorialContent({ onLetsGo }) {
     }
   };
 
+  const handleRevealNextTip = () => {
+    if (tipsRevealedCount < TIPS_ITEMS.length) {
+      setTipsRevealedCount((c) => c + 1);
+    }
+  };
+
   const handleMainButtonClick = () => {
-    if (allRevealed) {
+    if (showButtons) {
       setShowContent(false);
+    } else if (allRevealed) {
+      handleRevealNextTip();
     } else {
       setRevealedCount((c) => c + 1);
     }
@@ -101,18 +139,34 @@ export default function TutorialContent({ onLetsGo }) {
     onLetsGo?.();
   };
 
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        onExit?.();
+        return;
+      }
+      if (e.key === "ArrowRight") {
+        e.preventDefault();
+        handleMainButtonClick();
+      }
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [showButtons, allRevealed, onExit, handleRevealNext, handleRevealNextTip, handleMainButtonClick]);
+
   return (
-    <section className="flex min-h-full min-w-full flex-col bg-ink font-outfit text-text pt-[28vh] sm:pt-[30vh]">
+    <section className="flex min-h-full min-w-full flex-col bg-ink font-outfit text-text pt-[12vh] sm:pt-[14vh]">
       <Fade toggler={showContent} duration={500} onEnd={handleFadeEnd}>
-        <header className="text-center font-hand shrink-0">
+        <header className="flex flex-col items-center font-hand shrink-0 gap-0">
           <h2
-            className="font-hand text-4xl text-white about-cascade"
+            className="font-hand text-4xl text-white about-cascade text-center"
             style={{ animationDelay: "0ms", animationFillMode: "backwards" }}
           >
-            <span className="font-bold">Quick</span> Tutorial
+            <span className="font-bold">Quick</span> Tutorial:
           </h2>
           <span
-            className="block text-3xl text-iris about-cascade"
+            className="block text-center text-3xl text-iris about-cascade"
             style={{ animationDelay: "120ms", animationFillMode: "backwards" }}
           >
             <button
@@ -128,6 +182,18 @@ export default function TutorialContent({ onLetsGo }) {
             </button>{" "}
             to play
           </span>
+          <button
+            key={tipsWobbleKey}
+            type="button"
+            onClick={handleRevealNextTip}
+            className={clsx(
+              "block text-3xl text-foam underline cursor-pointer hover:opacity-90 focus:outline-none rounded about-cascade",
+              tipsWobbleKey > 0 && "animate-wobble"
+            )}
+            style={{ animationDelay: "120ms", animationFillMode: "backwards" }}
+          >
+            tips
+          </button>
         </header>
 
         <main className="flex flex-col items-center py-8 sm:py-10">
@@ -147,8 +213,39 @@ export default function TutorialContent({ onLetsGo }) {
             ))}
           </ul>
 
+          {tipsRevealedCount > 0 && (
+            <ul className="text-subtle mt-14 flex min-h-0 flex-col items-center justify-start sm:mt-16">
+              {TIPS_ITEMS.slice(0, tipsRevealedCount).map(({ Icon, content }, i) => (
+                <li
+                  key={i}
+                  className="about-cascade mb-3 flex items-center justify-center"
+                  style={{ animationDelay: "0ms", animationFillMode: "backwards" }}
+                >
+                  {Icon === LogOut ? (
+                    <span className="mr-2 flex h-7 w-12 shrink-0 items-center justify-center rounded border border-gold text-sm font-medium text-gold">
+                      esc
+                    </span>
+                  ) : (
+                    <span
+                      className={clsx(
+                        "mr-2 flex shrink-0 items-center justify-center rounded",
+                        Icon === ArrowRight && "h-7 w-12 border border-gold"
+                      )}
+                    >
+                      <Icon
+                        size={Icon === ArrowRight ? 18 : 22}
+                        className="stroke-[1.5px] text-gold"
+                      />
+                    </span>
+                  )}
+                  <span>{content}</span>
+                </li>
+              ))}
+            </ul>
+          )}
+
           <div className="mx-auto mt-4 flex min-h-[52px] items-center justify-center text-sm">
-            {allRevealed && (
+            {showButtons && (
               <>
                 <Button
                   type="button"
