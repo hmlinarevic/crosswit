@@ -1,10 +1,14 @@
 import "./globals.css";
 import { Providers } from "./providers";
 
+const isProd = process.env.NODE_ENV === "production";
+
 export const metadata = {
   title: "Crosswit",
   description: "Word Search & Memory Trainer",
-  icons: { icon: "https://millify.dev/favicon.ico" },
+  icons: {
+    icon: isProd ? "/favicon.ico" : "/favicon-dev.ico",
+  },
 };
 
 export default async function RootLayout({ children, params, searchParams }) {
