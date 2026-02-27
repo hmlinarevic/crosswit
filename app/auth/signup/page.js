@@ -105,7 +105,7 @@ export default function SignUp() {
               htmlFor="password"
               className="mb-1 block text-sm text-neutral-300"
             >
-              Password (min 8 characters)
+              Password (min 6 characters)
             </label>
             <input
               id="password"
@@ -113,7 +113,7 @@ export default function SignUp() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              minLength={8}
+              minLength={6}
               className="w-full rounded border border-neutral-600 bg-neutral-700 px-3 py-2 text-white placeholder-neutral-500 focus:outline-none"
             />
           </div>
