@@ -27,7 +27,7 @@ function HomeContent() {
   const [showTutorialContent, setShowTutorialContent] = useState(false);
   const [nextView, setNextView] = useState(null); // "play" | "about" | "tutorial" when fading out
   const [showLeaderboardModal, setShowLeaderboardModal] = useState(false);
-  const [mainView, setMainView] = useState("home"); // "home" | "dashboard" | "leaderboard"
+  const [mainView, setMainView] = useState("dashboard"); // "dashboard" | "leaderboard"
   const [authMode, setAuthMode] = useState("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -159,7 +159,7 @@ function HomeContent() {
           </div>
         ) : showTutorialContent ? (
           <div className="col-span-full row-span-full min-h-0 min-w-full -mx-4 -mt-4 sm:-mx-6 sm:-mt-6">
-            <TutorialContent onLetsGo={handleTutorialLetsGo} />
+            <TutorialContent onLetsGo={handleTutorialLetsGo} onExit={() => { setShowTutorialContent(false); setShowHomeUi(true); }} />
           </div>
         ) : (
           <Fade
@@ -177,14 +177,6 @@ function HomeContent() {
                 </span>
               </div>
               <nav className="mt-4 flex w-full flex-wrap items-center justify-start gap-2 pb-6 sm:gap-3" aria-label="Main">
-                <Button
-                  type="button"
-                  variant="muted"
-                  onClick={() => setMainView("home")}
-                  className={`min-w-[6.5rem] border-white/10 bg-overlay/20 backdrop-blur-md hover:border-white/50 hover:bg-white/10 hover:text-white ${mainView === "home" ? "border-white/50 bg-white/10 text-white hover:text-white" : ""}`}
-                >
-                  home
-                </Button>
                 <Button
                   type="button"
                   variant="muted"
@@ -213,41 +205,38 @@ function HomeContent() {
                   type="button"
                   variant="muted"
                   onClick={handleAboutClick}
-                  className="ml-auto min-w-[6.5rem] border-white/10 bg-overlay/20 backdrop-blur-md hover:border-white/50 hover:bg-white/10 hover:text-white"
+                  className="min-w-[6.5rem] border-white/10 bg-overlay/20 backdrop-blur-md hover:border-white/50 hover:bg-white/10 hover:text-white"
                 >
                   about
                 </Button>
+                {session && (
+                  <Button
+                    type="button"
+                    variant="muted"
+                    onClick={() => signOut({ callbackUrl: "/" })}
+                    className="ml-auto min-w-[6.5rem] border-white/10 bg-overlay/20 backdrop-blur-md hover:border-white/50 hover:bg-white/10 hover:text-white"
+                  >
+                    sign out
+                  </Button>
+                )}
               </nav>
-            </header>
+              </header>
 
-            {/* 2. Main content - home (login/session), about, dashboard, or leaderboard (fades when switching nav) */}
+            {/* 2. Main content - dashboard (login form or profile), leaderboard (fades when switching nav) */}
             <Fade
               key={mainView}
               toggler={true}
               duration={300}
               className="min-h-0 min-w-0 flex flex-col"
             >
-            {mainView === "dashboard" ? (
-              <ProfileContent />
-            ) : mainView === "leaderboard" ? (
+            {mainView === "leaderboard" ? (
               <LeaderboardContent />
             ) : (
+              <>
+            {status === "loading" ? null : session ? (
+              <ProfileContent />
+            ) : (
               <div className="flex min-h-0 w-full flex-1 items-center justify-center px-2 pt-6 sm:px-0 sm:pt-10">
-          {status === "loading" ? null : session ? (
-            <div className="w-full max-w-sm rounded-2xl border border-overlay/60 bg-gradient-to-br from-baseDark to-surface px-5 py-4 shadow-xl shadow-black/40">
-              <p className="text-sm text-white">
-                {session.user?.name || session.user?.email}
-              </p>
-              <Button
-                type="button"
-                variant="muted"
-                onClick={() => signOut({ callbackUrl: "/" })}
-                className="mt-2 text-ink hover:underline"
-              >
-                sign out
-              </Button>
-            </div>
-          ) : (
             <div className="w-full max-w-xs flex min-h-[360px] flex-col rounded-xl border border-white/10 bg-overlay/20 px-4 py-4 shadow-xl shadow-black/20 backdrop-blur-md">
               {/* Tabs fixed at top - card height stays constant so cursor stays on tabs when switching */}
               <div className="shrink-0 grid grid-cols-2 gap-1 rounded-lg bg-overlay/50 p-1 w-fit" role="tablist">
@@ -320,7 +309,7 @@ function HomeContent() {
                 </div>
                 <div className="space-y-1">
                   <Label htmlFor="password" className="text-iris text-xs">
-                    Password {authMode === "register" && "(min 8)"}
+                    Password {authMode === "register" && "(min 6)"}
                   </Label>
                   <Input
                     id="password"
@@ -328,7 +317,7 @@ function HomeContent() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
-                    minLength={authMode === "register" ? 8 : undefined}
+                    minLength={authMode === "register" ? 6 : undefined}
                     className="h-8 border-overlay/60 bg-overlay/40 text-sm text-text placeholder:text-subtle/70 focus-visible:bg-iris/10 focus-visible:ring-iris/80 focus-visible:ring-2"
                   />
                 </div>
@@ -348,8 +337,9 @@ function HomeContent() {
                 </Button>
               </form>
             </div>
-          )}
               </div>
+            )}
+            </>
             )}
             </Fade>
 
