@@ -17,6 +17,8 @@ Single Next.js 16 app: App Router, API routes, Auth.js v5, Prisma (PostgreSQL). 
 - **Session**: JWT (no DB session table). Use `auth()` in server code and `useSession()` in client.
 - **Users**: Stored in Prisma `User` (email, hashedPassword, name). Registration hashes passwords with bcrypt.
 
+**Auth under base path** (e.g. `/projects/crosswit`): Next.js strips `basePath` before the route runs, but Auth.js expects the full path. We keep three places in sync: (1) `auth.js` – `basePath` and `trustHost`; (2) `app/providers.js` – `SessionProvider` `basePath`; (3) `app/api/auth/[...nextauth]/route.js` – re-injects path and uses `AUTH_URL` origin so Auth.js receives the correct request URL. Server env must set `AUTH_URL` to the full app URL (e.g. `https://millify.dev/projects/crosswit`).
+
 ## Game & Leaderboard
 
 - **Puzzle generation**: `lib/game/` (word-search + random-words). Exposed as:

@@ -213,7 +213,7 @@ function HomeContent() {
                   <Button
                     type="button"
                     variant="muted"
-                    onClick={() => signOut({ callbackUrl: "/" })}
+                    onClick={() => signOut({ callbackUrl: apiBase() || "/" })}
                     className="ml-auto min-w-[6.5rem] border-white/10 bg-overlay/20 backdrop-blur-md hover:border-white/50 hover:bg-white/10 hover:text-white"
                   >
                     sign out
