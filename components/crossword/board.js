@@ -2,6 +2,45 @@ import { useState, useEffect, useCallback, useRef } from "react";
 
 import Square from "../square";
 
+/**
+ * Get indices on a straight line (H, V, or diagonal) from start toward current.
+ * Snaps to one of 8 directions. Used for easier cross-line selection on mobile.
+ */
+function getLineIndicesFromStartToCurrent(startIdx, currentIdx, gridSize) {
+    if (startIdx === currentIdx) return [startIdx];
+
+    const r0 = Math.floor(startIdx / gridSize);
+    const c0 = startIdx % gridSize;
+    const r1 = Math.floor(currentIdx / gridSize);
+    const c1 = currentIdx % gridSize;
+
+    const dR = r1 - r0;
+    const dC = c1 - c0;
+    const stepR = dR === 0 ? 0 : dR > 0 ? 1 : -1;
+    const stepC = dC === 0 ? 0 : dC > 0 ? 1 : -1;
+    const step = stepC + stepR * gridSize;
+
+    const indices = [];
+    let i = startIdx;
+
+    while (true) {
+        indices.push(i);
+        if (i === currentIdx) break;
+
+        const next = i + step;
+        const nr = Math.floor(next / gridSize);
+        const nc = next % gridSize;
+
+        if (nr < 0 || nr >= gridSize || nc < 0 || nc >= gridSize) break;
+        if (stepR !== 0 && (stepR > 0 ? nr > r1 : nr < r1)) break;
+        if (stepC !== 0 && (stepC > 0 ? nc > c1 : nc < c1)) break;
+
+        i = next;
+    }
+
+    return indices;
+}
+
 const collectedData = {
     squares: [],
     indexes: [],
@@ -48,20 +87,37 @@ export default function Board({ crossword, onFoundWord, hoverHighlightIndexes })
         });
     };
 
-    const addToCollectedData = (e, index) => {
-        collectedData.squares.push(e.target.innerText);
-        collectedData.indexes.push(index);
-        setCurrentSelectionIndexes(collectedData.indexes.slice());
-    };
+    const addToCollectedData = useCallback((e, index) => {
+        const size = crossword.size;
+        if (collectedData.indexes.length === 0) {
+            collectedData.squares.push(e.target.innerText);
+            collectedData.indexes.push(index);
+            setCurrentSelectionIndexes(collectedData.indexes.slice());
+            return;
+        }
+        const startIdx = collectedData.indexes[0];
+        const line = getLineIndicesFromStartToCurrent(startIdx, index, size);
+        collectedData.indexes = line;
+        collectedData.squares = line.map((i) => crossword.squares[i] ?? "");
+        setCurrentSelectionIndexes(line);
+    }, [crossword.size, crossword.squares]);
 
     const addToCollectedDataByIndex = useCallback((index) => {
-        if (collectedData.indexes.includes(index)) return;
+        const size = crossword.size;
         const letter = crossword.squares[index];
         if (letter == null) return;
-        collectedData.squares.push(letter);
-        collectedData.indexes.push(index);
-        setCurrentSelectionIndexes(collectedData.indexes.slice());
-    }, [crossword.squares]);
+        if (collectedData.indexes.length === 0) {
+            collectedData.squares.push(letter);
+            collectedData.indexes.push(index);
+            setCurrentSelectionIndexes(collectedData.indexes.slice());
+            return;
+        }
+        const startIdx = collectedData.indexes[0];
+        const line = getLineIndicesFromStartToCurrent(startIdx, index, size);
+        collectedData.indexes = line;
+        collectedData.squares = line.map((i) => crossword.squares[i] ?? "");
+        setCurrentSelectionIndexes(line);
+    }, [crossword.size, crossword.squares]);
 
     useEffect(() => {
         const handleMouseDown = () => {
