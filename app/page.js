@@ -440,8 +440,8 @@ function HomeContent() {
                     <span
                       className="inline-block h-8 w-8 shrink-0 bg-iris [mask-size:contain] [mask-repeat:no-repeat] [mask-position:center] [-webkit-mask-size:contain] [-webkit-mask-repeat:no-repeat] [-webkit-mask-position:center]"
                       style={{
-                        maskImage: "url(/bmc-logo-no-background.png)",
-                        WebkitMaskImage: "url(/bmc-logo-no-background.png)",
+                        maskImage: `url(${apiBase()}/bmc-logo-no-background.png)`,
+                        WebkitMaskImage: `url(${apiBase()}/bmc-logo-no-background.png)`,
                       }}
                       role="img"
                       aria-hidden
