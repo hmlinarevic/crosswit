@@ -90,7 +90,7 @@ export default function LeaderboardContent() {
                     {name}
                   </span>
                 </div>
-                <div className="grid shrink-0 grid-cols-[4rem_5.5rem_5.5rem] items-center gap-0.5 sm:grid-cols-[4.5rem_6rem_6rem] sm:gap-1">
+                <div className="grid shrink-0 grid-cols-[3rem_4rem_4.5rem] items-center gap-0.5 sm:grid-cols-[4.5rem_6rem_6rem] sm:gap-1">
                   <span className="text-right text-xs text-pine/90">
                     Lv.{entry.levelReached}
                   </span>
