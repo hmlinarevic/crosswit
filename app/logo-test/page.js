@@ -72,7 +72,8 @@ export default function LogoTestPage() {
   }, []);
 
   const handleSelect = (fontClass, rightText) => {
-    setLogoPreference({ fontClass, rightText: rightText ?? "SSWIT" });
+    const existing = getLogoPreference();
+    setLogoPreference({ ...existing, fontClass, rightText: rightText ?? "SSWIT" });
     setPreference(getLogoPreference());
   };
 

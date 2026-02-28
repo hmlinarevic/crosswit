@@ -1,6 +1,7 @@
 "use client";
 
-import { useSession } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
+import { LogOut } from "lucide-react";
 
 const FAKE_STATS = [
     { label: "Games played", value: "42" },
@@ -15,18 +16,18 @@ export default function ProfileContent() {
   const initial = (displayName && displayName.charAt(0).toUpperCase()) || "?";
 
   return (
-    <div className="min-h-0 min-w-0 flex-1 overflow-auto pt-4 font-titilliumWeb sm:pt-6 text-subtle/90">
+    <div className="main-content-scroll min-h-0 min-w-0 flex-1 overflow-auto pt-4 font-titilliumWeb sm:pt-6 text-subtle/90">
       <div className="flex flex-col gap-6 sm:gap-8">
-        <div className="flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:gap-5">
+        <div className="flex flex-row flex-nowrap items-center gap-3 sm:gap-5">
           <div className="h-16 w-16 shrink-0 rounded-full bg-overlay/60 flex items-center justify-center text-2xl font-righteous text-white">
             {initial}
           </div>
-          <div>
-            <h1 className="text-base font-semibold text-white sm:text-lg">
+          <div className="min-w-0 shrink">
+            <h1 className="truncate text-base font-semibold text-white sm:text-lg">
               {displayName}
             </h1>
             {session?.user?.email && (
-              <p className="mt-0.5 text-xs text-subtle/80 sm:text-sm">
+              <p className="mt-0.5 truncate text-xs text-subtle/80 sm:text-sm">
                 {session.user.email}
               </p>
             )}
@@ -60,6 +61,17 @@ export default function ProfileContent() {
             Your last game: <span className="text-pine">Level 7</span> — 890 pts.
             Keep playing to climb the leaderboard!
           </p>
+        </div>
+
+        <div className="pt-2">
+          <button
+            type="button"
+            onClick={() => signOut({ callbackUrl: "/" })}
+            className="flex items-center gap-2 text-sm text-subtle/80 underline hover:text-white transition-colors"
+          >
+            <LogOut className="h-4 w-4 shrink-0" />
+            sign out
+          </button>
         </div>
       </div>
     </div>

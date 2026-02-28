@@ -14,6 +14,7 @@ import TutorialContent from "../components/TutorialContent";
 import { BrandLogo, TAGLINE } from "../components/brand-header";
 import { UserProfileContext } from "../context/UserContext";
 import { apiBase } from "../utils";
+import { Menu, X } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -34,6 +35,7 @@ function HomeContent() {
   const [username, setUsername] = useState("");
   const [authError, setAuthError] = useState("");
   const [authLoading, setAuthLoading] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [state, dispatch] = useContext(UserProfileContext);
   const { data: session, status } = useSession();
   const router = useRouter();
@@ -48,6 +50,7 @@ function HomeContent() {
   }, [searchParams, router]);
 
   const handlePlayClick = () => {
+    setMobileMenuOpen(false);
     if (!state?.isHideQuickTutorial) {
       setNextView("tutorial");
       setShowHomeUi(false);
@@ -58,6 +61,7 @@ function HomeContent() {
   };
 
   const handleAboutClick = () => {
+    setMobileMenuOpen(false);
     setNextView("about");
     setShowHomeUi(false);
   };
@@ -148,7 +152,8 @@ function HomeContent() {
       {showLeaderboardModal && (
         <Leaderboard onClose={showLeaderboardModalHandler} />
       )}
-      <section className="font-outfit bg-ink mx-auto grid h-screen max-h-screen max-w-3xl grid-rows-[1fr] gap-4 overflow-hidden px-4 pt-4 sm:gap-6 sm:px-6 sm:pt-6">
+      {/* Layout height: this section defines the content area height. Single row (1fr) fills viewport on mobile; inner flex (header | content | footer) splits it, middle has flex-1 to expand. */}
+      <section className="font-outfit bg-ink mx-auto grid h-screen max-h-screen min-h-0 max-w-3xl grid-rows-[1fr] gap-4 overflow-hidden px-4 pt-4 sm:h-auto sm:min-h-screen sm:max-h-none sm:overflow-visible sm:gap-6 sm:px-6 sm:pt-6">
         {showPlayContent ? (
           <div className="col-span-full row-span-full min-h-screen min-w-full -mx-4 -mt-4 sm:-mx-6 sm:-mt-6 bg-ink">
             <PlayContent onExit={handleExitPlay} backgroundClassName="bg-ink" />
@@ -166,68 +171,79 @@ function HomeContent() {
             toggler={showHomeUi}
             duration={FADE_DURATION}
             onEnd={handleFadeOutEnd}
-            className="col-span-full row-span-full grid min-h-0 min-w-0 grid-rows-[auto_1fr_auto] gap-4 sm:gap-6"
+            className="col-span-full row-span-full flex h-full min-h-0 min-w-0 flex-col gap-4 sm:gap-6"
           >
             {/* 1. Header with nav - fades with the rest */}
-            <header className="min-w-0">
-              <div className="flex flex-col gap-0">
-                <BrandLogo fontClass="font-audiowide" rightText="SSWiT" />
-                <span className="-mt-1 block font-hand text-sm text-iris sm:text-base !text-iris">
-                  {TAGLINE}
-                </span>
-              </div>
-              <nav className="mt-4 flex w-full flex-wrap items-center justify-start gap-2 pb-6 sm:gap-3" aria-label="Main">
-                <Button
+            <header className="min-w-0 shrink-0 max-w-sm w-full mx-auto sm:max-w-none">
+              <div className="flex items-center justify-between gap-4 sm:block">
+                <div className="flex flex-col gap-0 min-w-0">
+                  <BrandLogo fontClass="font-audiowide" rightText="SSWiT" colorClass="text-foam" iconColorClass="text-iris" />
+                  <span className="-mt-1 block font-hand text-sm text-iris sm:text-base !text-iris">
+                    {TAGLINE}
+                  </span>
+                </div>
+                <button
                   type="button"
-                  variant="muted"
+                  onClick={() => setMobileMenuOpen((o) => !o)}
+                  className="shrink-0 p-2 -m-2 text-subtle hover:text-white transition-colors sm:hidden"
+                  aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+                  aria-expanded={mobileMenuOpen}
+                >
+                  {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+                </button>
+              </div>
+              {/* Desktop nav */}
+              <nav className="mt-4 hidden w-full flex-wrap items-center justify-start gap-x-6 gap-y-2 sm:flex sm:gap-x-8" aria-label="Main">
+                <button
+                  type="button"
                   onClick={handlePlayClick}
-                  className="min-w-[6.5rem] border-white/10 bg-overlay/20 backdrop-blur-md hover:border-white/50 hover:bg-white/10 hover:text-white"
+                  className="text-subtle/90 underline-offset-4 hover:text-white hover:underline transition-colors"
                 >
                   play
-                </Button>
-                <Button
+                </button>
+                <button
                   type="button"
-                  variant="muted"
                   onClick={() => setMainView("dashboard")}
-                  className={`min-w-[6.5rem] border-white/10 bg-overlay/20 backdrop-blur-md hover:border-white/50 hover:bg-white/10 hover:text-white ${mainView === "dashboard" ? "border-white/50 bg-white/10 text-white hover:text-white" : ""}`}
+                  className={`underline-offset-4 hover:underline transition-colors ${mainView === "dashboard" ? "text-white font-medium" : "text-subtle/90 hover:text-white"}`}
                 >
                   dashboard
-                </Button>
-                <Button
+                </button>
+                <button
                   type="button"
-                  variant="muted"
                   onClick={() => setMainView("leaderboard")}
-                  className={`min-w-[6.5rem] border-white/10 bg-overlay/20 backdrop-blur-md hover:border-white/50 hover:bg-white/10 hover:text-white ${mainView === "leaderboard" ? "border-white/50 bg-white/10 text-white hover:text-white" : ""}`}
+                  className={`underline-offset-4 hover:underline transition-colors ${mainView === "leaderboard" ? "text-white font-medium" : "text-subtle/90 hover:text-white"}`}
                 >
                   leaderboards
-                </Button>
-                <Button
+                </button>
+                <button
                   type="button"
-                  variant="muted"
                   onClick={handleAboutClick}
-                  className="min-w-[6.5rem] border-white/10 bg-overlay/20 backdrop-blur-md hover:border-white/50 hover:bg-white/10 hover:text-white"
+                  className="text-subtle/90 underline-offset-4 hover:text-white hover:underline transition-colors"
                 >
                   about
-                </Button>
-                {session && (
-                  <Button
-                    type="button"
-                    variant="muted"
-                    onClick={() => signOut({ callbackUrl: apiBase() || "/" })}
-                    className="ml-auto min-w-[6.5rem] border-white/10 bg-overlay/20 backdrop-blur-md hover:border-white/50 hover:bg-white/10 hover:text-white"
-                  >
-                    sign out
-                  </Button>
-                )}
+                </button>
               </nav>
-              </header>
+              {/* Mobile nav dropdown - always in DOM for height transition so content below animates */}
+              <div
+                className={`mobile-nav-wrapper overflow-hidden sm:hidden ${mobileMenuOpen ? "max-h-[220px]" : "max-h-0"}`}
+                aria-hidden={!mobileMenuOpen}
+              >
+                <nav className="animate-mobile-menu-in mt-4 flex flex-col items-end gap-1 border-t border-overlay/40 pt-4" aria-label="Main">
+                  <button type="button" onClick={handlePlayClick} className="w-full py-2 text-right text-subtle/90 hover:text-white underline-offset-4 hover:underline transition-colors">play</button>
+                  <button type="button" onClick={() => { setMainView("dashboard"); setMobileMenuOpen(false); }} className={`w-full py-2 text-right underline-offset-4 hover:underline transition-colors ${mainView === "dashboard" ? "text-white font-medium" : "text-subtle/90 hover:text-white"}`}>dashboard</button>
+                  <button type="button" onClick={() => { setMainView("leaderboard"); setMobileMenuOpen(false); }} className={`w-full py-2 text-right underline-offset-4 hover:underline transition-colors ${mainView === "leaderboard" ? "text-white font-medium" : "text-subtle/90 hover:text-white"}`}>leaderboards</button>
+                  <button type="button" onClick={handleAboutClick} className="w-full py-2 text-right text-subtle/90 hover:text-white underline-offset-4 hover:underline transition-colors">about</button>
+                </nav>
+              </div>
+              <hr className="mt-4 border-0 border-b border-overlay/40 -mx-4 sm:-mx-6" />
+            </header>
 
             {/* 2. Main content - dashboard (login form or profile), leaderboard (fades when switching nav) */}
             <Fade
               key={mainView}
               toggler={true}
               duration={300}
-              className="min-h-0 min-w-0 flex flex-col"
+              className="min-h-0 flex-1 flex flex-col overflow-hidden max-w-sm w-full mx-auto sm:max-w-none"
             >
             {mainView === "leaderboard" ? (
               <LeaderboardContent />
@@ -236,8 +252,39 @@ function HomeContent() {
             {status === "loading" ? null : session ? (
               <ProfileContent />
             ) : (
-              <div className="flex min-h-0 w-full flex-1 items-center justify-center px-2 pt-6 sm:px-0 sm:pt-10">
-            <div className="w-full max-w-xs flex min-h-[360px] flex-col rounded-xl border border-white/10 bg-overlay/20 px-4 py-4 shadow-xl shadow-black/20 backdrop-blur-md">
+              <div className="main-content-scroll flex min-h-0 w-full flex-1 flex-col items-center gap-8 overflow-auto pt-6 sm:flex-row sm:items-start sm:justify-between sm:gap-10 sm:pt-10">
+            {/* Intro text for signed-out users */}
+            <div className="order-1 max-w-sm shrink-0 sm:max-w-[320px] sm:pt-2">
+              <h2 className="font-semibold text-xl text-white sm:text-2xl">
+                Sharpen your mind
+              </h2>
+              <p className="mt-2 text-white/75 leading-relaxed">
+                Crosswit trains your <span className="text-iris font-semibold">short-term memory</span> and{" "}
+                <span className="text-iris font-semibold">visual search</span> by having you memorize words, then find them in a puzzle under time pressure. Regular play can improve recall, focus, and pattern recognition.
+              </p>
+              <p className="mt-3 text-sm text-subtle/70 leading-relaxed">
+                You can play without signing in—create an account to save your progress and climb the leaderboards.
+              </p>
+              <p className="mt-4 text-subtle/70 text-sm">
+                If Crosswit has helped sharpen your memory or become part of your mental fitness, consider supporting its development.
+              </p>
+              <a
+                href={process.env.NEXT_PUBLIC_BUY_ME_A_COFFEE_URL || "https://buymeacoffee.com"}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-4 inline-block buy-me-coffee-link cursor-pointer"
+                aria-label="Buy me a coffee"
+              >
+                <img
+                  src={`${apiBase()}/bmc-button.png`}
+                  alt="Buy me a coffee"
+                  className="h-9 w-auto object-contain rounded-lg sm:h-12"
+                />
+              </a>
+            </div>
+
+            <div className="order-2 w-full max-w-none shrink-0 sm:max-w-[320px]">
+            <div className="flex min-h-[360px] flex-col rounded-xl border border-white/10 bg-overlay/20 px-4 py-4 shadow-xl shadow-black/20 backdrop-blur-md">
               {/* Tabs fixed at top - card height stays constant so cursor stays on tabs when switching */}
               <div className="shrink-0 grid grid-cols-2 gap-1 rounded-lg bg-overlay/50 p-1 w-fit" role="tablist">
                 <Button
@@ -337,40 +384,57 @@ function HomeContent() {
                 </Button>
               </form>
             </div>
+            </div>
               </div>
             )}
             </>
             )}
             </Fade>
 
-            {/* 3. Footer - fades with header and main content */}
-            <footer className="mt-20">
-              <div className="w-full pt-6 pb-6">
-                <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-4">
-                  <div className="min-w-0">
-                    <p className="font-bold text-subtle/60 text-sm">
-                      Crosswit
+            {/* 3. Footer - min height so content fits; middle row expands */}
+            <footer className="min-h-24 shrink-0 w-full max-w-sm mx-auto sm:max-w-none">
+              <div className="w-full pt-4 pb-4 sm:pt-6 sm:pb-6">
+                <hr className="border-0 border-b border-overlay/40 -mx-4 mb-4 sm:-mx-6 sm:mb-6" />
+                <div className="flex flex-row flex-wrap items-center justify-between gap-x-4 gap-y-3 w-full text-left text-subtle/60 sm:gap-x-6 sm:gap-y-4">
+                  <div className="flex min-w-0 flex-1 flex-col gap-y-0.5 self-start text-left sm:flex-initial sm:gap-y-1">
+                    <p className="m-0 text-xs leading-none">
+                      <span className="font-bold text-sm">Crosswit</span>
+                      <span> {TAGLINE}</span>
                     </p>
-                    <p className="mt-1 text-subtle/60 text-xs">
-                      {TAGLINE}
+                    <p className="m-0 text-[11px] leading-none tracking-wide">
+                      <span>© {new Date().getFullYear()} Crosswit. All rights reserved. </span>
+                      <a
+                        href="https://millify.dev"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="underline hover:text-white transition-colors"
+                      >
+                        millify.dev
+                      </a>
                     </p>
                   </div>
-                  <div className="flex shrink-0 flex-col items-end gap-1 text-right">
-                    <p className="text-subtle/60 text-[11px] tracking-wide">
-                      © {new Date().getFullYear()} Crosswit · All rights reserved
-                    </p>
+                  {session && (
                     <a
-                      href="https://millify.dev"
+                      href={process.env.NEXT_PUBLIC_BUY_ME_A_COFFEE_URL || "https://buymeacoffee.com"}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-subtle/60 underline hover:text-white text-xs font-medium transition-colors"
+                      className="shrink-0 inline-flex items-center transition-opacity hover:opacity-90 buy-me-coffee-link"
+                      aria-label="Buy me a coffee"
                     >
-                      millify.dev
+                      <span
+                        className="inline-block h-8 w-8 shrink-0 bg-iris [mask-size:contain] [mask-repeat:no-repeat] [mask-position:center] [-webkit-mask-size:contain] [-webkit-mask-repeat:no-repeat] [-webkit-mask-position:center]"
+                        style={{
+                          maskImage: "url(/bmc-logo-no-background.png)",
+                          WebkitMaskImage: "url(/bmc-logo-no-background.png)",
+                        }}
+                        role="img"
+                        aria-hidden
+                      />
                     </a>
-                  </div>
+                  )}
                 </div>
                 {process.env.NODE_ENV === "development" && (
-                  <div className="mt-4 border-t border-overlay/40 pt-4 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-subtle/60">
+                  <div className="mt-4 rounded-lg bg-overlay/10 py-3 -mx-4 px-4 sm:-mx-6 sm:px-6 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-subtle/60">
                     <span className="text-subtle/40">Dev:</span>
                     <Link
                       href="/board-test"

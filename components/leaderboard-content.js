@@ -33,7 +33,7 @@ export default function LeaderboardContent() {
 
   if (loading) {
     return (
-      <div className="min-h-0 min-w-0 flex-1 overflow-auto pt-4 font-titilliumWeb sm:pt-6 text-subtle/90">
+      <div className="main-content-scroll min-h-0 min-w-0 flex-1 overflow-auto pt-4 font-titilliumWeb sm:pt-6 text-subtle/90">
         <h2 className="mb-3 text-base font-semibold text-white/90 sm:mb-4 sm:text-lg">
           Leaderboard
         </h2>
@@ -44,7 +44,7 @@ export default function LeaderboardContent() {
 
   if (error) {
     return (
-      <div className="min-h-0 min-w-0 flex-1 overflow-auto pt-4 font-titilliumWeb sm:pt-6 text-subtle/90">
+      <div className="main-content-scroll min-h-0 min-w-0 flex-1 overflow-auto pt-4 font-titilliumWeb sm:pt-6 text-subtle/90">
         <h2 className="mb-3 text-base font-semibold text-white/90 sm:mb-4 sm:text-lg">
           Leaderboard
         </h2>
@@ -54,7 +54,7 @@ export default function LeaderboardContent() {
   }
 
   return (
-    <div className="min-h-0 min-w-0 flex-1 overflow-auto pt-4 font-titilliumWeb sm:pt-6 text-subtle/90">
+    <div className="main-content-scroll min-h-0 min-w-0 flex-1 overflow-auto pt-4 font-titilliumWeb sm:pt-6 text-subtle/90">
       <h2 className="mb-3 text-base font-semibold text-white/90 sm:mb-4 sm:text-lg">
         Leaderboard
       </h2>
@@ -82,21 +82,25 @@ export default function LeaderboardContent() {
                     : "border-overlay/50 bg-overlay/30"
                 }`}
               >
-                <span className="w-6 shrink-0 text-xs font-medium text-subtle/80">
-                  #{rank}
-                </span>
-                <span className="min-w-0 flex-1 truncate text-sm font-medium text-white">
-                  {name}
-                </span>
-                <span className="shrink-0 text-xs text-pine/90">
-                  Lv.{entry.levelReached}
-                </span>
-                <span className="shrink-0 text-xs text-subtle/80">
-                  {timeStr}
-                </span>
-                <span className="shrink-0 text-xs font-medium text-rose">
-                  {Number(entry.totalScore).toLocaleString()} pts
-                </span>
+                <div className="flex min-w-0 flex-1 items-center gap-3">
+                  <span className="w-6 shrink-0 text-xs font-medium text-subtle/80">
+                    #{rank}
+                  </span>
+                  <span className="min-w-0 truncate text-sm font-medium text-white">
+                    {name}
+                  </span>
+                </div>
+                <div className="grid shrink-0 grid-cols-[4rem_5.5rem_5.5rem] items-center gap-0.5 sm:grid-cols-[4.5rem_6rem_6rem] sm:gap-1">
+                  <span className="text-right text-xs text-pine/90">
+                    Lv.{entry.levelReached}
+                  </span>
+                  <span className="text-right text-xs text-subtle/80">
+                    {timeStr}
+                  </span>
+                  <span className="text-right text-xs font-medium text-rose">
+                    {Number(entry.totalScore).toLocaleString()} pts
+                  </span>
+                </div>
               </li>
             );
           })}

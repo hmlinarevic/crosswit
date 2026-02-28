@@ -5,6 +5,7 @@ import ThemeChanger from "../theme-changer";
 
 import Logo from "../logo";
 import ActivityIcon from "../icons/activity-icon";
+import { Coffee } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export default function MainNavigation(props) {
@@ -53,6 +54,18 @@ export default function MainNavigation(props) {
                 </li>
                 <li className="ml-6 flex h-full select-none items-center justify-center">
                     <ThemeChanger className="rounded-full p-4 hover:bg-neutral-900 hover:text-white" />
+                </li>
+                <li className="ml-6 flex h-full select-none items-center justify-center">
+                    <a
+                        href="https://buymeacoffee.com/yourusername"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-1.5 rounded-full p-4 text-neutral-400 transition-colors hover:bg-neutral-900 hover:text-white"
+                        aria-label="Buy me a coffee"
+                    >
+                        <Coffee size={22} />
+                        <span className="hidden sm:inline">Buy me a coffee</span>
+                    </a>
                 </li>
             </ul>
         </nav>
