@@ -72,27 +72,15 @@ a {
   display: none;
 }
 
-/* Reserve space for scrollbar so it sits outside content (no overlap) */
+/* Custom scrollbar colors */
 .main-content-scroll {
-  scrollbar-gutter: stable;
-  /* Extra padding-right creates space so scrollbar sits further right, more separated from content */
-  padding-right: 16px;
-}
-
-/* Custom scrollbar - subtle dark theme */
-.main-content-scroll {
-  scrollbar-width: thin;
   scrollbar-color: #26233a #0e0d12;
-}
-.main-content-scroll::-webkit-scrollbar {
-  width: 8px;
 }
 .main-content-scroll::-webkit-scrollbar-track {
   background: #0e0d12;
 }
 .main-content-scroll::-webkit-scrollbar-thumb {
   background: #26233a;
-  border-radius: 4px;
 }
 .main-content-scroll::-webkit-scrollbar-thumb:hover {
   background: #403d52;
@@ -116,6 +104,11 @@ a {
 /* Smooth height transition for mobile nav (content below slides down) */
 .mobile-nav-wrapper {
   transition: max-height 0.3s ease-out;
+}
+
+/* Keep focused input above mobile keyboard when scrollIntoView runs */
+input {
+  scroll-margin-bottom: 120px;
 }
 
 

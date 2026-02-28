@@ -91,6 +91,20 @@ function HomeContent() {
   const showLeaderboardModalHandler = () =>
     setShowLeaderboardModal((prev) => !prev);
 
+  const scrollInputIntoView = (e) => {
+    const el = e.target;
+    const isMobile = typeof window !== "undefined" && (
+      window.matchMedia("(pointer: coarse)").matches ||
+      window.innerWidth < 768
+    );
+    if (isMobile) {
+      setTimeout(
+        () => el.scrollIntoView({ block: "center", behavior: "smooth" }),
+        200
+      );
+    }
+  };
+
   const handleAuthSubmit = async (e) => {
     e.preventDefault();
     setAuthError("");
@@ -335,6 +349,7 @@ function HomeContent() {
                       type="text"
                       value={username}
                       onChange={(e) => setUsername(e.target.value)}
+                      onFocus={scrollInputIntoView}
                       placeholder="Your name"
                       className="h-8 border-overlay/60 bg-overlay/40 text-sm text-text placeholder:text-subtle/70 focus-visible:bg-iris/10 focus-visible:ring-iris/80 focus-visible:ring-2"
                     />
@@ -349,6 +364,7 @@ function HomeContent() {
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
+                    onFocus={scrollInputIntoView}
                     required
                     placeholder="you@example.com"
                     className="h-8 border-overlay/60 bg-overlay/40 text-sm text-text placeholder:text-subtle/70 focus-visible:bg-iris/10 focus-visible:ring-iris/80 focus-visible:ring-2"
@@ -363,6 +379,7 @@ function HomeContent() {
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
+                    onFocus={scrollInputIntoView}
                     required
                     minLength={authMode === "register" ? 6 : undefined}
                     className="h-8 border-overlay/60 bg-overlay/40 text-sm text-text placeholder:text-subtle/70 focus-visible:bg-iris/10 focus-visible:ring-iris/80 focus-visible:ring-2"
@@ -413,25 +430,23 @@ function HomeContent() {
                       </a>
                     </p>
                   </div>
-                  {session && (
-                    <a
-                      href={process.env.NEXT_PUBLIC_BUY_ME_A_COFFEE_URL || "https://buymeacoffee.com"}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="shrink-0 inline-flex items-center transition-opacity hover:opacity-90 buy-me-coffee-link"
-                      aria-label="Buy me a coffee"
-                    >
-                      <span
-                        className="inline-block h-8 w-8 shrink-0 bg-iris [mask-size:contain] [mask-repeat:no-repeat] [mask-position:center] [-webkit-mask-size:contain] [-webkit-mask-repeat:no-repeat] [-webkit-mask-position:center]"
-                        style={{
-                          maskImage: "url(/bmc-logo-no-background.png)",
-                          WebkitMaskImage: "url(/bmc-logo-no-background.png)",
-                        }}
-                        role="img"
-                        aria-hidden
-                      />
-                    </a>
-                  )}
+                  <a
+                    href={process.env.NEXT_PUBLIC_BUY_ME_A_COFFEE_URL || "https://buymeacoffee.com"}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="shrink-0 inline-flex items-center transition-opacity hover:opacity-90 buy-me-coffee-link"
+                    aria-label="Buy me a coffee"
+                  >
+                    <span
+                      className="inline-block h-8 w-8 shrink-0 bg-iris [mask-size:contain] [mask-repeat:no-repeat] [mask-position:center] [-webkit-mask-size:contain] [-webkit-mask-repeat:no-repeat] [-webkit-mask-position:center]"
+                      style={{
+                        maskImage: "url(/bmc-logo-no-background.png)",
+                        WebkitMaskImage: "url(/bmc-logo-no-background.png)",
+                      }}
+                      role="img"
+                      aria-hidden
+                    />
+                  </a>
                 </div>
                 {process.env.NODE_ENV === "development" && (
                   <div className="mt-4 rounded-lg bg-overlay/10 py-3 -mx-4 px-4 sm:-mx-6 sm:px-6 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-subtle/60">
