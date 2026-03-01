@@ -385,7 +385,7 @@ function HomeContent() {
             ) : (
               /* Intro content - Mobile: Sharpen your mind, image, support. Desktop: article left, image right (centered), then support below. */
               <div className="main-content-scroll flex min-h-0 w-full flex-1 flex-col overflow-auto">
-                <div className="flex flex-col sm:flex-row sm:items-start sm:gap-x-10 gap-y-6 sm:gap-y-0 pt-4 sm:pt-6 md:pt-0 lg:pt-0">
+                <div className="flex flex-col sm:flex-row sm:items-start sm:gap-x-10 gap-y-6 sm:gap-y-0 pt-4 sm:pt-0">
                   <div className="min-w-0 sm:w-1/2 max-w-xl sm:max-w-none">
                     <h2 className="font-semibold text-2xl text-white sm:text-3xl mt-0 mb-2 sm:mb-3">
                       Sharpen your mind
@@ -409,11 +409,11 @@ function HomeContent() {
                     </div>
                   </div>
                 </div>
-                <article className="flex flex-col gap-3 pt-4 sm:pt-6 max-w-xl" aria-labelledby="support-project-heading">
-<h2 id="support-project-heading" className="font-semibold text-lg text-white sm:text-xl mt-4 sm:mt-6 mb-0">
+                <article className="flex flex-col gap-3 pt-4 sm:pt-6 w-full" aria-labelledby="support-project-heading">
+                    <h2 id="support-project-heading" className="font-semibold text-lg text-white sm:text-xl mt-4 sm:mt-6 mb-0">
                       Support project
                     </h2>
-                  <p className="text-white text-sm leading-relaxed mt-0 max-w-xl">
+                  <p className="text-white text-sm leading-relaxed mt-0 w-full">
                     If Crosswit has become part of your mental fitness routine, consider supporting its development.
                   </p>
                   <p className="text-subtle/70 text-sm leading-relaxed mt-0 max-w-xl">
