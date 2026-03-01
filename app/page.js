@@ -414,7 +414,7 @@ function HomeContent() {
                       Support project
                     </h2>
                   <p className="text-white text-sm leading-relaxed mt-0 max-w-xl">
-                    If Crosswit has helped sharpen your memory or become part of your mental fitness, consider supporting its development.
+                    If Crosswit has become part of your mental fitness routine, consider supporting its development.
                   </p>
                   <p className="text-subtle/70 text-sm leading-relaxed mt-0 max-w-xl">
                     Crosswit is free to play and independently developed. Your support helps cover hosting costs, maintenance, and the creation of new puzzles and features. Every contribution—whether a one-time coffee or a recurring tip—helps keep Crosswit running and evolving.
