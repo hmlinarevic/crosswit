@@ -38,7 +38,7 @@ export default async function RootLayout({ children, params, searchParams }) {
           rel="stylesheet"
         />
       </head>
-      <body className="min-h-screen bg-ink">
+      <body className="min-h-screen bg-matt-gloss">
         <Providers>{children}</Providers>
         <div id="overlays" />
       </body>

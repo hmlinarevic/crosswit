@@ -167,7 +167,7 @@ function HomeContent() {
         <Leaderboard onClose={showLeaderboardModalHandler} />
       )}
       {/* Layout height: this section defines the content area height. Single row (1fr) fills viewport on mobile; inner flex (header | content | footer) splits it, middle has flex-1 to expand. */}
-      <section className="font-outfit bg-ink mx-auto grid h-screen max-h-screen min-h-0 max-w-3xl grid-rows-[1fr] gap-4 overflow-hidden px-4 pt-4 sm:h-auto sm:min-h-screen sm:max-h-none sm:overflow-visible sm:gap-6 sm:px-6 sm:pt-6">
+      <section className="font-outfit mx-auto grid h-screen max-h-screen min-h-0 max-w-3xl grid-rows-[1fr] gap-4 overflow-hidden px-4 pt-4 sm:h-auto sm:min-h-screen sm:max-h-none sm:overflow-visible sm:gap-6 sm:px-6 sm:pt-6">
         {showPlayContent ? (
           <div className="col-span-full row-span-full min-h-screen min-w-full -mx-4 -mt-4 sm:-mx-6 sm:-mt-6 bg-ink">
             <PlayContent onExit={handleExitPlay} backgroundClassName="bg-ink" />
@@ -403,30 +403,23 @@ function HomeContent() {
                       You can play without signing in—create an account to save your progress and climb the leaderboards.
                     </p>
                   </div>
-                  <div
-                    className="col-start-1 row-start-3 justify-self-center sm:col-start-2 sm:row-start-1 sm:row-end-5 w-full min-w-0 rounded-tl-[2rem] rounded-tr-xl rounded-br-3xl rounded-bl-xl p-3 sm:p-4"
-                    style={{
-                      background: "radial-gradient(ellipse 100% 70% at 50% -10%, rgba(255,255,255,0.06) 0%, transparent 55%), linear-gradient(165deg, #131118 0%, #0e0d12 35%, #0c0b10 100%)",
-                    }}
-                  >
-                    <div className="flex h-full w-full items-center justify-center overflow-hidden rounded-tl-[1.5rem] rounded-tr-lg rounded-br-2xl rounded-bl-lg">
-                      <div className="w-full max-w-[140px] aspect-square sm:max-w-[320px] sm:min-w-0 md:max-w-[380px]">
-                        <div
-                          className="h-full w-full"
-                          style={{
-                            maskImage: `url(${apiBase()}/brain-network.png)`,
-                            WebkitMaskImage: `url(${apiBase()}/brain-network.png)`,
-                            maskSize: "contain",
-                            WebkitMaskSize: "contain",
-                            maskRepeat: "no-repeat",
-                            WebkitMaskRepeat: "no-repeat",
-                            maskPosition: "center",
-                            WebkitMaskPosition: "center",
-                            backgroundColor: "#ebbcba", /* rose */
-                          }}
-                          aria-hidden
-                        />
-                      </div>
+                  <div className="col-start-1 row-start-3 flex justify-center sm:col-start-2 sm:row-start-1 sm:row-end-5 w-full min-w-0">
+                    <div className="w-full max-w-[140px] aspect-square sm:max-w-[320px] sm:min-w-0 md:max-w-[380px]">
+                      <div
+                        className="h-full w-full"
+                        style={{
+                          maskImage: `url(${apiBase()}/brain-network.png)`,
+                          WebkitMaskImage: `url(${apiBase()}/brain-network.png)`,
+                          maskSize: "contain",
+                          WebkitMaskSize: "contain",
+                          maskRepeat: "no-repeat",
+                          WebkitMaskRepeat: "no-repeat",
+                          maskPosition: "center",
+                          WebkitMaskPosition: "center",
+                          backgroundColor: "#ebbcba", /* rose */
+                        }}
+                        aria-hidden
+                      />
                     </div>
                   </div>
                   <p className="text-subtle/70 text-sm leading-relaxed mt-0 mt-2 col-start-1 row-start-4 max-w-xl sm:mt-0 sm:pr-6">
