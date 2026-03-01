@@ -396,41 +396,22 @@ function HomeContent() {
                   <p className="col-start-1 row-start-3 text-subtle/70 text-sm leading-relaxed mt-0 max-w-xl pr-0 sm:pr-6">
                     The timed format builds mental agility and sustained attention, skills that transfer to everyday tasks and learning.
                   </p>
-                  <div
-                    className="col-start-1 row-start-4 justify-self-center sm:col-start-2 sm:row-start-1 sm:row-end-5 w-full min-w-0 rounded-2xl p-3 sm:p-4 shadow-[0_4px_24px_rgba(0,0,0,0.35),0_0_0_1px_rgba(255,255,255,0.06)] self-start"
-                    style={{
-                      background: "radial-gradient(ellipse 100% 70% at 50% -10%, rgba(255,255,255,0.06) 0%, transparent 55%), linear-gradient(165deg, #131118 0%, #0e0d12 35%, #0c0b10 100%)",
-                    }}
-                  >
-                    <div className="flex h-full w-full items-center justify-center overflow-hidden rounded-xl">
-                      <div className="w-full max-w-[140px] aspect-square sm:max-w-[320px] sm:min-w-0 md:max-w-[380px]">
-                        <div
-                          className="h-full w-full"
-                          style={{
-                            maskImage: `url(${apiBase()}/brain-network.png)`,
-                            WebkitMaskImage: `url(${apiBase()}/brain-network.png)`,
-                            maskSize: "contain",
-                            WebkitMaskSize: "contain",
-                            maskRepeat: "no-repeat",
-                            WebkitMaskRepeat: "no-repeat",
-                            maskPosition: "center",
-                            WebkitMaskPosition: "center",
-                            backgroundColor: "#ebbcba", /* rose */
-                          }}
-                          aria-hidden
-                        />
-                      </div>
+                  <div className="col-start-1 row-start-4 flex justify-center sm:col-start-2 sm:row-start-2 sm:row-end-5 sm:justify-start w-full min-w-0 self-start">
+                    <div className="max-w-xl w-full rounded-xl p-4 shadow-[0_4px_24px_rgba(0,0,0,0.4),0_0_0_1px_rgba(255,255,255,0.05)] sm:rounded-none sm:p-0 sm:shadow-none">
+                      <img
+                        src={`${apiBase()}/short-term.png`}
+                        alt=""
+                        className="h-auto w-auto max-h-full max-w-full md:scale-[1.0] object-contain"
+                        aria-hidden
+                      />
                     </div>
                   </div>
-                  <article className="col-start-1 row-start-5 sm:row-start-4 flex flex-col gap-3 pt-4 sm:pt-6 max-w-xl sm:pr-6" aria-labelledby="support-project-heading">
+                  <article className="col-start-1 row-start-5 sm:row-start-4 flex flex-col gap-3 pt-4 sm:pt-6 max-w-xl" aria-labelledby="support-project-heading">
                     <h2 id="support-project-heading" className="font-semibold text-lg text-white sm:text-xl mt-0 mb-0">
                       Support project
                     </h2>
                     <p className="text-subtle/70 text-sm leading-relaxed mt-0 max-w-xl">
                       If Crosswit has helped sharpen your memory or become part of your mental fitness, consider supporting its development.
-                    </p>
-                    <p className="text-subtle/70 text-sm leading-relaxed mt-0 max-w-xl">
-                      You can play without signing in—create an account to save your progress and climb the leaderboards.
                     </p>
                     <div className="pt-1">
                       <a
