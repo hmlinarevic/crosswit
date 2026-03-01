@@ -1,19 +1,55 @@
 "use client";
 
 import { useSession, signOut } from "next-auth/react";
+import { useEffect, useState } from "react";
 import { LogOut } from "lucide-react";
+import { apiBase } from "../utils";
 
-const FAKE_STATS = [
-    { label: "Games played", value: "42" },
-    { label: "Best level", value: "8" },
-    { label: "High score", value: "1,240 pts" },
-    { label: "Avg. time", value: "2m 15s" },
-];
+function formatAvgTime(seconds) {
+  if (!seconds || seconds < 0) return "—";
+  const m = Math.floor(seconds / 60);
+  const s = seconds % 60;
+  return s > 0 ? `${m}m ${s}s` : `${m}m`;
+}
 
 export default function ProfileContent() {
   const { data: session } = useSession();
+  const [stats, setStats] = useState(null);
+  const [statsError, setStatsError] = useState(null);
+
+  useEffect(() => {
+    if (!session?.user?.id) return;
+    let cancelled = false;
+    fetch(`${apiBase()}/api/profile/stats`)
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to load stats");
+        return res.json();
+      })
+      .then((data) => {
+        if (!cancelled) setStats(data);
+      })
+      .catch((err) => {
+        if (!cancelled) setStatsError(err.message);
+      });
+    return () => { cancelled = true; };
+  }, [session?.user?.id]);
+
   const displayName = session?.user?.name ?? session?.user?.email ?? "User";
   const initial = (displayName && displayName.charAt(0).toUpperCase()) || "?";
+
+  const statItems = stats
+    ? [
+        { label: "Games played", value: String(stats.gamesPlayed) },
+        { label: "Best level", value: stats.bestLevel ? String(stats.bestLevel) : "—" },
+        { label: "High score", value: stats.highScore ? `${stats.highScore.toLocaleString()} pts` : "—" },
+        { label: "Avg. time", value: formatAvgTime(stats.avgTimeSeconds) },
+      ]
+    : [
+        { label: "Games played", value: "…" },
+        { label: "Best level", value: "…" },
+        { label: "High score", value: "…" },
+        { label: "Avg. time", value: "…" },
+      ];
 
   return (
     <div className="main-content-scroll min-h-0 min-w-0 flex-1 overflow-auto pt-4 font-titilliumWeb sm:pt-6 text-subtle/90">
@@ -39,7 +75,7 @@ export default function ProfileContent() {
             Stats
           </h2>
           <ul className="grid grid-cols-2 gap-2 sm:grid-cols-4 sm:gap-3">
-            {FAKE_STATS.map(({ label, value }) => (
+            {statItems.map(({ label, value }) => (
               <li
                 key={label}
                 className="rounded-lg border border-overlay/50 bg-overlay/30 px-3 py-2.5 sm:px-4 sm:py-3"
@@ -58,8 +94,15 @@ export default function ProfileContent() {
             Recent activity
           </h2>
           <p className="text-xs leading-relaxed text-subtle/80 sm:text-sm">
-            Your last game: <span className="text-pine">Level 7</span> — 890 pts.
-            Keep playing to climb the leaderboard!
+            {stats?.lastGame ? (
+              <>Your last game: <span className="text-pine">Level {stats.lastGame.level}</span> — {stats.lastGame.score.toLocaleString()} pts. Keep playing to climb the leaderboard!</>
+            ) : statsError ? (
+              "Could not load recent activity."
+            ) : stats ? (
+              "No games yet. Play a round to see your stats here!"
+            ) : (
+              "Loading…"
+            )}
           </p>
         </div>
 

@@ -57,7 +57,7 @@ export default function MainNavigation(props) {
                 </li>
                 <li className="ml-6 flex h-full select-none items-center justify-center">
                     <a
-                        href="https://buymeacoffee.com/yourusername"
+                        href="https://buymeacoffee.com/herb2357"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="flex items-center gap-1.5 rounded-full p-4 text-neutral-400 transition-colors hover:bg-neutral-900 hover:text-white"

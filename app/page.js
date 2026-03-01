@@ -28,7 +28,7 @@ function HomeContent() {
   const [showTutorialContent, setShowTutorialContent] = useState(false);
   const [nextView, setNextView] = useState(null); // "play" | "about" | "tutorial" when fading out
   const [showLeaderboardModal, setShowLeaderboardModal] = useState(false);
-  const [mainView, setMainView] = useState("dashboard"); // "dashboard" | "leaderboard"
+  const [mainView, setMainView] = useState("intro"); // "intro" | "dashboard" | "leaderboard"
   const [authMode, setAuthMode] = useState("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -236,6 +236,14 @@ function HomeContent() {
                 >
                   about
                 </button>
+                {process.env.NODE_ENV === "development" && (
+                  <Link
+                    href="/board-test"
+                    className="text-subtle/90 underline-offset-4 hover:text-white hover:underline transition-colors"
+                  >
+                    board test
+                  </Link>
+                )}
               </nav>
               {/* Mobile nav dropdown - always in DOM for height transition so content below animates */}
               <div
@@ -247,6 +255,9 @@ function HomeContent() {
                   <button type="button" onClick={() => { setMainView("dashboard"); setMobileMenuOpen(false); }} className={`w-full py-2 text-right underline-offset-4 hover:underline transition-colors ${mainView === "dashboard" ? "text-white font-medium" : "text-subtle/90 hover:text-white"}`}>dashboard</button>
                   <button type="button" onClick={() => { setMainView("leaderboard"); setMobileMenuOpen(false); }} className={`w-full py-2 text-right underline-offset-4 hover:underline transition-colors ${mainView === "leaderboard" ? "text-white font-medium" : "text-subtle/90 hover:text-white"}`}>leaderboards</button>
                   <button type="button" onClick={handleAboutClick} className="w-full py-2 text-right text-subtle/90 hover:text-white underline-offset-4 hover:underline transition-colors">about</button>
+                  {process.env.NODE_ENV === "development" && (
+                    <Link href="/board-test" className="w-full py-2 text-right text-subtle/90 hover:text-white underline-offset-4 hover:underline transition-colors">board test</Link>
+                  )}
                 </nav>
               </div>
               <hr className="mt-4 border-0 border-b border-overlay/40 -mx-4 sm:-mx-6" />
@@ -261,43 +272,15 @@ function HomeContent() {
             >
             {mainView === "leaderboard" ? (
               <LeaderboardContent />
-            ) : (
-              <>
-            {status === "loading" ? null : session ? (
-              <ProfileContent />
-            ) : (
-              <div className="main-content-scroll flex min-h-0 w-full flex-1 flex-col items-center gap-8 overflow-auto pt-6 sm:flex-row sm:items-start sm:justify-between sm:gap-10 sm:pt-10">
-            {/* Intro text for signed-out users */}
-            <div className="order-1 max-w-sm shrink-0 sm:max-w-[320px] sm:pt-2">
-              <h2 className="font-semibold text-xl text-white sm:text-2xl">
-                Sharpen your mind
-              </h2>
-              <p className="mt-2 text-white/75 leading-relaxed">
-                Crosswit trains your <span className="text-iris font-semibold">short-term memory</span> and{" "}
-                <span className="text-iris font-semibold">visual search</span> by having you memorize words, then find them in a puzzle under time pressure. Regular play can improve recall, focus, and pattern recognition.
-              </p>
-              <p className="mt-3 text-sm text-subtle/70 leading-relaxed">
-                You can play without signing in—create an account to save your progress and climb the leaderboards.
-              </p>
-              <p className="mt-4 text-subtle/70 text-sm">
-                If Crosswit has helped sharpen your memory or become part of your mental fitness, consider supporting its development.
-              </p>
-              <a
-                href={process.env.NEXT_PUBLIC_BUY_ME_A_COFFEE_URL || "https://buymeacoffee.com"}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-4 inline-block buy-me-coffee-link cursor-pointer"
-                aria-label="Buy me a coffee"
-              >
-                <img
-                  src={`${apiBase()}/bmc-button.png`}
-                  alt="Buy me a coffee"
-                  className="h-9 w-auto object-contain rounded-lg sm:h-12"
-                />
-              </a>
-            </div>
-
-            <div className="order-2 w-full max-w-none shrink-0 sm:max-w-[320px]">
+            ) : mainView === "dashboard" ? (
+              status === "loading" ? null : session ? (
+                <ProfileContent />
+              ) : (
+              <div className="main-content-scroll flex min-h-0 w-full flex-1 flex-col overflow-auto pt-6">
+            <div className="mx-auto w-full max-w-[320px]">
+            <p className="mb-4 text-sm text-subtle/80 leading-relaxed">
+              Sign in or register to track your progress, save your scores, and climb the leaderboards.
+            </p>
             <div className="flex min-h-[360px] flex-col rounded-xl border border-white/10 bg-overlay/20 px-4 py-4 shadow-xl shadow-black/20 backdrop-blur-md">
               {/* Tabs fixed at top - card height stays constant so cursor stays on tabs when switching */}
               <div className="shrink-0 grid grid-cols-2 gap-1 rounded-lg bg-overlay/50 p-1 w-fit" role="tablist">
@@ -403,8 +386,69 @@ function HomeContent() {
             </div>
             </div>
               </div>
-            )}
-            </>
+              )
+            ) : (
+              /* Intro content - CSS Grid: 5 rows; 2 cols on large (text left, image right rows 1–4), 1 col on small (heading, para, image, rest, button). */
+              <div className="main-content-scroll flex min-h-0 w-full flex-1 flex-col overflow-auto pt-6 sm:pt-10">
+                <div className="grid grid-cols-1 grid-rows-[auto_auto_auto_auto_auto] gap-y-6 sm:grid-cols-2 sm:gap-x-10 sm:gap-y-4">
+                  <div className="col-start-1 row-start-1 row-span-2 flex flex-col gap-4 pr-0 sm:row-span-3 sm:gap-3 sm:pr-6">
+                    <h2 className="font-semibold text-xl text-white sm:text-2xl mt-0 mb-0">
+                      Sharpen your mind
+                    </h2>
+                    <p className="text-sm text-white/75 leading-relaxed sm:text-base mt-0 max-w-xl">
+                      Crosswit trains your <span className="text-iris font-semibold">short-term memory</span> and{" "}
+                      <span className="text-iris font-semibold">visual search</span> by having you memorize words, then find them in a puzzle under time pressure. Regular play can improve recall, focus, and pattern recognition.
+                    </p>
+                    <p className="text-sm text-subtle/70 leading-relaxed mt-0 max-w-xl">
+                      You can play without signing in—create an account to save your progress and climb the leaderboards.
+                    </p>
+                  </div>
+                  <div
+                    className="col-start-1 row-start-3 justify-self-center sm:col-start-2 sm:row-start-1 sm:row-end-5 w-full min-w-0 rounded-tl-[2rem] rounded-tr-xl rounded-br-3xl rounded-bl-xl p-3 sm:p-4"
+                    style={{
+                      background: "radial-gradient(ellipse 100% 70% at 50% -10%, rgba(255,255,255,0.06) 0%, transparent 55%), linear-gradient(165deg, #131118 0%, #0e0d12 35%, #0c0b10 100%)",
+                    }}
+                  >
+                    <div className="flex h-full w-full items-center justify-center overflow-hidden rounded-tl-[1.5rem] rounded-tr-lg rounded-br-2xl rounded-bl-lg">
+                      <div className="w-full max-w-[140px] aspect-square sm:max-w-[320px] sm:min-w-0 md:max-w-[380px]">
+                        <div
+                          className="h-full w-full"
+                          style={{
+                            maskImage: `url(${apiBase()}/brain-network.png)`,
+                            WebkitMaskImage: `url(${apiBase()}/brain-network.png)`,
+                            maskSize: "contain",
+                            WebkitMaskSize: "contain",
+                            maskRepeat: "no-repeat",
+                            WebkitMaskRepeat: "no-repeat",
+                            maskPosition: "center",
+                            WebkitMaskPosition: "center",
+                            backgroundColor: "#ebbcba", /* rose */
+                          }}
+                          aria-hidden
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <p className="text-subtle/70 text-sm leading-relaxed mt-0 mt-2 col-start-1 row-start-4 max-w-xl sm:mt-0 sm:pr-6">
+                    If Crosswit has helped sharpen your memory or become part of your mental fitness, consider supporting its development.
+                  </p>
+                  <div className="col-start-1 row-start-5 pt-1 sm:pr-6">
+                    <a
+                      href={process.env.NEXT_PUBLIC_BUY_ME_A_COFFEE_URL || "https://buymeacoffee.com/herb2357"}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-block buy-me-coffee-link cursor-pointer"
+                      aria-label="Buy me a coffee"
+                    >
+                      <img
+                        src={`${apiBase()}/bmc-button.png`}
+                        alt="Buy me a coffee"
+                        className="h-9 w-auto object-contain rounded-lg sm:h-12"
+                      />
+                    </a>
+                  </div>
+                </div>
+              </div>
             )}
             </Fade>
 
@@ -414,12 +458,7 @@ function HomeContent() {
                 <hr className="border-0 border-b border-overlay/40 -mx-4 mb-4 sm:-mx-6 sm:mb-6" />
                 <div className="flex flex-row flex-wrap items-center justify-between gap-x-4 gap-y-3 w-full text-left text-subtle/60 sm:gap-x-6 sm:gap-y-4">
                   <div className="flex min-w-0 flex-1 flex-col gap-y-0.5 self-start text-left sm:flex-initial sm:gap-y-1">
-                    <p className="m-0 text-xs leading-none">
-                      <span className="font-bold text-sm">Crosswit</span>
-                      <span> {TAGLINE}</span>
-                    </p>
                     <p className="m-0 text-[11px] leading-none tracking-wide">
-                      <span>© {new Date().getFullYear()} Crosswit. All rights reserved. </span>
                       <a
                         href="https://millify.dev"
                         target="_blank"
@@ -429,9 +468,12 @@ function HomeContent() {
                         millify.dev
                       </a>
                     </p>
+                    <p className="m-0 text-[11px] leading-none tracking-wide">
+                      © {new Date().getFullYear()} Crosswit. All rights reserved.
+                    </p>
                   </div>
                   <a
-                    href={process.env.NEXT_PUBLIC_BUY_ME_A_COFFEE_URL || "https://buymeacoffee.com"}
+                    href={process.env.NEXT_PUBLIC_BUY_ME_A_COFFEE_URL || "https://buymeacoffee.com/herb2357"}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="shrink-0 inline-flex items-center transition-opacity hover:opacity-90 buy-me-coffee-link"
@@ -448,17 +490,6 @@ function HomeContent() {
                     />
                   </a>
                 </div>
-                {process.env.NODE_ENV === "development" && (
-                  <div className="mt-4 rounded-lg bg-overlay/10 py-3 -mx-4 px-4 sm:-mx-6 sm:px-6 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-subtle/60">
-                    <span className="text-subtle/40">Dev:</span>
-                    <Link
-                      href="/board-test"
-                      className="underline hover:text-white transition-colors"
-                    >
-                      board test
-                    </Link>
-                  </div>
-                )}
               </div>
             </footer>
           </Fade>

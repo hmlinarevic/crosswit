@@ -46,7 +46,7 @@ export default function AboutContent({
     >
       <div className="max-w-3xl mx-auto px-4 py-10 sm:px-6 sm:py-14">
         <div
-          className="about-cascade mb-10"
+          className="about-cascade mb-10 flex justify-end"
           style={{ animationDelay: "0ms", animationFillMode: "backwards" }}
         >
           <button

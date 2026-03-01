@@ -66,7 +66,7 @@ const TIPS_ITEMS = [
     Icon: LogOut,
     content: (
       <>
-        <span className="text-gold">Esc</span> or <span className="text-gold">swipe</span> up to exit
+        <span className="text-foam">Esc</span> or <span className="text-foam">swipe</span> <span className="text-foam">up</span> to exit
       </>
     ),
   },
@@ -74,7 +74,7 @@ const TIPS_ITEMS = [
     Icon: ArrowRight,
     content: (
       <>
-        <span className="text-gold">Right arrow</span> or <span className="text-gold">swipe</span> right to advance
+        <span className="text-foam">Right arrow</span> or <span className="text-foam">swipe</span> <span className="text-foam">right</span> to advance
       </>
     ),
   },
@@ -82,22 +82,8 @@ const TIPS_ITEMS = [
 
 export default function TutorialContent({ onLetsGo, onExit }) {
   const [showContent, setShowContent] = useState(true);
-  const [revealedCount, setRevealedCount] = useState(0);
   const [isHideQuickTutorial, setIsHideQuickTutorial] = useState(false);
-  const [wobbleKey, setWobbleKey] = useState(0);
-  const [tipsWobbleKey, setTipsWobbleKey] = useState(0);
-  const [tipsRevealedCount, setTipsRevealedCount] = useState(0);
   const [, dispatch] = useContext(UserProfileContext);
-
-  useEffect(() => {
-    const t = setTimeout(() => setWobbleKey(1), 1000);
-    return () => clearTimeout(t);
-  }, []);
-
-  useEffect(() => {
-    const t = setTimeout(() => setTipsWobbleKey(1), 3000);
-    return () => clearTimeout(t);
-  }, []);
 
   const handleDontShowAgainButton = () =>
     setIsHideQuickTutorial((prev) => !prev);
@@ -109,30 +95,8 @@ export default function TutorialContent({ onLetsGo, onExit }) {
     });
   }, [dispatch, isHideQuickTutorial]);
 
-  const allRevealed = revealedCount >= TUTORIAL_ITEMS.length;
-  const allTipsRevealed = tipsRevealedCount >= TIPS_ITEMS.length;
-  const showButtons = allRevealed && allTipsRevealed;
-
-  const handleRevealNext = () => {
-    if (revealedCount < TUTORIAL_ITEMS.length) {
-      setRevealedCount((c) => c + 1);
-    }
-  };
-
-  const handleRevealNextTip = () => {
-    if (tipsRevealedCount < TIPS_ITEMS.length) {
-      setTipsRevealedCount((c) => c + 1);
-    }
-  };
-
-  const handleMainButtonClick = () => {
-    if (showButtons) {
-      setShowContent(false);
-    } else if (allRevealed) {
-      handleRevealNextTip();
-    } else {
-      setRevealedCount((c) => c + 1);
-    }
+  const handleLetsGo = () => {
+    setShowContent(false);
   };
 
   const handleFadeEnd = () => {
@@ -148,57 +112,25 @@ export default function TutorialContent({ onLetsGo, onExit }) {
       }
       if (e.key === "ArrowRight") {
         e.preventDefault();
-        handleMainButtonClick();
+        setShowContent(false);
       }
     };
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [showButtons, allRevealed, onExit, handleRevealNext, handleRevealNextTip, handleMainButtonClick]);
+  }, [onExit]);
 
   return (
     <section className="flex min-h-full min-w-full flex-col bg-ink font-outfit text-text pt-[12vh] sm:pt-[14vh]">
       <Fade toggler={showContent} duration={500} onEnd={handleFadeEnd}>
-        <header className="flex flex-col items-center font-hand shrink-0 gap-0">
-          <h2
-            className="font-hand text-4xl text-white about-cascade text-center"
+        <main className="flex flex-col items-center py-8 sm:py-10">
+          <p
+            className="font-hand text-3xl text-iris about-cascade text-center mb-6 sm:text-4xl"
             style={{ animationDelay: "0ms", animationFillMode: "backwards" }}
           >
-            <span className="font-bold">Quick</span> Tutorial:
-          </h2>
-          <span
-            className="block text-center text-3xl text-iris about-cascade"
-            style={{ animationDelay: "120ms", animationFillMode: "backwards" }}
-          >
-            <button
-              key={wobbleKey}
-              type="button"
-              onClick={handleRevealNext}
-              className={clsx(
-                "underline cursor-pointer hover:opacity-90 focus:outline-none rounded inline-block",
-                wobbleKey > 0 && "animate-wobble"
-              )}
-            >
-              how
-            </button>{" "}
-            to play
-          </span>
-          <button
-            key={tipsWobbleKey}
-            type="button"
-            onClick={handleRevealNextTip}
-            className={clsx(
-              "block text-3xl text-foam underline cursor-pointer hover:opacity-90 focus:outline-none rounded about-cascade",
-              tipsWobbleKey > 0 && "animate-wobble"
-            )}
-            style={{ animationDelay: "120ms", animationFillMode: "backwards" }}
-          >
-            tips
-          </button>
-        </header>
-
-        <main className="flex flex-col items-center py-8 sm:py-10">
-          <ul className="text-subtle flex min-h-[180px] flex-col items-center justify-start">
-            {TUTORIAL_ITEMS.slice(0, revealedCount).map(({ Icon, content }, i) => (
+            How to play:
+          </p>
+          <ul className="text-subtle text-sm flex min-h-0 flex-col items-center justify-start mb-3 sm:text-base">
+            {TUTORIAL_ITEMS.map(({ Icon, content }, i) => (
               <li
                 key={i}
                 className="about-cascade mb-3 flex items-center justify-center"
@@ -213,66 +145,66 @@ export default function TutorialContent({ onLetsGo, onExit }) {
             ))}
           </ul>
 
-          {tipsRevealedCount > 0 && (
-            <ul className="text-subtle mt-14 flex min-h-0 flex-col items-center justify-start sm:mt-16">
-              {TIPS_ITEMS.slice(0, tipsRevealedCount).map(({ Icon, content }, i) => (
-                <li
-                  key={i}
-                  className="about-cascade mb-3 flex items-center justify-center"
-                  style={{ animationDelay: "0ms", animationFillMode: "backwards" }}
-                >
-                  {Icon === LogOut ? (
-                    <span className="mr-2 flex h-7 w-12 shrink-0 items-center justify-center rounded border border-gold text-sm font-medium text-gold">
-                      esc
-                    </span>
-                  ) : (
-                    <span
-                      className={clsx(
-                        "mr-2 flex shrink-0 items-center justify-center rounded",
-                        Icon === ArrowRight && "h-7 w-12 border border-gold"
-                      )}
-                    >
-                      <Icon
-                        size={Icon === ArrowRight ? 18 : 22}
-                        className="stroke-[1.5px] text-gold"
-                      />
-                    </span>
-                  )}
-                  <span>{content}</span>
-                </li>
-              ))}
-            </ul>
-          )}
-
-          <div className="mx-auto mt-4 flex min-h-[52px] items-center justify-center text-sm">
-            {showButtons && (
-              <>
-                <Button
-                  type="button"
-                  variant="muted"
-                  className="mr-10 flex items-center border-0 about-cascade"
-                  onClick={handleDontShowAgainButton}
-                  style={{ animationDelay: "240ms", animationFillMode: "backwards" }}
-                >
+          <p
+            className="font-hand text-3xl text-iris about-cascade text-center mt-8 mb-6 sm:text-4xl"
+            style={{ animationDelay: "0ms", animationFillMode: "backwards" }}
+          >
+            Tips:
+          </p>
+          <ul className="text-subtle text-sm flex min-h-0 flex-col items-center justify-start sm:text-base">
+            {TIPS_ITEMS.map(({ Icon, content }, i) => (
+              <li
+                key={i}
+                className="about-cascade mb-3 flex items-center justify-center"
+                style={{ animationDelay: "0ms", animationFillMode: "backwards" }}
+              >
+                {Icon === LogOut ? (
+                  <span className="mr-2 flex h-7 w-12 shrink-0 items-center justify-center rounded border border-foam text-sm font-medium text-foam">
+                    esc
+                  </span>
+                ) : (
                   <span
                     className={clsx(
-                      isHideQuickTutorial ? "bg-subtle/80" : "bg-none",
-                      "mr-2 h-[20px] w-[20px] rounded-lg border border-subtle/50"
+                      "mr-2 flex shrink-0 items-center justify-center rounded",
+                      Icon === ArrowRight && "h-7 w-12 border border-foam"
                     )}
-                  />
-                  <span>don&apos;t show again</span>
-                </Button>
-                <Button
-                  type="button"
-                  variant="muted"
-                  onClick={handleMainButtonClick}
-                  className="about-cascade"
-                  style={{ animationDelay: "240ms", animationFillMode: "backwards" }}
-                >
-                  let&apos;s go!
-                </Button>
-              </>
-            )}
+                  >
+                    <Icon
+                      size={Icon === ArrowRight ? 18 : 22}
+                      className="stroke-[1.5px] text-foam"
+                    />
+                  </span>
+                )}
+                <span>{content}</span>
+              </li>
+            ))}
+          </ul>
+
+          <div className="mx-auto mt-10 flex min-h-[52px] items-center justify-center text-sm sm:mt-12">
+            <Button
+              type="button"
+              variant="muted"
+              className="mr-10 flex items-center border-0 about-cascade"
+              onClick={handleDontShowAgainButton}
+              style={{ animationDelay: "240ms", animationFillMode: "backwards" }}
+            >
+              <span
+                className={clsx(
+                  isHideQuickTutorial ? "bg-subtle/80" : "bg-none",
+                  "mr-2 h-[20px] w-[20px] rounded-lg border border-subtle/50"
+                )}
+              />
+              <span>don&apos;t show again</span>
+            </Button>
+            <Button
+              type="button"
+              variant="muted"
+              onClick={handleLetsGo}
+              className="about-cascade"
+              style={{ animationDelay: "240ms", animationFillMode: "backwards" }}
+            >
+              let&apos;s go!
+            </Button>
           </div>
         </main>
       </Fade>
