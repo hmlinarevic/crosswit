@@ -242,16 +242,16 @@ function HomeContent() {
               </nav>
               {/* Mobile nav dropdown - always in DOM for height transition so content below animates */}
               <div
-                className={`mobile-nav-wrapper overflow-hidden sm:hidden ${mobileMenuOpen ? "max-h-[220px]" : "max-h-0"}`}
+                className={`mobile-nav-wrapper overflow-hidden sm:hidden ${mobileMenuOpen ? "max-h-[280px]" : "max-h-0"}`}
                 aria-hidden={!mobileMenuOpen}
               >
-                <nav className="animate-mobile-menu-in mt-2 flex flex-col items-end gap-1 border-t border-overlay/40 pt-2" aria-label="Main">
+                <nav className="animate-mobile-menu-in mt-2 flex flex-col items-end gap-2 border-t border-overlay/40 pt-2 pb-2" aria-label="Main">
                   <button type="button" onClick={handlePlayClick} className="w-full py-2 text-right text-subtle/90 hover:text-white underline-offset-4 hover:underline transition-colors">play</button>
                   <button type="button" onClick={() => { setMainView("dashboard"); setMobileMenuOpen(false); }} className={`w-full py-2 text-right underline-offset-4 hover:underline transition-colors ${mainView === "dashboard" ? "text-white font-medium" : "text-subtle/90 hover:text-white"}`}>dashboard</button>
                   <button type="button" onClick={() => { setMainView("leaderboard"); setMobileMenuOpen(false); }} className={`w-full py-2 text-right underline-offset-4 hover:underline transition-colors ${mainView === "leaderboard" ? "text-white font-medium" : "text-subtle/90 hover:text-white"}`}>leaderboards</button>
                   <button type="button" onClick={handleAboutClick} className="w-full py-2 text-right text-subtle/90 hover:text-white underline-offset-4 hover:underline transition-colors">about</button>
                   {process.env.NODE_ENV === "development" && (
-                    <Link href="/board-test" className="w-full py-2 text-right text-subtle/90 hover:text-white underline-offset-4 hover:underline transition-colors">board test</Link>
+                    <button type="button" onClick={() => { setMobileMenuOpen(false); router.push("/board-test"); }} className="w-full py-2 text-right text-subtle/90 hover:text-white underline-offset-4 hover:underline transition-colors">board test</button>
                   )}
                 </nav>
               </div>
@@ -385,21 +385,21 @@ function HomeContent() {
             ) : (
               /* Intro content - Mobile: Sharpen your mind, image, support. Desktop: article left, image right (centered), then support below. */
               <div className="main-content-scroll flex min-h-0 w-full flex-1 flex-col overflow-auto">
-                <div className="flex flex-col sm:flex-row sm:items-start sm:gap-x-10 gap-y-6 sm:gap-y-0">
+                <div className="flex flex-col sm:flex-row sm:items-start sm:gap-x-10 gap-y-6 sm:gap-y-0 pt-4 sm:pt-6 md:pt-0 lg:pt-0">
                   <div className="min-w-0 sm:w-1/2 max-w-xl sm:max-w-none">
                     <h2 className="font-semibold text-2xl text-white sm:text-3xl mt-0 mb-2 sm:mb-3">
                       Sharpen your mind
                     </h2>
                     <p className="text-sm text-white/75 leading-relaxed sm:text-base mt-0">
-                      Crosswit trains your <span className="text-iris font-semibold">short-term memory</span> and{" "}
-                      <span className="text-iris font-semibold">visual search</span> by having you memorize words, then find them in a puzzle under time pressure. Regular play can improve recall, focus, and pattern recognition.
+                      Crosswit trains <span className="text-iris font-semibold">working memory</span> and{" "}
+                      <span className="text-iris font-semibold">visual search</span>: memorize words, then find them in a puzzle under time pressure. You exercise the phonological loop, visuospatial sketchpad, and central executive.
                     </p>
                     <p className="text-subtle/70 text-sm leading-relaxed mt-2 sm:mt-3">
-                      The timed format builds mental agility and sustained attention, skills that transfer to everyday tasks and learning.
+                      Training these systems sharpens recall, attention, and task-switching—useful for learning, work, and focus.
                     </p>
                   </div>
                   <div className="flex justify-center sm:justify-start sm:w-1/2 sm:shrink-0 w-full min-w-0">
-                    <div className="max-w-xl w-full rounded-xl p-4 shadow-[0_4px_24px_rgba(0,0,0,0.4),0_0_0_1px_rgba(255,255,255,0.05)] sm:rounded-none sm:p-0 sm:shadow-none flex items-center justify-center">
+                    <div className="max-w-xl w-full rounded-xl border border-overlay/40 p-4 shadow-[0_4px_24px_rgba(0,0,0,0.4),0_0_0_1px_rgba(255,255,255,0.05)] sm:border-0 sm:rounded-none sm:p-0 sm:shadow-none sm:outline-none flex items-center justify-center">
                       <img
                         src={`${apiBase()}/short-term.png`}
                         alt=""
@@ -441,7 +441,7 @@ function HomeContent() {
 
             {/* 3. Footer - min height so content fits; middle row expands */}
             <footer className="min-h-16 shrink-0 w-full max-w-sm mx-auto sm:max-w-none">
-              <div className="w-full pt-2 pb-2 sm:pt-4 sm:pb-4">
+              <div className="w-full pt-4 pb-4 sm:pt-6 sm:pb-6">
                 <hr className="border-0 border-b border-overlay/40 -mx-4 mb-2 sm:-mx-6 sm:mb-4" />
                 <div className="flex flex-row flex-wrap items-center justify-between gap-x-4 gap-y-1 w-full text-left text-subtle/60 sm:gap-x-6 sm:gap-y-2">
                   <div className="flex min-w-0 flex-1 flex-col gap-y-0.5 self-start text-left sm:flex-initial sm:gap-y-1">

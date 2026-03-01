@@ -72,18 +72,13 @@ a {
   display: none;
 }
 
-/* Custom scrollbar colors */
+/* Hide scrollbar on main content scroll areas (scrolling still works) */
 .main-content-scroll {
-  scrollbar-color: #26233a #0e0d12;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
-.main-content-scroll::-webkit-scrollbar-track {
-  background: #0e0d12;
-}
-.main-content-scroll::-webkit-scrollbar-thumb {
-  background: #26233a;
-}
-.main-content-scroll::-webkit-scrollbar-thumb:hover {
-  background: #403d52;
+.main-content-scroll::-webkit-scrollbar {
+  display: none;
 }
 
 /* Mobile menu open animation */
