@@ -69,7 +69,7 @@ export default function Memorize({
                 setShowUi((ui) => {
                     return { ...ui, timer: true };
                 });
-            }, delays.long);
+            }, delays.short);
             //
         }, delays.short);
 
@@ -160,8 +160,7 @@ export default function Memorize({
                         <Timer
                             className="mt-4 block text-center text-lg text-iris"
                             seconds={timeToMemorize}
-                            // seconds={1000} // testing
-                            delayStart={1000 + delays.fade}
+                            delayStart={1000}
                             onTimeEnd={unmountComponent}
                         />
                     </Fade>

@@ -9,7 +9,7 @@ import Game from "./game";
 import GameEnd from "./game-end/";
 
 const DELAYS_MS = {
-  memorize: { firstPart: 4000 },
+  memorize: { firstPart: 2000 },
   fade: 1000,
   short: 250,
   normal: 500,
