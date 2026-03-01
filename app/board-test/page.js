@@ -36,7 +36,7 @@ export default function BoardTestPage() {
   }, [level]);
 
   return (
-    <main className="min-h-screen bg-ink font-outfit text-text">
+    <main className="min-h-screen bg-matt-gloss font-outfit text-text">
       <header className="sticky top-0 z-10 border-b border-overlay/60 bg-ink/95 backdrop-blur-sm">
         <div className="mx-auto flex max-w-4xl items-center justify-between gap-4 px-4 py-3">
           <Link

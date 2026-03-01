@@ -120,7 +120,7 @@ export default function TutorialContent({ onLetsGo, onExit }) {
   }, [onExit]);
 
   return (
-    <section className="flex min-h-full min-w-full flex-col bg-ink font-outfit text-text pt-[12vh] sm:pt-[14vh]">
+    <section className="flex min-h-full min-w-full flex-col bg-matt-gloss font-outfit text-text pt-[12vh] sm:pt-[14vh]">
       <Fade toggler={showContent} duration={500} onEnd={handleFadeEnd}>
         <main className="flex flex-col items-center py-8 sm:py-10">
           <p

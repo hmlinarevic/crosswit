@@ -16,7 +16,7 @@ const DELAYS_MS = {
   long: 1000,
 };
 
-const DEFAULT_BG = "bg-ink";
+const DEFAULT_BG = "bg-matt-gloss";
 
 export default function PlayContent({ onExit, backgroundClassName = DEFAULT_BG }) {
   const router = useRouter();

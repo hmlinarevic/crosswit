@@ -10,11 +10,13 @@ body {
     Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
-/* Matt gloss background for full-screen (body) */
+/* Matt gloss background – soft top highlight + diagonal depth, fixed on scroll */
 body.bg-matt-gloss {
-  background: radial-gradient(ellipse 100% 70% at 50% -10%, rgba(255, 255, 255, 0.06) 0%, transparent 55%),
-    linear-gradient(165deg, #131118 0%, #0e0d12 35%, #0c0b10 100%);
+  background:
+    radial-gradient(ellipse 100% 60% at 50% -15%, rgba(255, 255, 255, 0.055) 0%, transparent 50%),
+    linear-gradient(165deg, #141219 0%, #0e0d12 40%, #0c0b10 100%);
   background-attachment: fixed;
+  background-color: #0e0d12;
 }
 
 a {

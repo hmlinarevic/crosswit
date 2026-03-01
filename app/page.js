@@ -169,12 +169,12 @@ function HomeContent() {
       {/* Layout height: this section defines the content area height. Single row (1fr) fills viewport on mobile; inner flex (header | content | footer) splits it, middle has flex-1 to expand. */}
       <section className="font-outfit mx-auto grid h-screen max-h-screen min-h-0 max-w-3xl grid-rows-[1fr] gap-4 overflow-hidden px-4 pt-4 sm:h-auto sm:min-h-screen sm:max-h-none sm:overflow-visible sm:gap-6 sm:px-6 sm:pt-6">
         {showPlayContent ? (
-          <div className="col-span-full row-span-full min-h-screen min-w-full -mx-4 -mt-4 sm:-mx-6 sm:-mt-6 bg-ink">
-            <PlayContent onExit={handleExitPlay} backgroundClassName="bg-ink" />
+          <div className="col-span-full row-span-full min-h-screen min-w-full -mx-4 -mt-4 sm:-mx-6 sm:-mt-6 bg-matt-gloss">
+            <PlayContent onExit={handleExitPlay} backgroundClassName="bg-matt-gloss" />
           </div>
         ) : showAboutContent ? (
-          <div className="scrollbar-hide col-span-full row-span-full min-h-0 min-w-full overflow-y-auto overflow-x-hidden -mx-4 -mt-4 sm:-mx-6 sm:-mt-6 bg-ink">
-            <AboutContent onExit={handleExitAbout} backgroundClassName="bg-ink" />
+          <div className="scrollbar-hide col-span-full row-span-full min-h-0 min-w-full overflow-y-auto overflow-x-hidden -mx-4 -mt-4 sm:-mx-6 sm:-mt-6 bg-matt-gloss">
+            <AboutContent onExit={handleExitAbout} backgroundClassName="bg-matt-gloss" />
           </div>
         ) : showTutorialContent ? (
           <div className="col-span-full row-span-full min-h-0 min-w-full -mx-4 -mt-4 sm:-mx-6 sm:-mt-6 bg-ink">
@@ -496,7 +496,7 @@ export default function Home() {
   return (
     <Suspense
       fallback={
-        <div className="font-outfit bg-ink flex min-h-screen items-center justify-center">
+        <div className="font-outfit bg-matt-gloss flex min-h-screen items-center justify-center">
           <span className="text-subtle">Loading…</span>
         </div>
       }

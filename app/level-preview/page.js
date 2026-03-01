@@ -2,7 +2,7 @@
 
 export default function LevelPreview() {
   return (
-    <main className="min-h-screen bg-ink px-6 py-12">
+    <main className="min-h-screen bg-matt-gloss px-6 py-12">
       <h1 className="mb-10 font-titilliumWeb text-lg text-subtle">
         Level text preview (same styling as memorize screen)
       </h1>

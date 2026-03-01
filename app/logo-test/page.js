@@ -83,7 +83,7 @@ export default function LogoTestPage() {
   };
 
   return (
-    <main className="min-h-screen bg-ink px-4 py-10 sm:px-6 sm:py-12">
+    <main className="min-h-screen bg-matt-gloss px-4 py-10 sm:px-6 sm:py-12">
       <div className="mx-auto max-w-3xl">
         <h1 className="mb-2 font-titilliumWeb text-2xl font-semibold text-white sm:text-3xl">
           Logo font test
