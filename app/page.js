@@ -162,7 +162,7 @@ function HomeContent() {
         <Leaderboard onClose={showLeaderboardModalHandler} />
       )}
       {/* Layout height: this section defines the content area height. Single row (1fr) fills viewport on mobile; inner flex (header | content | footer) splits it, middle has flex-1 to expand. */}
-      <section className="font-outfit bg-ink mx-auto grid h-screen max-h-screen min-h-0 max-w-3xl grid-rows-[1fr] gap-4 overflow-hidden px-4 pt-4 sm:h-auto sm:min-h-screen sm:max-h-none sm:overflow-visible sm:gap-6 sm:px-6 sm:pt-6">
+      <section className="font-outfit bg-ink mx-auto grid h-screen max-h-screen min-h-0 max-w-3xl grid-rows-[1fr] gap-2 overflow-hidden px-4 pt-2 sm:h-auto sm:min-h-screen sm:max-h-none sm:overflow-visible sm:gap-4 sm:px-6 sm:pt-4">
         {showPlayContent ? (
           <div className="col-span-full row-span-full min-h-screen min-w-full -mx-4 -mt-4 sm:-mx-6 sm:-mt-6 bg-ink">
             <PlayContent onExit={handleExitPlay} backgroundClassName="bg-ink" />
@@ -180,7 +180,7 @@ function HomeContent() {
             toggler={showHomeUi}
             duration={FADE_DURATION}
             onEnd={handleFadeOutEnd}
-            className="col-span-full row-span-full flex h-full min-h-0 min-w-0 flex-col sm:gap-6"
+            className="col-span-full row-span-full flex h-full min-h-0 min-w-0 flex-col sm:gap-10"
           >
             {/* 1. Header with nav - fades with the rest */}
             <header className="min-w-0 shrink-0 max-w-sm w-full mx-auto sm:max-w-none">
@@ -202,7 +202,7 @@ function HomeContent() {
                 </button>
               </div>
               {/* Desktop nav */}
-              <nav className="mt-4 hidden w-full flex-wrap items-center justify-start gap-x-6 gap-y-2 sm:flex sm:gap-x-8" aria-label="Main">
+              <nav className="mt-2 hidden w-full flex-wrap items-center justify-start gap-x-6 gap-y-2 sm:flex sm:gap-x-8" aria-label="Main">
                 <button
                   type="button"
                   onClick={handlePlayClick}
@@ -245,7 +245,7 @@ function HomeContent() {
                 className={`mobile-nav-wrapper overflow-hidden sm:hidden ${mobileMenuOpen ? "max-h-[220px]" : "max-h-0"}`}
                 aria-hidden={!mobileMenuOpen}
               >
-                <nav className="animate-mobile-menu-in mt-4 flex flex-col items-end gap-1 border-t border-overlay/40 pt-4" aria-label="Main">
+                <nav className="animate-mobile-menu-in mt-2 flex flex-col items-end gap-1 border-t border-overlay/40 pt-2" aria-label="Main">
                   <button type="button" onClick={handlePlayClick} className="w-full py-2 text-right text-subtle/90 hover:text-white underline-offset-4 hover:underline transition-colors">play</button>
                   <button type="button" onClick={() => { setMainView("dashboard"); setMobileMenuOpen(false); }} className={`w-full py-2 text-right underline-offset-4 hover:underline transition-colors ${mainView === "dashboard" ? "text-white font-medium" : "text-subtle/90 hover:text-white"}`}>dashboard</button>
                   <button type="button" onClick={() => { setMainView("leaderboard"); setMobileMenuOpen(false); }} className={`w-full py-2 text-right underline-offset-4 hover:underline transition-colors ${mainView === "leaderboard" ? "text-white font-medium" : "text-subtle/90 hover:text-white"}`}>leaderboards</button>
@@ -255,7 +255,7 @@ function HomeContent() {
                   )}
                 </nav>
               </div>
-              <hr className="mt-4 border-0 border-b border-overlay/40 -mx-4 sm:-mx-6" />
+              <hr className="mt-2 border-0 border-b border-overlay/40 -mx-4 sm:-mx-6" />
             </header>
 
             {/* 2. Main content - dashboard (login form or profile), leaderboard (fades when switching nav) */}
@@ -271,7 +271,7 @@ function HomeContent() {
               status === "loading" ? null : session ? (
                 <ProfileContent />
               ) : (
-              <div className="main-content-scroll flex min-h-0 w-full flex-1 flex-col overflow-auto pt-6">
+              <div className="main-content-scroll flex min-h-0 w-full flex-1 flex-col overflow-auto">
             <div className="mx-auto w-full max-w-[320px]">
             <p className="mb-4 text-sm text-subtle/80 leading-relaxed">
               Sign in or register to track your progress, save your scores, and climb the leaderboards.
@@ -383,21 +383,23 @@ function HomeContent() {
               </div>
               )
             ) : (
-              /* Intro content - Mobile: heading, para1, image, para2, support. Large: col1 text, col2 image. */
-              <div className="main-content-scroll flex min-h-0 w-full flex-1 flex-col overflow-auto pt-6 sm:pt-10">
-                <div className="grid grid-cols-1 grid-rows-[auto_auto_auto_auto_auto] gap-y-6 sm:grid-cols-2 sm:gap-x-10 sm:gap-y-4">
-                  <h2 className="col-start-1 row-start-1 font-semibold text-xl text-white sm:text-2xl mt-0 mb-0 pr-0 sm:pr-6">
-                    Sharpen your mind
-                  </h2>
-                  <p className="col-start-1 row-start-2 text-sm text-white/75 leading-relaxed sm:text-base mt-0 max-w-xl pr-0 sm:pr-6">
-                    Crosswit trains your <span className="text-iris font-semibold">short-term memory</span> and{" "}
-                    <span className="text-iris font-semibold">visual search</span> by having you memorize words, then find them in a puzzle under time pressure. Regular play can improve recall, focus, and pattern recognition.
-                  </p>
-                  <p className="col-start-1 row-start-3 text-subtle/70 text-sm leading-relaxed mt-0 max-w-xl pr-0 sm:pr-6">
-                    The timed format builds mental agility and sustained attention, skills that transfer to everyday tasks and learning.
-                  </p>
-                  <div className="col-start-1 row-start-4 flex justify-center sm:col-start-2 sm:row-start-2 sm:row-end-5 sm:justify-start w-full min-w-0 self-start">
-                    <div className="max-w-xl w-full rounded-xl p-4 shadow-[0_4px_24px_rgba(0,0,0,0.4),0_0_0_1px_rgba(255,255,255,0.05)] sm:rounded-none sm:p-0 sm:shadow-none">
+              /* Intro content - Mobile: Sharpen your mind, image, support. Desktop: article left, image right (centered), then support below. */
+              <div className="main-content-scroll flex min-h-0 w-full flex-1 flex-col overflow-auto">
+                <div className="flex flex-col sm:flex-row sm:items-start sm:gap-x-10 gap-y-6 sm:gap-y-0">
+                  <div className="min-w-0 sm:w-1/2 max-w-xl sm:max-w-none">
+                    <h2 className="font-semibold text-2xl text-white sm:text-3xl mt-0 mb-2 sm:mb-3">
+                      Sharpen your mind
+                    </h2>
+                    <p className="text-sm text-white/75 leading-relaxed sm:text-base mt-0">
+                      Crosswit trains your <span className="text-iris font-semibold">short-term memory</span> and{" "}
+                      <span className="text-iris font-semibold">visual search</span> by having you memorize words, then find them in a puzzle under time pressure. Regular play can improve recall, focus, and pattern recognition.
+                    </p>
+                    <p className="text-subtle/70 text-sm leading-relaxed mt-2 sm:mt-3">
+                      The timed format builds mental agility and sustained attention, skills that transfer to everyday tasks and learning.
+                    </p>
+                  </div>
+                  <div className="flex justify-center sm:justify-start sm:w-1/2 sm:shrink-0 w-full min-w-0">
+                    <div className="max-w-xl w-full rounded-xl p-4 shadow-[0_4px_24px_rgba(0,0,0,0.4),0_0_0_1px_rgba(255,255,255,0.05)] sm:rounded-none sm:p-0 sm:shadow-none flex items-center justify-center">
                       <img
                         src={`${apiBase()}/short-term.png`}
                         alt=""
@@ -406,39 +408,42 @@ function HomeContent() {
                       />
                     </div>
                   </div>
-                  <article className="col-start-1 row-start-5 sm:row-start-4 flex flex-col gap-3 pt-4 sm:pt-6 max-w-xl" aria-labelledby="support-project-heading">
-                    <h2 id="support-project-heading" className="font-semibold text-lg text-white sm:text-xl mt-0 mb-0">
+                </div>
+                <article className="flex flex-col gap-3 pt-4 sm:pt-6 max-w-xl" aria-labelledby="support-project-heading">
+<h2 id="support-project-heading" className="font-semibold text-lg text-white sm:text-xl mt-4 sm:mt-6 mb-0">
                       Support project
                     </h2>
-                    <p className="text-subtle/70 text-sm leading-relaxed mt-0 max-w-xl">
-                      If Crosswit has helped sharpen your memory or become part of your mental fitness, consider supporting its development.
-                    </p>
-                    <div className="pt-1">
-                      <a
-                        href={process.env.NEXT_PUBLIC_BUY_ME_A_COFFEE_URL || "https://buymeacoffee.com/herb2357"}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-block buy-me-coffee-link cursor-pointer"
-                        aria-label="Buy me a coffee"
-                      >
-                        <img
-                          src={`${apiBase()}/bmc-button.png`}
-                          alt="Buy me a coffee"
-                          className="h-9 w-auto object-contain rounded-lg sm:h-12"
-                        />
-                      </a>
-                    </div>
-                  </article>
-                </div>
+                  <p className="text-white text-sm leading-relaxed mt-0 max-w-xl">
+                    If Crosswit has helped sharpen your memory or become part of your mental fitness, consider supporting its development.
+                  </p>
+                  <p className="text-subtle/70 text-sm leading-relaxed mt-0 max-w-xl">
+                    Crosswit is free to play and independently developed. Your support helps cover hosting costs, maintenance, and the creation of new puzzles and features. Every contribution—whether a one-time coffee or a recurring tip—helps keep Crosswit running and evolving.
+                  </p>
+                  <div className="pt-1">
+                    <a
+                      href={process.env.NEXT_PUBLIC_BUY_ME_A_COFFEE_URL || "https://buymeacoffee.com/herb2357"}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-block buy-me-coffee-link cursor-pointer"
+                      aria-label="Buy me a coffee"
+                    >
+                      <img
+                        src={`${apiBase()}/bmc-button.png`}
+                        alt="Buy me a coffee"
+                        className="h-9 w-auto object-contain rounded-lg sm:h-12"
+                      />
+                    </a>
+                  </div>
+                </article>
               </div>
             )}
             </Fade>
 
             {/* 3. Footer - min height so content fits; middle row expands */}
-            <footer className="min-h-24 shrink-0 w-full max-w-sm mx-auto sm:max-w-none">
-              <div className="w-full pt-4 pb-4 sm:pt-6 sm:pb-6">
-                <hr className="border-0 border-b border-overlay/40 -mx-4 mb-4 sm:-mx-6 sm:mb-6" />
-                <div className="flex flex-row flex-wrap items-center justify-between gap-x-4 gap-y-3 w-full text-left text-subtle/60 sm:gap-x-6 sm:gap-y-4">
+            <footer className="min-h-16 shrink-0 w-full max-w-sm mx-auto sm:max-w-none">
+              <div className="w-full pt-2 pb-2 sm:pt-4 sm:pb-4">
+                <hr className="border-0 border-b border-overlay/40 -mx-4 mb-2 sm:-mx-6 sm:mb-4" />
+                <div className="flex flex-row flex-wrap items-center justify-between gap-x-4 gap-y-1 w-full text-left text-subtle/60 sm:gap-x-6 sm:gap-y-2">
                   <div className="flex min-w-0 flex-1 flex-col gap-y-0.5 self-start text-left sm:flex-initial sm:gap-y-1">
                     <p className="m-0 text-[11px] leading-none tracking-wide">
                       <a
