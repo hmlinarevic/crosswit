@@ -180,10 +180,10 @@ function HomeContent() {
             toggler={showHomeUi}
             duration={FADE_DURATION}
             onEnd={handleFadeOutEnd}
-            className="col-span-full row-span-full flex h-full min-h-0 min-w-0 flex-col sm:gap-10"
+            className="col-span-full row-span-full flex h-full min-h-0 min-w-0 flex-col"
           >
             {/* 1. Header with nav - fades with the rest */}
-            <header className="min-w-0 shrink-0 max-w-sm w-full mx-auto sm:max-w-none">
+            <header className="min-w-0 shrink-0 max-w-sm w-full mx-auto sm:max-w-none sm:mb-10">
               <div className="flex items-center justify-between gap-4 sm:block">
                 <div className="group flex flex-col gap-0 min-w-0 transition-all duration-300 drop-shadow-md hover:drop-shadow-xl cursor-default">
                   <BrandLogo fontClass="font-audiowide" rightText="SSWiT" colorClass="text-foam" iconColorClass="text-iris" />
@@ -441,7 +441,7 @@ function HomeContent() {
 
             {/* 3. Footer - min height so content fits; middle row expands */}
             <footer className="min-h-16 shrink-0 w-full max-w-sm mx-auto sm:max-w-none">
-              <div className="w-full pt-4 pb-4 sm:pt-6 sm:pb-6">
+              <div className="w-full pb-4 sm:pb-6">
                 <hr className="border-0 border-b border-overlay/40 -mx-4 mb-2 sm:-mx-6 sm:mb-4" />
                 <div className="flex flex-row flex-wrap items-center justify-between gap-x-4 gap-y-1 w-full text-left text-subtle/60 sm:gap-x-6 sm:gap-y-2">
                   <div className="flex min-w-0 flex-1 flex-col gap-y-0.5 self-start text-left sm:flex-initial sm:gap-y-1">
