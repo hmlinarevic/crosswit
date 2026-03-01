@@ -385,51 +385,69 @@ function HomeContent() {
             ) : (
               /* Intro content - Mobile: heading, para1, image, para2, support. Large: col1 text, col2 image. */
               <div className="main-content-scroll flex min-h-0 w-full flex-1 flex-col overflow-auto pt-6 sm:pt-10">
-                <div className="grid grid-cols-1 grid-rows-[auto_auto_auto_auto_auto] gap-y-6 sm:grid-cols-2 sm:gap-x-10 sm:gap-y-4">
-                  <h2 className="col-start-1 row-start-1 font-semibold text-xl text-white sm:text-2xl mt-0 mb-0 pr-0 sm:pr-6">
-                    Sharpen your mind
-                  </h2>
-                  <p className="col-start-1 row-start-2 text-sm text-white/75 leading-relaxed sm:text-base mt-0 max-w-xl pr-0 sm:pr-6">
-                    Crosswit trains your <span className="text-iris font-semibold">short-term memory</span> and{" "}
-                    <span className="text-iris font-semibold">visual search</span> by having you memorize words, then find them in a puzzle under time pressure. Regular play can improve recall, focus, and pattern recognition.
-                  </p>
-                  <p className="col-start-1 row-start-3 text-subtle/70 text-sm leading-relaxed mt-0 max-w-xl pr-0 sm:pr-6">
-                    The timed format builds mental agility and sustained attention, skills that transfer to everyday tasks and learning.
-                  </p>
-                  <div className="col-start-1 row-start-4 flex justify-center sm:col-start-2 sm:row-start-2 sm:row-end-5 sm:justify-start w-full min-w-0 self-start">
-                    <div className="max-w-xl w-full rounded-xl p-4 shadow-[0_4px_24px_rgba(0,0,0,0.4),0_0_0_1px_rgba(255,255,255,0.05)] sm:rounded-none sm:p-0 sm:shadow-none">
+                <div className="flex flex-col gap-6 sm:flex-row sm:items-stretch sm:gap-10">
+                  {/* Left on large: image (50%). Mobile: order-4 so image appears after paras, before article */}
+                  <div className="order-4 flex justify-center sm:order-1 sm:min-h-0 sm:min-w-0 sm:flex-1 sm:justify-center">
+                    <div
+                      className="flex max-w-xl w-full items-center justify-center rounded-xl border border-overlay/40 p-4 shadow-md sm:h-full sm:min-h-0 sm:rounded-xl sm:p-5 sm:shadow-[0_4px_24px_rgba(0,0,0,0.4)]"
+                      style={{
+                        background: "radial-gradient(ellipse 100% 70% at 50% -10%, rgba(255,255,255,0.06) 0%, transparent 55%), linear-gradient(165deg, #131118 0%, #0e0d12 35%, #0c0b10 100%)",
+                      }}
+                    >
                       <img
-                        src={`${apiBase()}/short-term.png`}
+                        src={`${apiBase()}/gen-memory-1.png`}
                         alt=""
-                        className="h-auto w-auto max-h-full max-w-full md:scale-[1.0] object-contain"
+                        className="h-auto w-auto max-h-full md:scale-[1] object-contain"
                         aria-hidden
                       />
                     </div>
                   </div>
-                  <article className="col-start-1 row-start-5 sm:row-start-4 flex flex-col gap-3 pt-4 sm:pt-6 max-w-xl" aria-labelledby="support-project-heading">
-                    <h2 id="support-project-heading" className="font-semibold text-lg text-white sm:text-xl mt-0 mb-0">
-                      Support project
+                  {/* Right on large: text + support article (50%). Mobile: contents so children flow. Block layout with margins. */}
+                  <div className="contents sm:block sm:min-w-0 sm:flex-1">
+                    <h2 className="font-semibold text-xl text-white sm:text-2xl mt-0 mb-3">
+                      Sharpen your mind
                     </h2>
-                    <p className="text-subtle/70 text-sm leading-relaxed mt-0 max-w-xl">
-                      If Crosswit has helped sharpen your memory or become part of your mental fitness, consider supporting its development.
+                    <p className="text-sm text-white/75 leading-relaxed sm:text-base mt-0 mb-4 max-w-xl">
+                      Crosswit trains your <span className="text-iris font-semibold">short-term memory</span> and{" "}
+                      <span className="text-iris font-semibold">visual search</span> by having you memorize words, then find them in a puzzle under time pressure. Regular play can improve recall, focus, and pattern recognition.
                     </p>
-                    <div className="pt-1">
-                      <a
-                        href={process.env.NEXT_PUBLIC_BUY_ME_A_COFFEE_URL || "https://buymeacoffee.com/herb2357"}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-block buy-me-coffee-link cursor-pointer"
-                        aria-label="Buy me a coffee"
-                      >
-                        <img
-                          src={`${apiBase()}/bmc-button.png`}
-                          alt="Buy me a coffee"
-                          className="h-9 w-auto object-contain rounded-lg sm:h-12"
-                        />
-                      </a>
-                    </div>
-                  </article>
+                    <p className="text-subtle/70 text-sm leading-relaxed mt-0 mb-0 max-w-xl">
+                      The timed format builds mental agility and sustained attention, skills that transfer to everyday tasks and learning.
+                    </p>
+
+                  </div>
                 </div>
+                <article className="order-5 sm:order-none mt-8 w-full" aria-labelledby="support-project-heading">
+                  <h2 id="support-project-heading" className="font-semibold text-lg text-white sm:text-xl mt-0 mb-3">
+                    Support project
+                  </h2>
+                  <div className="flex flex-col gap-0 sm:flex-row sm:gap-10">
+                    <p className="!text-white/85 min-w-0 flex-1 text-sm leading-relaxed mt-0 mb-4 sm:mb-0 sm:text-base">
+                      If Crosswit has helped sharpen your memory or become part of your routine, consider supporting its development. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.
+                    </p>
+                    <p className="text-subtle/70 min-w-0 flex-1 text-sm leading-relaxed mt-0 mb-0">
+                      Short, focused practice—memorize, search, stay under pressure—can make a real difference. Staying mentally active may support cognitive functioning.
+                    </p>
+                  </div>
+                  <p className="text-subtle/50 mt-10 max-w-xl text-xs leading-relaxed sm:text-sm">
+                    The goal is simple: keep Crosswit free and focused on helping people train their minds. Every coffee or kind word from supporters makes that possible.
+                  </p>
+                  <div className="mt-5">
+                    <a
+                      href={process.env.NEXT_PUBLIC_BUY_ME_A_COFFEE_URL || "https://buymeacoffee.com/herb2357"}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-block buy-me-coffee-link cursor-pointer"
+                      aria-label="Buy me a coffee"
+                    >
+                      <img
+                        src={`${apiBase()}/bmc-button.png`}
+                        alt="Buy me a coffee"
+                        className="h-9 w-auto object-contain rounded-lg sm:h-12"
+                      />
+                    </a>
+                  </div>
+                </article>
               </div>
             )}
             </Fade>
