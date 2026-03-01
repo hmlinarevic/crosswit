@@ -51,11 +51,6 @@ function HomeContent() {
 
   const handlePlayClick = () => {
     setMobileMenuOpen(false);
-    if (!state?.isHideQuickTutorial) {
-      setNextView("tutorial");
-      setShowHomeUi(false);
-      return;
-    }
     setNextView("play");
     setShowHomeUi(false);
   };
@@ -185,12 +180,12 @@ function HomeContent() {
             toggler={showHomeUi}
             duration={FADE_DURATION}
             onEnd={handleFadeOutEnd}
-            className="col-span-full row-span-full flex h-full min-h-0 min-w-0 flex-col gap-4 sm:gap-6"
+            className="col-span-full row-span-full flex h-full min-h-0 min-w-0 flex-col sm:gap-6"
           >
             {/* 1. Header with nav - fades with the rest */}
             <header className="min-w-0 shrink-0 max-w-sm w-full mx-auto sm:max-w-none">
               <div className="flex items-center justify-between gap-4 sm:block">
-                <div className="flex flex-col gap-0 min-w-0">
+                <div className="group flex flex-col gap-0 min-w-0 transition-all duration-300 drop-shadow-md hover:drop-shadow-xl cursor-default">
                   <BrandLogo fontClass="font-audiowide" rightText="SSWiT" colorClass="text-foam" iconColorClass="text-iris" />
                   <span className="-mt-1 block font-hand text-sm text-iris sm:text-base !text-iris">
                     {TAGLINE}
@@ -199,7 +194,7 @@ function HomeContent() {
                 <button
                   type="button"
                   onClick={() => setMobileMenuOpen((o) => !o)}
-                  className="shrink-0 p-2 -m-2 text-subtle hover:text-white transition-colors sm:hidden"
+                  className="shrink-0 p-2 -m-2 text-white transition-colors sm:hidden"
                   aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
                   aria-expanded={mobileMenuOpen}
                 >
@@ -388,28 +383,26 @@ function HomeContent() {
               </div>
               )
             ) : (
-              /* Intro content - CSS Grid: 5 rows; 2 cols on large (text left, image right rows 1–4), 1 col on small (heading, para, image, rest, button). */
+              /* Intro content - Mobile: heading, para1, image, para2, support. Large: col1 text, col2 image. */
               <div className="main-content-scroll flex min-h-0 w-full flex-1 flex-col overflow-auto pt-6 sm:pt-10">
                 <div className="grid grid-cols-1 grid-rows-[auto_auto_auto_auto_auto] gap-y-6 sm:grid-cols-2 sm:gap-x-10 sm:gap-y-4">
-                  <div className="col-start-1 row-start-1 row-span-2 flex flex-col gap-4 pr-0 sm:row-span-3 sm:gap-3 sm:pr-6">
-                    <h2 className="font-semibold text-xl text-white sm:text-2xl mt-0 mb-0">
-                      Sharpen your mind
-                    </h2>
-                    <p className="text-sm text-white/75 leading-relaxed sm:text-base mt-0 max-w-xl">
-                      Crosswit trains your <span className="text-iris font-semibold">short-term memory</span> and{" "}
-                      <span className="text-iris font-semibold">visual search</span> by having you memorize words, then find them in a puzzle under time pressure. Regular play can improve recall, focus, and pattern recognition.
-                    </p>
-                    <p className="text-sm text-subtle/70 leading-relaxed mt-0 max-w-xl">
-                      You can play without signing in—create an account to save your progress and climb the leaderboards.
-                    </p>
-                  </div>
+                  <h2 className="col-start-1 row-start-1 font-semibold text-xl text-white sm:text-2xl mt-0 mb-0 pr-0 sm:pr-6">
+                    Sharpen your mind
+                  </h2>
+                  <p className="col-start-1 row-start-2 text-sm text-white/75 leading-relaxed sm:text-base mt-0 max-w-xl pr-0 sm:pr-6">
+                    Crosswit trains your <span className="text-iris font-semibold">short-term memory</span> and{" "}
+                    <span className="text-iris font-semibold">visual search</span> by having you memorize words, then find them in a puzzle under time pressure. Regular play can improve recall, focus, and pattern recognition.
+                  </p>
+                  <p className="col-start-1 row-start-3 text-subtle/70 text-sm leading-relaxed mt-0 max-w-xl pr-0 sm:pr-6">
+                    The timed format builds mental agility and sustained attention, skills that transfer to everyday tasks and learning.
+                  </p>
                   <div
-                    className="col-start-1 row-start-3 justify-self-center sm:col-start-2 sm:row-start-1 sm:row-end-5 w-full min-w-0 rounded-tl-[2rem] rounded-tr-xl rounded-br-3xl rounded-bl-xl p-3 sm:p-4"
+                    className="col-start-1 row-start-4 justify-self-center sm:col-start-2 sm:row-start-1 sm:row-end-5 w-full min-w-0 rounded-2xl p-3 sm:p-4 shadow-[0_4px_24px_rgba(0,0,0,0.35),0_0_0_1px_rgba(255,255,255,0.06)] self-start"
                     style={{
                       background: "radial-gradient(ellipse 100% 70% at 50% -10%, rgba(255,255,255,0.06) 0%, transparent 55%), linear-gradient(165deg, #131118 0%, #0e0d12 35%, #0c0b10 100%)",
                     }}
                   >
-                    <div className="flex h-full w-full items-center justify-center overflow-hidden rounded-tl-[1.5rem] rounded-tr-lg rounded-br-2xl rounded-bl-lg">
+                    <div className="flex h-full w-full items-center justify-center overflow-hidden rounded-xl">
                       <div className="w-full max-w-[140px] aspect-square sm:max-w-[320px] sm:min-w-0 md:max-w-[380px]">
                         <div
                           className="h-full w-full"
@@ -429,24 +422,32 @@ function HomeContent() {
                       </div>
                     </div>
                   </div>
-                  <p className="text-subtle/70 text-sm leading-relaxed mt-0 mt-2 col-start-1 row-start-4 max-w-xl sm:mt-0 sm:pr-6">
-                    If Crosswit has helped sharpen your memory or become part of your mental fitness, consider supporting its development.
-                  </p>
-                  <div className="col-start-1 row-start-5 pt-1 sm:pr-6">
-                    <a
-                      href={process.env.NEXT_PUBLIC_BUY_ME_A_COFFEE_URL || "https://buymeacoffee.com/herb2357"}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-block buy-me-coffee-link cursor-pointer"
-                      aria-label="Buy me a coffee"
-                    >
-                      <img
-                        src={`${apiBase()}/bmc-button.png`}
-                        alt="Buy me a coffee"
-                        className="h-9 w-auto object-contain rounded-lg sm:h-12"
-                      />
-                    </a>
-                  </div>
+                  <article className="col-start-1 row-start-5 sm:row-start-4 flex flex-col gap-3 pt-4 sm:pt-6 max-w-xl sm:pr-6" aria-labelledby="support-project-heading">
+                    <h2 id="support-project-heading" className="font-semibold text-lg text-white sm:text-xl mt-0 mb-0">
+                      Support project
+                    </h2>
+                    <p className="text-subtle/70 text-sm leading-relaxed mt-0 max-w-xl">
+                      If Crosswit has helped sharpen your memory or become part of your mental fitness, consider supporting its development.
+                    </p>
+                    <p className="text-subtle/70 text-sm leading-relaxed mt-0 max-w-xl">
+                      You can play without signing in—create an account to save your progress and climb the leaderboards.
+                    </p>
+                    <div className="pt-1">
+                      <a
+                        href={process.env.NEXT_PUBLIC_BUY_ME_A_COFFEE_URL || "https://buymeacoffee.com/herb2357"}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-block buy-me-coffee-link cursor-pointer"
+                        aria-label="Buy me a coffee"
+                      >
+                        <img
+                          src={`${apiBase()}/bmc-button.png`}
+                          alt="Buy me a coffee"
+                          className="h-9 w-auto object-contain rounded-lg sm:h-12"
+                        />
+                      </a>
+                    </div>
+                  </article>
                 </div>
               </div>
             )}
