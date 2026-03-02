@@ -421,7 +421,7 @@ function HomeContent() {
                   </p>
                   <div className="pt-1">
                     <a
-                      href={process.env.NEXT_PUBLIC_BUY_ME_A_COFFEE_URL || "https://buymeacoffee.com/herb2357"}
+                      href={process.env.NEXT_PUBLIC_BUY_ME_A_COFFEE_URL || "https://buymeacoffee.com/millify"}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-block buy-me-coffee-link cursor-pointer"
@@ -460,7 +460,7 @@ function HomeContent() {
                     </p>
                   </div>
                   <a
-                    href={process.env.NEXT_PUBLIC_BUY_ME_A_COFFEE_URL || "https://buymeacoffee.com/herb2357"}
+                    href={process.env.NEXT_PUBLIC_BUY_ME_A_COFFEE_URL || "https://buymeacoffee.com/millify"}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="shrink-0 inline-flex items-center transition-opacity hover:opacity-90 buy-me-coffee-link"
